@@ -31,11 +31,36 @@ progress{width:100%;height:18px}
 #dropZone.over{background:#eef5ff}
 .dl a{display:block;margin:6px 0}
 #roomInput{width:160px;font-size:18px;letter-spacing:2px}
+/* ---- 2026-11-02 美化与新功能样式（不改原有结构与 id） ---- */
+body{background:#f6f8fb}
+h1{font-size:30px;letter-spacing:1px}
+h2{border-top:0;padding-top:0}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 2px 10px rgba(9,105,218,.06);padding:20px}
+.card h2{font-size:21px;margin:0 0 10px}
+.card h3{font-size:17px;margin:18px 0 8px}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+.nav a{display:inline-block;padding:6px 12px;border-radius:999px;background:#eef5ff;color:#0969da;text-decoration:none;font-size:14px}
+.nav a:active{opacity:.7}
+input,select{border:1px solid #ccd6e0;border-radius:8px}
+textarea{border:1px solid #ccd6e0;border-radius:10px}
+button{box-shadow:0 1px 3px rgba(9,105,218,.25)}
+.chatbox{border:1px solid #e2e8f0;border-radius:10px;padding:10px;max-height:220px;overflow:auto;background:#fbfcfe;margin-top:10px}
+.msg{padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:15px;word-break:break-all}
+.msg:last-child{border-bottom:0}
+.todo-item{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0}
+.todo-item span{flex:1;word-break:break-all}
+.board2048{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:400px;margin:12px 0}
+.cell2048{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#eee;border-radius:10px;font-size:22px;font-weight:bold;min-height:64px}
+.clockgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.clockcell{background:#f6f8fb;border:1px solid #e2e8f0;border-radius:10px;padding:10px;text-align:center;font-size:15px}
+#imgPreview img{margin-top:10px}
 </style>
 </head>
 <body>
 <h1>🛠️ 免费小工具站</h1>
 <p>这是一个人人可访问的轻量网站：不用注册、不用登录，有网就能打开使用。所有工具都在你的浏览器里运行，不上传任何数据。</p>
+
+<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#appleIdCard">海外 Apple ID 教程</a></div>
 
 <div class="card" id="installCard">
 <h2>📲 装到手机桌面</h2>
@@ -44,7 +69,14 @@ progress{width:100%;height:18px}
 <p id="installHelp" class="note"></p>
 </div>
 
-<div class="card">
+<div class="card" id="dailyCard">
+<h2>📅 今日一份 · 每天换一句</h2>
+<p id="dailyText" class="status">正在加载今日内容…</p>
+<p id="dailyNote" class="note"></p>
+<p class="note">每天凌晨自动换一句，内容来自本站自带的小贴士清单，不用联网也能看。</p>
+</div>
+
+<div class="card" id="dinoCard">
 <h2>🦖 小恐龙跑酷 · 等传输时打发时间</h2>
 <p class="note">玩法跟谷歌断网小恐龙一样：<b>点一下画面、点鼠标、按空格或按 ↑ 都是跳</b>，躲开仙人掌，跑得越远速度越快。传文件的时候挂着玩，互不影响；撞上就结束，再点一下重开。</p>
 <canvas id="dinoCanvas" width="700" height="200"></canvas>
@@ -52,7 +84,7 @@ progress{width:100%;height:18px}
 <p class="note">电脑：空格 / ↑ / 鼠标点击；手机：点画面。</p>
 </div>
 
-<div class="card">
+<div class="card" id="p2pCard">
 <h2>点对点传输</h2>
 <p>免费 P2P 直传，不用数据线、不用装 App、不用注册：电脑上打开本站就自动生成一个房间，手机扫码进房，两边就能双向互传照片、视频、文档、压缩包。文件通过加密的点对点连接直接在设备间传送，<b>不经过本站服务器，也不上传到任何网盘</b>。</p>
 <p class="note">连接说明：页面只用公开信令服务交换“两台设备怎么找到对方”的连接信息，文件本身不走它；两端都无需任何配置，可穿越大多数 NAT 和防火墙。传输全程两个页面都要保持打开，关页面即断开。</p>
@@ -78,7 +110,26 @@ progress{width:100%;height:18px}
 <progress id="p2pProgress" value="0" max="100"></progress>
 <p id="p2pProgressText" class="note"></p>
 <div id="downloads" class="dl"></div>
+<div class="card" id="textMsgBox">
+<h3>💬 跨设备发文字（需先连上房间）</h3>
+<p class="note">连上房间后，在这里发文字、链接、验证码，对方设备上会立刻收到；只走你们两台设备之间的点对点连接，不经过本站服务器保存。</p>
+<textarea id="roomTextInput" placeholder="输入要发给对方的文字、链接或验证码…" style="min-height:80px"></textarea>
+<p><button onclick="sendRoomText()">发送给对方</button> <button onclick="copyRoomText()">复制我发的内容</button></p>
+<div id="roomChat" class="chatbox"></div>
+</div>
+
 <p class="note">大文件说明：支持流式落盘的浏览器（Chrome、Edge 等）会边收边写进你选的保存位置，不用先把整个文件憋在内存里；不支持流式落盘的浏览器会收完再给下载链接，超大文件请优先用 Chrome/Edge 收。速度取决于两端带宽，不限速。</p>
+</div>
+
+<div class="card" id="notesCard">
+<h2>📝 本地便签和待办</h2>
+<p class="note">只存在你这台设备的浏览器里，不注册、不上传，换设备不会同步，清浏览器数据会丢，重要的事记得另外备份。</p>
+<h3>便签</h3>
+<textarea id="noteArea" placeholder="随手记点什么…会自动保存"></textarea>
+<p id="noteSaved" class="note"></p>
+<h3>待办</h3>
+<p><input id="todoInput" placeholder="输入一件待办事项" style="width:70%;box-sizing:border-box"> <button onclick="addTodo()">添加</button></p>
+<div id="todoList"></div>
 </div>
 
 <div class="card" id="qrCard">
@@ -96,12 +147,52 @@ progress{width:100%;height:18px}
 <p id="qrTip" class="note"></p>
 </div>
 
-<div class="card">
+<div class="card" id="imgCard">
+<h2>🖼️ 图片压缩、裁剪、转格式</h2>
+<p class="note">图片只在你的浏览器里处理，不上传。适合传图之前先压一压，省流量、传得快。</p>
+<p><input type="file" id="imgInput" accept="image/*"></p>
+<p><label>宽度上限 <select id="imgWidth"><option value="0">保持原尺寸</option><option value="1920">1920px</option><option value="1280" selected>1280px</option><option value="800">800px</option></select></label>　<label>输出格式 <select id="imgFormat"><option value="auto">保持原格式</option><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>　<label>质量 <input type="range" id="imgQuality" min="50" max="95" value="85"> <span id="imgQualityText">85%</span></label></p>
+<p><label><input type="checkbox" id="imgSquare"> 裁成正方形（居中裁剪）</label>　<button onclick="processImage()">开始处理</button></p>
+<div id="imgPreview"></div>
+<p id="imgInfo" class="note"></p>
+<p id="imgDownload"></p>
+</div>
+
+<div class="card" id="moneyWeatherCard">
+<h2>💱 汇率换算 · 🌤️ 天气 · 🕐 世界时钟</h2>
+<h3>汇率换算（人民币）</h3>
+<p><input id="fxAmount" type="number" value="100" style="width:120px"> 元人民币 ≈ <span id="fxResult" class="status">…</span> <select id="fxTarget"><option value="USD">美元 USD</option><option value="EUR">欧元 EUR</option><option value="JPY">日元 JPY</option><option value="HKD">港币 HKD</option><option value="GBP">英镑 GBP</option><option value="KRW">韩元 KRW</option><option value="TWD">台币 TWD</option><option value="SGD">新币 SGD</option><option value="AUD">澳元 AUD</option><option value="CAD">加元 CAD</option></select> <button onclick="convertFx()">换算</button></p>
+<p id="fxNote" class="note">汇率来自公开免费接口（open.er-api.com），仅供参考，实际以银行结汇价为准。</p>
+<h3>天气</h3>
+<p><label>城市 <select id="weatherCity"><option value="39.9,116.4">北京</option><option value="31.2,121.5">上海</option><option value="23.1,113.3">广州</option><option value="22.5,114.1">深圳</option><option value="30.6,104.1">成都</option><option value="30.3,120.2">杭州</option><option value="30.6,114.3">武汉</option><option value="34.3,108.9">西安</option></select></label> <button onclick="loadWeather()">查天气</button> <button onclick="loadWeatherGeo()">用我的位置查</button></p>
+<p id="weatherResult" class="status"></p>
+<p class="note">天气来自公开免费接口（Open-Meteo），不用注册、不用 key。</p>
+<h3>世界时钟</h3>
+<div id="clockGrid" class="clockgrid"></div>
+</div>
+
+<div class="card" id="pomodoroCard">
+<h2>🍅 番茄钟</h2>
+<p class="note">专注 25 分钟、休息 5 分钟，循环着来；传文件等着的时候挂着它，时间到了会响一声提醒。</p>
+<p><span id="pomoTime" style="font-size:40px;font-weight:bold">25:00</span>　<span id="pomoMode" class="status">专注中</span>　<span id="pomoCount" class="note">已完成 0 个番茄</span></p>
+<p><button onclick="pomoStart()">开始</button> <button onclick="pomoPause()">暂停</button> <button onclick="pomoReset()">重置</button></p>
+</div>
+
+<div class="card" id="flappyCard">
 <h2>🐤 Flappy Bird · 点画面拍翅膀</h2>
 <p class="note">点一下画面小鸟就拍一下翅膀，穿过水管得分，撞上就结束；最高分只存在你自己这台设备上。</p>
 <canvas id="flappyCanvas" width="700" height="360"></canvas>
 <p><span id="flappyScore" class="status">分数：0</span>　<span id="flappyBest" class="note"></span>　<button onclick="flappyRestart()">开始 / 再来一局</button></p>
 <p class="note">电脑和手机都是点画面拍翅膀。</p>
+</div>
+
+<div class="card" id="game2048Card">
+<h2>🎮 2048 · 滑出 2048</h2>
+<p class="note">电脑按 W / A / S / D 移动，手机在格子上滑动，也能点下面四个方向键；相同数字撞到一起就合并，得分越高越好，最高分只存在你自己这台设备上。</p>
+<p><span id="g2048Score" class="status">分数：0</span>　<span id="g2048Best" class="note"></span>　<button onclick="g2048New()">新开一局</button></p>
+<div id="g2048Board" class="board2048"></div>
+<p><button onclick="g2048Move('up')">↑ 上</button><br><button onclick="g2048Move('left')">← 左</button> <button onclick="g2048Move('down')">↓ 下</button> <button onclick="g2048Move('right')">→ 右</button></p>
+<p id="g2048Msg" class="note"></p>
 </div>
 
 <div class="card" id="appleIdCard">
@@ -356,6 +447,10 @@ async function onData(data){
         recvWriter=await handle.createWritable();
       }else{ recvBlobMode=true; }
     }catch(e){ recvBlobMode=true; }
+    return;
+  }
+  if(data && typeof data==='object' && !(data instanceof ArrayBuffer) && data.type==='text'){
+    addRoomMsg('对方', data.text);
     return;
   }
   if(data && typeof data==='object' && data.type==='end' && recvMeta){
@@ -614,6 +709,425 @@ function downloadQR(){
   drawScore();
   loop();
 })();
+</script>
+<script>
+/* ---- 跨设备发文字：复用 P2P 房间的点对点连接 ---- */
+function addRoomMsg(who, text){
+  var box = document.getElementById('roomChat');
+  if (!box) return;
+  var d = document.createElement('div');
+  d.className = 'msg';
+  var t = new Date();
+  var hh = ('0' + t.getHours()).slice(-2), mm = ('0' + t.getMinutes()).slice(-2);
+  d.textContent = hh + ':' + mm + ' ' + who + '：' + text;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+function sendRoomText(){
+  var input = document.getElementById('roomTextInput');
+  var text = input.value.trim();
+  if (!text) { alert('请先输入要发的内容'); return; }
+  if (!conn || !conn.open) { alert('还没连上对方设备，请先扫码或输入房间码进房'); return; }
+  conn.send({ type: 'text', text: text });
+  addRoomMsg('我', text);
+  input.value = '';
+}
+function copyRoomText(){
+  var input = document.getElementById('roomTextInput');
+  if (!input.value) { alert('输入框是空的，没什么可复制'); return; }
+  if (navigator.clipboard) { navigator.clipboard.writeText(input.value); alert('已复制'); }
+  else { input.select(); document.execCommand('copy'); alert('已复制'); }
+}
+
+/* ---- 每日内容：优先用 Actions 生成的 daily.json，拿不到就按日期本地算 ---- */
+var DAILY_TIPS = [
+  '传大文件前先压一压图片和视频，省流量也省等待时间。',
+  '手机拍照前擦一下镜头，照片清晰度立刻上一个档次。',
+  '验证码短信别截图发给任何人，包括自称客服的人。',
+  '重要文件发之前先在本地留一份，传丢了还能找回来。',
+  'WiFi 密码越长越难猜，字母加数字加符号混着来。',
+  '手机存储满了先清缓存和重复照片，别急着删聊天记录。',
+  '出门前把手机电量充到 80% 以上，比带充电宝省心。',
+  '截图里带身份证、银行卡号的一律别往群里发。',
+  '新 App 第一次打开时，通讯录和相册权限先选“仅在使用时允许”。',
+  '电脑和手机互传文件，同一 WiFi 下点对点最快，还不花流量。',
+  '密码别所有网站用同一个，重要的单独设一个长的。',
+  '收到“账号异常点链接处理”的短信，先去官方 App 里查，别点链接。',
+  '视频太大发不出去时，先转一遍压缩，比换 App 靠谱。',
+  '手机桌面图标太多就建文件夹，常用的放第一屏。',
+  '公共 WiFi 下别登录银行和支付，实在要用就开流量。',
+  '照片备份开自动上传，手机丢了照片还在。',
+  '浏览器标签页开太多会卡，定期关掉不用的。',
+  '下载 App 只认官方应用商店，网页弹窗让装的一律不装。',
+  '给爸妈的手机把字体调大一档，他们用着顺手得多。',
+  '文件命名带上日期，比如 2026-11-02-合同，找起来快十倍。',
+  '手机每月重启一次，很多小卡顿自己就好了。',
+  '二维码扫之前看一眼网址，陌生的短链接别乱点。',
+  '耳机音量别长期开满，听力是不可逆的。',
+  '出门旅游的照片当天就备份，别等回程。',
+  '旧手机换新之前，先退出所有账号再恢复出厂设置。',
+  '工作文件改完随手按保存，别等电脑自己替你记。',
+  '手机壳和贴膜是消耗品，碎了就换，别将就。',
+  '夜间把手机调成勿扰，睡眠比消息重要。',
+  '网购收货地址别写太详细，精确到小区就够了。',
+  '定期检查 App 的订阅扣费，不用的及时取消。',
+  '今天的事写进待办清单，脑子是用来想事的，不是用来记事的。'
+];
+function localDaily(){
+  var now = new Date();
+  var start = new Date(now.getFullYear(), 0, 0);
+  var doy = Math.floor((now - start) / 86400000);
+  return DAILY_TIPS[doy % DAILY_TIPS.length];
+}
+(function loadDaily(){
+  var textEl = document.getElementById('dailyText');
+  var noteEl = document.getElementById('dailyNote');
+  if (!textEl) return;
+  var today = new Date();
+  var ds = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+  function show(tip, src){
+    textEl.textContent = tip;
+    noteEl.textContent = '今天是 ' + ds + '，' + src;
+  }
+  fetch('daily.json', { cache: 'no-store' }).then(function(r){
+    if (!r.ok) throw new Error('no daily.json');
+    return r.json();
+  }).then(function(j){
+    if (j && j.date === ds && j.tip) show(j.tip, '由本站每日自动更新');
+    else show(localDaily(), '今日份（本地按日期轮换）');
+  }).catch(function(){ show(localDaily(), '今日份（本地按日期轮换）'); });
+})();
+
+/* ---- 本地便签和待办：只存 localStorage ---- */
+(function(){
+  var area = document.getElementById('noteArea');
+  var saved = document.getElementById('noteSaved');
+  if (area) {
+    try { area.value = localStorage.getItem('ftNote') || ''; } catch (e) {}
+    area.addEventListener('input', function(){
+      try { localStorage.setItem('ftNote', area.value); } catch (e) {}
+      if (saved) saved.textContent = '已自动保存到这台设备';
+    });
+  }
+  window.ftTodos = [];
+  try { window.ftTodos = JSON.parse(localStorage.getItem('ftTodos') || '[]'); } catch (e) { window.ftTodos = []; }
+  function saveTodos(){
+    try { localStorage.setItem('ftTodos', JSON.stringify(window.ftTodos)); } catch (e) {}
+  }
+  window.renderTodos = function(){
+    var list = document.getElementById('todoList');
+    if (!list) return;
+    list.innerHTML = '';
+    window.ftTodos.forEach(function(t, i){
+      var row = document.createElement('div');
+      row.className = 'todo-item';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.checked = !!t.done;
+      cb.onchange = function(){ window.ftTodos[i].done = cb.checked; saveTodos(); renderTodos(); };
+      var span = document.createElement('span');
+      span.textContent = t.text;
+      if (t.done) span.style.textDecoration = 'line-through';
+      var del = document.createElement('button');
+      del.textContent = '删除';
+      del.onclick = function(){ window.ftTodos.splice(i, 1); saveTodos(); renderTodos(); };
+      row.appendChild(cb); row.appendChild(span); row.appendChild(del);
+      list.appendChild(row);
+    });
+  };
+  window.addTodo = function(){
+    var input = document.getElementById('todoInput');
+    var v = input.value.trim();
+    if (!v) return;
+    window.ftTodos.push({ text: v, done: false });
+    input.value = '';
+    saveTodos(); renderTodos();
+  };
+  renderTodos();
+})();
+
+/* ---- 番茄钟：25 分钟专注 / 5 分钟休息 ---- */
+(function(){
+  var total = 25 * 60, left = total, mode = 'focus', timer = null, done = 0;
+  var timeEl = document.getElementById('pomoTime');
+  var modeEl = document.getElementById('pomoMode');
+  var countEl = document.getElementById('pomoCount');
+  if (!timeEl) return;
+  function fmt(s){
+    return ('0' + Math.floor(s / 60)).slice(-2) + ':' + ('0' + (s % 60)).slice(-2);
+  }
+  function show(){
+    timeEl.textContent = fmt(left);
+    modeEl.textContent = mode === 'focus' ? '专注中' : '休息中';
+    countEl.textContent = '已完成 ' + done + ' 个番茄';
+  }
+  function beep(){
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; g.gain.value = 0.2;
+      o.start(); setTimeout(function(){ o.stop(); }, 600);
+    } catch (e) {}
+  }
+  function tick(){
+    left--;
+    if (left <= 0) {
+      beep();
+      if (mode === 'focus') { done++; mode = 'rest'; left = 5 * 60; alert('专注结束，休息 5 分钟吧'); }
+      else { mode = 'focus'; left = 25 * 60; alert('休息结束，开始下一个番茄'); }
+    }
+    show();
+  }
+  window.pomoStart = function(){ if (!timer) timer = setInterval(tick, 1000); };
+  window.pomoPause = function(){ if (timer) { clearInterval(timer); timer = null; } };
+  window.pomoReset = function(){
+    window.pomoPause();
+    mode = 'focus'; left = 25 * 60;
+    show();
+  };
+  show();
+})();
+
+/* ---- 2048：WASD / 方向键 / 滑动 ---- */
+(function(){
+  var board = [], score = 0, best = 0, over = false;
+  var boardEl = document.getElementById('g2048Board');
+  var scoreEl = document.getElementById('g2048Score');
+  var bestEl = document.getElementById('g2048Best');
+  var msgEl = document.getElementById('g2048Msg');
+  if (!boardEl) return;
+  try { best = parseInt(localStorage.getItem('ft2048Best') || '0') || 0; } catch (e) {}
+  function emptyCells(){
+    var out = [];
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) if (!board[r][c]) out.push([r, c]);
+    return out;
+  }
+  function spawn(){
+    var cells = emptyCells();
+    if (!cells.length) return;
+    var pick = cells[Math.floor(Math.random() * cells.length)];
+    board[pick[0]][pick[1]] = Math.random() < 0.9 ? 2 : 4;
+  }
+  function slideRow(row){
+    var arr = row.filter(function(v){ return v; });
+    for (var i = 0; i < arr.length - 1; i++) {
+      if (arr[i] === arr[i + 1]) { arr[i] *= 2; score += arr[i]; arr.splice(i + 1, 1); }
+    }
+    while (arr.length < 4) arr.push(0);
+    return arr;
+  }
+  function same(a, b){
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) if (a[r][c] !== b[r][c]) return false;
+    return true;
+  }
+  function render(){
+    boardEl.innerHTML = '';
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) {
+      var cell = document.createElement('div');
+      cell.className = 'cell2048';
+      var v = board[r][c];
+      cell.textContent = v ? v : '';
+      if (v) cell.style.background = v >= 2048 ? '#f59e0b' : v >= 512 ? '#fb923c' : v >= 128 ? '#fbbf24' : v >= 32 ? '#fdba74' : v >= 8 ? '#fcd34d' : '#fef3c7';
+      boardEl.appendChild(cell);
+    }
+    scoreEl.textContent = '分数：' + score;
+    bestEl.textContent = '最高：' + best;
+  }
+  function canMove(){
+    if (emptyCells().length) return true;
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) {
+      if (c < 3 && board[r][c] === board[r][c + 1]) return true;
+      if (r < 3 && board[r][c] === board[r + 1][c]) return true;
+    }
+    return false;
+  }
+  function move(dir){
+    if (over) return;
+    var old = board.map(function(row){ return row.slice(); });
+    var nb = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    for (var i = 0; i < 4; i++) {
+      var line = [];
+      for (var j = 0; j < 4; j++) {
+        if (dir === 'left') line.push(board[i][j]);
+        if (dir === 'right') line.push(board[i][3 - j]);
+        if (dir === 'up') line.push(board[j][i]);
+        if (dir === 'down') line.push(board[3 - j][i]);
+      }
+      var slid = slideRow(line);
+      for (var j = 0; j < 4; j++) {
+        if (dir === 'left') nb[i][j] = slid[j];
+        if (dir === 'right') nb[i][3 - j] = slid[j];
+        if (dir === 'up') nb[j][i] = slid[j];
+        if (dir === 'down') nb[3 - j][i] = slid[j];
+      }
+    }
+    if (same(old, nb)) return;
+    board = nb;
+    spawn();
+    if (score > best) { best = score; try { localStorage.setItem('ft2048Best', best); } catch (e) {} }
+    if (!canMove()) { over = true; msgEl.textContent = '没路了！点“新开一局”再来。'; }
+    else if (board.some(function(row){ return row.indexOf(2048) >= 0; })) { msgEl.textContent = '🎉 合出 2048 了！可以继续往上合。'; }
+    render();
+  }
+  window.g2048Move = move;
+  window.g2048New = function(){
+    board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    score = 0; over = false; msgEl.textContent = '';
+    spawn(); spawn(); render();
+  };
+  document.addEventListener('keydown', function(e){
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    var k = e.key.toLowerCase();
+    if (k === 'w') move('up');
+    else if (k === 's') move('down');
+    else if (k === 'a') move('left');
+    else if (k === 'd') move('right');
+    else return;
+    e.preventDefault();
+  });
+  var tx = 0, ty = 0;
+  boardEl.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  boardEl.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
+    if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 'right' : 'left');
+    else move(dy > 0 ? 'down' : 'up');
+  }, { passive: true });
+  window.g2048New();
+})();
+
+/* ---- 图片处理：压缩 / 裁剪 / 转格式，全部本地算 ---- */
+function processImage(){
+  var input = document.getElementById('imgInput');
+  var info = document.getElementById('imgInfo');
+  var dl = document.getElementById('imgDownload');
+  var preview = document.getElementById('imgPreview');
+  if (!input.files || !input.files.length) { alert('请先选一张图片'); return; }
+  var file = input.files[0];
+  var url = URL.createObjectURL(file);
+  var img = new Image();
+  img.onload = function(){
+    var maxW = parseInt(document.getElementById('imgWidth').value, 10) || 0;
+    var square = document.getElementById('imgSquare').checked;
+    var fmtSel = document.getElementById('imgFormat').value;
+    var quality = parseInt(document.getElementById('imgQuality').value, 10) / 100;
+    var sw = img.width, sh = img.height, sx = 0, sy = 0;
+    if (square) {
+      var side = Math.min(sw, sh);
+      sx = Math.floor((sw - side) / 2); sy = Math.floor((sh - side) / 2);
+      sw = side; sh = side;
+    }
+    var scale = 1;
+    if (maxW > 0 && sw > maxW) scale = maxW / sw;
+    var cw = Math.round(sw * scale), ch = Math.round(sh * scale);
+    var cv = document.createElement('canvas');
+    cv.width = cw; cv.height = ch;
+    var ctx = cv.getContext('2d');
+    var outType = fmtSel === 'auto' ? file.type : fmtSel;
+    if (!outType || outType === 'image/*') outType = 'image/png';
+    if (outType === 'image/jpeg') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cw, ch); }
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+    cv.toBlob(function(blob){
+      if (!blob) { info.textContent = '处理失败：这张图浏览器转不出来，换一张试试。'; return; }
+      var outUrl = URL.createObjectURL(blob);
+      preview.innerHTML = '';
+      var im = document.createElement('img');
+      im.src = outUrl; im.style.maxWidth = '100%'; im.style.borderRadius = '8px';
+      preview.appendChild(im);
+      var ext = outType === 'image/jpeg' ? 'jpg' : outType === 'image/png' ? 'png' : 'webp';
+      info.textContent = '原图 ' + img.width + '×' + img.height + '，' + (file.size / 1024).toFixed(1) + ' KB → 处理后 ' + cw + '×' + ch + '，' + (blob.size / 1024).toFixed(1) + ' KB';
+      dl.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = outUrl; a.download = 'processed.' + ext;
+      a.textContent = '⬇ 下载处理后的图片';
+      dl.appendChild(a);
+    }, outType, quality);
+  };
+  img.onerror = function(){ info.textContent = '这张图读不出来，换一张试试。'; };
+  img.src = url;
+  document.getElementById('imgQualityText').textContent = document.getElementById('imgQuality').value + '%';
+}
+(function(){
+  var q = document.getElementById('imgQuality');
+  if (q) q.addEventListener('input', function(){ document.getElementById('imgQualityText').textContent = q.value + '%'; });
+})();
+
+/* ---- 汇率 / 天气 / 世界时钟 ---- */
+var fxRates = null;
+function convertFx(){
+  var amount = parseFloat(document.getElementById('fxAmount').value) || 0;
+  var target = document.getElementById('fxTarget').value;
+  var out = document.getElementById('fxResult');
+  var note = document.getElementById('fxNote');
+  function calc(){
+    if (!fxRates || !fxRates[target]) { out.textContent = '汇率还没拿到'; return; }
+    out.textContent = (amount * fxRates[target]).toFixed(2) + ' ' + target;
+  }
+  if (fxRates) { calc(); return; }
+  out.textContent = '正在拿汇率…';
+  fetch('https://open.er-api.com/v6/latest/CNY').then(function(r){ return r.json(); }).then(function(j){
+    fxRates = j.rates || null;
+    if (note && j.time_last_update_utc) note.textContent = '汇率更新于 ' + j.time_last_update_utc + '（UTC），仅供参考，实际以银行结汇价为准。';
+    calc();
+  }).catch(function(){ out.textContent = '汇率接口暂时不可用，稍后再试'; });
+}
+function weatherDesc(code){
+  if (code === 0) return '晴';
+  if (code === 1 || code === 2) return '多云';
+  if (code === 3) return '阴';
+  if (code === 45 || code === 48) return '雾';
+  if (code === 51 || code === 53 || code === 55) return '毛毛雨';
+  if (code === 61 || code === 63 || code === 65) return '雨';
+  if (code === 71 || code === 73 || code === 75) return '雪';
+  if (code === 80 || code === 81 || code === 82) return '阵雨';
+  if (code === 95) return '雷阵雨';
+  if (code === 96 || code === 99) return '冰雹雷雨';
+  return '天气代码 ' + code;
+}
+function fetchWeather(lat, lon, label){
+  var out = document.getElementById('weatherResult');
+  out.textContent = '正在查' + label + '的天气…';
+  var u = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=auto';
+  fetch(u).then(function(r){ return r.json(); }).then(function(j){
+    var c = j.current || {};
+    out.textContent = label + '：' + weatherDesc(c.weather_code) + '，' + c.temperature_2m + '℃，湿度 ' + c.relative_humidity_2m + '%，风速 ' + c.wind_speed_10m + ' km/h';
+  }).catch(function(){ out.textContent = '天气接口暂时不可用，稍后再试'; });
+}
+function loadWeather(){
+  var sel = document.getElementById('weatherCity');
+  var parts = sel.value.split(',');
+  fetchWeather(parts[0], parts[1], sel.options[sel.selectedIndex].text);
+}
+function loadWeatherGeo(){
+  if (!navigator.geolocation) { alert('这台设备不支持定位'); return; }
+  navigator.geolocation.getCurrentPosition(function(pos){
+    fetchWeather(pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2), '你的位置');
+  }, function(){ alert('拿不到位置，请检查定位权限，或直接选城市查'); });
+}
+(function(){
+  var cities = [
+    ['北京', 'Asia/Shanghai'], ['东京', 'Asia/Tokyo'], ['伦敦', 'Europe/London'],
+    ['巴黎', 'Europe/Paris'], ['纽约', 'America/New_York'], ['悉尼', 'Australia/Sydney']
+  ];
+  var grid = document.getElementById('clockGrid');
+  if (!grid) return;
+  function tick(){
+    grid.innerHTML = '';
+    cities.forEach(function(c){
+      try {
+        var s = new Intl.DateTimeFormat('zh-CN', { timeZone: c[1], hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(new Date());
+        var d = document.createElement('div');
+        d.className = 'clockcell';
+        d.innerHTML = '<b>' + c[0] + '</b><br>' + s;
+        grid.appendChild(d);
+      } catch (e) {}
+    });
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
 </script>
 </body>
 </html>
