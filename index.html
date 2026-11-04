@@ -94,7 +94,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <h1>🛠️ 免费小工具站</h1>
 <p>这是一个人人可访问的轻量网站：不用注册、不用登录，有网就能打开使用。所有工具都在你的浏览器里运行，不上传任何数据。</p>
 
-<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#donateCard">打赏</a></div>
+<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#donateCard">打赏</a><a href="#appleIdCard">海外 Apple ID 教程</a></div>
 
 <div class="card card-hero" id="installCard">
 <h2>📲 安装到桌面 ⭐ 以后打开只要一秒</h2>
@@ -195,7 +195,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <div class="card" id="moneyWeatherCard">
 <h2>💱 汇率换算 · 🌤️ 天气 · 🕐 世界时钟</h2>
 <h3>汇率换算（人民币）</h3>
-<p><input id="fxAmount" type="number" value="100" style="width:120px"> 元人民币 ≈ <span id="fxResult" class="status">…</span> <select id="fxTarget"><option value="USD">美元 USD</option><option value="EUR">欧元 EUR</option><option value="JPY">日元 JPY</option><option value="HKD">港币 HKD</option><option value="GBP">英镑 GBP</option><option value="KRW">韩元 KRW</option><option value="TWD">台币 TWD</option><option value="SGD">新币 SGD</option><option value="AUD">澳元 AUD</option><option value="CAD">加元 CAD</option></select> <button onclick="convertFx()">换算</button></p>
+<p><input id="fxAmount" type="number" value="100" style="width:120px"> 元人民币 ≈ <span id="fxResult" class="status">…</span> <select id="fxTarget"><option value="USD">美元 USD</option><option value="EUR">欧元 EUR</option><option value="JPY">日元 JPY</option><option value="HKD">港币 HKD</option><option value="GBP">英镑 GBP</option><option value="KRW">韩元 KRW</option><option value="TWD">台币 TWD</option><option value="SGD">新币 SGD</option><option value="AUD">澳元 AUD</option><option value="CAD">加元 CAD</option></select> <input id="fxSearch" placeholder="搜国家 / 货币 / 代码，如 日本、日元、JPY" style="width:170px"> <button onclick="convertFx()">换算</button></p><p id="fxCount" class="note"></p>
 <p id="fxNote" class="note">汇率来自公开免费接口（open.er-api.com），仅供参考，实际以银行结汇价为准。</p>
 <h3>天气</h3>
 <p><label>城市 <select id="weatherCity"><option value="39.9,116.4">北京</option><option value="31.2,121.5">上海</option><option value="23.1,113.3">广州</option><option value="22.5,114.1">深圳</option><option value="30.6,104.1">成都</option><option value="30.3,120.2">杭州</option><option value="30.6,114.3">武汉</option><option value="34.3,108.9">西安</option></select></label> <button onclick="loadWeather()">查天气</button> <button onclick="loadWeatherGeo()">用我的位置查</button></p>
@@ -229,48 +229,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <p id="g2048Msg" class="note"></p>
 </div>
 
-<div class="card" id="appleIdCard">
-<h2>🍎 自己注册海外 Apple ID（以美国区为例）· 免费，不用买号</h2>
-<p>账号归你自己，全程走苹果官方渠道，不用买共享号，也不用绑信用卡就能下免费 App。下面以美国区为例，其他地区把“United States”换成对应地区即可。</p>
-<p><b>准备：</b>一个没注册过 Apple ID 的新邮箱；一个能收到验证码的手机号（中国 +86 号码也可以）；一部 iPhone（或一台电脑浏览器）。</p>
-<p><b>路线 A（推荐，手机上做，成功率最高）：</b></p>
-<ol>
-<li>先退出商店账号：打开 App Store，点右上角头像退出；如果没有退出选项，去“设置 → 顶部你的名字 → 媒体与购买项目”里退出。<b>只退商店，别点整机“退出登录 iCloud”</b>，照片和通讯录不受影响。</li>
-<li>在 App Store 登录界面点“创建新 Apple 账户”，国家或地区选 <b>United States（美国）</b>，同意条款。</li>
-<li>填新邮箱、强密码、姓名和出生日期（填成年人日期）。</li>
-<li>付款方式选 <b>“无 / None”</b>，不绑任何卡；账单地址按美国格式填州、城市、邮编，电话填自己能收验证码的号码。</li>
-<li>依次输入邮箱验证码和手机验证码，完成即注册成功，会自动进入美区商店。</li>
-</ol>
-<p><b>路线 B（电脑网页做）：</b></p>
-<ol>
-<li>浏览器打开苹果官方账号页面 account.apple.com，点“创建你的 Apple ID”，国家或地区同样选美国，按提示填邮箱、密码并完成验证。</li>
-<li>注册完再在手机 App Store 登录这个新号，第一次下免费 App 时会提示补付款与账单信息，同样选“无”即可。</li>
-</ol>
-<p><b>如果没有“无”选项：</b>先别绑卡，退出重进一次；或改走路线 A，在下载免费 App 的弹窗里创建账号，更容易出现“无”。还是没有，就换个网络环境再试，不要随便填别人的卡。</p>
-<p><b>日常使用：</b></p>
-<ul>
-<li>平时只在 App Store 里切换这个号，别用它登录 iCloud；主号的 iCloud 不动，照片和通讯录就不会串。</li>
-<li>想回国区时，在 App Store 点头像退出，再登回原来的号即可，随时可以切换。</li>
-<li>下免费 App 不花钱；要买付费 App 或订阅时，再走官方礼品卡充值，别找陌生人代充。</li>
-</ul>
-<p><b>买付费 App（不用绑卡，充美区礼品卡余额就行）：</b></p>
-<ol>
-<li>买一张<b>美区</b> Apple 礼品卡：地区必须和账号地区对上，国区卡充不到美区号上。</li>
-<li>在美区 App Store 里点头像 → 兑换礼品卡或代码，输卡密，余额就进这个号了。</li>
-<li>再去买付费 App，系统会先扣余额，不用再绑信用卡。</li>
-</ol>
-<p>以小火箭为例：美区价 2.99 美元，<b>一次性买断，不是订阅</b>，买之前认准开发者 Shadow Launch Technology Limited、App ID 932747118，别买到同名山寨的。要注意两点：一是礼品卡面额一般从 10 美元起，买 2.99 美元的 App 会剩下 7 美元左右，余款留在号里以后还能用，最终价还可能加所在州的消费税，10 美元的卡肯定够；二是卡的来源最关键，苹果美国官网、亚马逊美国自营最稳，第三方平台买卡有黑卡、盗刷卡的风险，苹果查到会冻结余额甚至封号，所以只认大店、留好订单记录，买到马上兑换，别一次囤大额，也别买“已购 App 的成品号”，App 是绑在卖家号上的，号一被找回你的 App 和更新就全没了。最后说清一句：买 App 只是买了客户端，不等于买了 VPN 服务，节点和订阅还得自己另外有；而且购买记录绑在这个美区号上，这个号要保管好。</p>
-<p><b>⚠️ 注意事项：</b></p>
-<ul>
-<li>一个邮箱只能注册一个 Apple ID；密码别和邮箱密码相同，开启双重认证，记好恢复邮箱。</li>
-<li>账单地址按格式填就可以，不要填真实的他人地址，也不要编造支付信息；系统要求付款信息时宁可停下，也别借别人的卡。</li>
-<li>验证码只发给自己，别发给任何人；自称苹果客服索要密码或验证码的都是骗子。</li>
-<li>别把这个号借人、卖人，也别登录别人分享的号：共享号随时会被改密码、锁号，登 iCloud 还可能锁机。</li>
-<li>短时间注册多个号、频繁切换地区可能触发苹果风控，提示“此时无法创建你的账户”时停一两天再试，别反复刷。</li>
-<li>本页只是教程，不提供、不买卖任何账号；苹果页面如有改版，以官方页面的实际提示为准。</li>
-</ul>
-<p class="note">教程整理自苹果官方流程与公开教程，2026-10-31；注册本身免费，花钱的只有之后你自己决定买的付费内容。</p>
-</div>
 
 <div class="card" id="todayCard">
 <h2>📌 今日总览</h2>
@@ -332,7 +290,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <p id="kinChain" class="status">还没选关系</p>
 <p><button onclick="kinAdd('爸爸')">爸爸</button><button onclick="kinAdd('妈妈')">妈妈</button><button onclick="kinAdd('哥哥')">哥哥</button><button onclick="kinAdd('弟弟')">弟弟</button><button onclick="kinAdd('姐姐')">姐姐</button><button onclick="kinAdd('妹妹')">妹妹</button><button onclick="kinAdd('丈夫')">丈夫</button><button onclick="kinAdd('妻子')">妻子</button><button onclick="kinAdd('儿子')">儿子</button><button onclick="kinAdd('女儿')">女儿</button><button onclick="kinClear()">重选</button></p>
 <p id="kinResult"></p>
-<p class="note">常见关系能算；太复杂的组合会直接说算不出，不瞎编。对方怎么称呼我只支持部分常见关系。</p>
+<p class="note">最多可连 6 节，常见关系能算；太复杂的组合会直接说算不出，不瞎编。对方怎么称呼我只支持部分常见关系。</p>
 </div>
 
 <div class="card" id="loanCard">
@@ -378,6 +336,49 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <p style="text-align:center"><img src="donate.jpg" alt="微信赞赏码" style="max-width:340px;width:100%;border-radius:12px"></p>
 <p class="note">微信扫一扫就能赞赏，多少都是一份支持。</p>
 <p class="note">打赏纯属自愿，不打赏所有功能也一样全免费。</p>
+</div>
+
+<div class="card" id="appleIdCard">
+<h2>🍎 自己注册海外 Apple ID（以美国区为例）· 免费，不用买号</h2>
+<p>账号归你自己，全程走苹果官方渠道，不用买共享号，也不用绑信用卡就能下免费 App。下面以美国区为例，其他地区把“United States”换成对应地区即可。</p>
+<p><b>准备：</b>一个没注册过 Apple ID 的新邮箱；一个能收到验证码的手机号（中国 +86 号码也可以）；一部 iPhone（或一台电脑浏览器）。</p>
+<p><b>路线 A（推荐，手机上做，成功率最高）：</b></p>
+<ol>
+<li>先退出商店账号：打开 App Store，点右上角头像退出；如果没有退出选项，去“设置 → 顶部你的名字 → 媒体与购买项目”里退出。<b>只退商店，别点整机“退出登录 iCloud”</b>，照片和通讯录不受影响。</li>
+<li>在 App Store 登录界面点“创建新 Apple 账户”，国家或地区选 <b>United States（美国）</b>，同意条款。</li>
+<li>填新邮箱、强密码、姓名和出生日期（填成年人日期）。</li>
+<li>付款方式选 <b>“无 / None”</b>，不绑任何卡；账单地址按美国格式填州、城市、邮编，电话填自己能收验证码的号码。</li>
+<li>依次输入邮箱验证码和手机验证码，完成即注册成功，会自动进入美区商店。</li>
+</ol>
+<p><b>路线 B（电脑网页做）：</b></p>
+<ol>
+<li>浏览器打开苹果官方账号页面 account.apple.com，点“创建你的 Apple ID”，国家或地区同样选美国，按提示填邮箱、密码并完成验证。</li>
+<li>注册完再在手机 App Store 登录这个新号，第一次下免费 App 时会提示补付款与账单信息，同样选“无”即可。</li>
+</ol>
+<p><b>如果没有“无”选项：</b>先别绑卡，退出重进一次；或改走路线 A，在下载免费 App 的弹窗里创建账号，更容易出现“无”。还是没有，就换个网络环境再试，不要随便填别人的卡。</p>
+<p><b>日常使用：</b></p>
+<ul>
+<li>平时只在 App Store 里切换这个号，别用它登录 iCloud；主号的 iCloud 不动，照片和通讯录就不会串。</li>
+<li>想回国区时，在 App Store 点头像退出，再登回原来的号即可，随时可以切换。</li>
+<li>下免费 App 不花钱；要买付费 App 或订阅时，再走官方礼品卡充值，别找陌生人代充。</li>
+</ul>
+<p><b>买付费 App（不用绑卡，充美区礼品卡余额就行）：</b></p>
+<ol>
+<li>买一张<b>美区</b> Apple 礼品卡：地区必须和账号地区对上，国区卡充不到美区号上。</li>
+<li>在美区 App Store 里点头像 → 兑换礼品卡或代码，输卡密，余额就进这个号了。</li>
+<li>再去买付费 App，系统会先扣余额，不用再绑信用卡。</li>
+</ol>
+<p>以小火箭为例：美区价 2.99 美元，<b>一次性买断，不是订阅</b>，买之前认准开发者 Shadow Launch Technology Limited、App ID 932747118，别买到同名山寨的。要注意两点：一是礼品卡面额一般从 10 美元起，买 2.99 美元的 App 会剩下 7 美元左右，余款留在号里以后还能用，最终价还可能加所在州的消费税，10 美元的卡肯定够；二是卡的来源最关键，苹果美国官网、亚马逊美国自营最稳，第三方平台买卡有黑卡、盗刷卡的风险，苹果查到会冻结余额甚至封号，所以只认大店、留好订单记录，买到马上兑换，别一次囤大额，也别买“已购 App 的成品号”，App 是绑在卖家号上的，号一被找回你的 App 和更新就全没了。最后说清一句：买 App 只是买了客户端，不等于买了 VPN 服务，节点和订阅还得自己另外有；而且购买记录绑在这个美区号上，这个号要保管好。</p>
+<p><b>⚠️ 注意事项：</b></p>
+<ul>
+<li>一个邮箱只能注册一个 Apple ID；密码别和邮箱密码相同，开启双重认证，记好恢复邮箱。</li>
+<li>账单地址按格式填就可以，不要填真实的他人地址，也不要编造支付信息；系统要求付款信息时宁可停下，也别借别人的卡。</li>
+<li>验证码只发给自己，别发给任何人；自称苹果客服索要密码或验证码的都是骗子。</li>
+<li>别把这个号借人、卖人，也别登录别人分享的号：共享号随时会被改密码、锁号，登 iCloud 还可能锁机。</li>
+<li>短时间注册多个号、频繁切换地区可能触发苹果风控，提示“此时无法创建你的账户”时停一两天再试，别反复刷。</li>
+<li>本页只是教程，不提供、不买卖任何账号；苹果页面如有改版，以官方页面的实际提示为准。</li>
+</ul>
+<p class="note">教程整理自苹果官方流程与公开教程，2026-10-31；注册本身免费，花钱的只有之后你自己决定买的付费内容。</p>
 </div>
 
 <p class="note">本站托管于 GitHub Pages，完全免费。想加新工具，告诉站长一声即可。</p>
@@ -456,31 +457,31 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
       ctx.fillRect(c.x,c.y,40,10); ctx.fillRect(c.x+10,c.y-8,24,10);
     });
     var dy=dino.y;
+    /* 像素霸王龙：17 列网格，每格 3px，画在原 52x52 碰撞框内；速度/跳跃/碰撞判定一律不动 */
+    var dRows=[
+      '...........XXXX..',
+      '..........XXXXXX.',
+      '..........XXXXXXX',
+      '..........XXXXXXX',
+      '..........XXXX...',
+      '.........XXXXX...',
+      '........XXXXXX...',
+      '...XXXXXXXXXXX...',
+      '.XXXXXXXXXXXXX...',
+      'XXXXXXXXXXXXXX...',
+      '..XXXXXXXXXXXX...',
+      '......XXXXXXX....',
+      '.......XX.XX.....',
+      '.......XX.XX.....'
+    ];
+    var dLeg=dino.jumping?'':(dino.leg?'..........XXX....':'.......XXX.......');
+    var ox=dino.x, oy=dy+7, U=3;
     ctx.fillStyle='#555';
-    ctx.beginPath();
-    ctx.moveTo(dino.x-20, dy+14);
-    ctx.lineTo(dino.x+2, dy+6);
-    ctx.lineTo(dino.x+10, dy+6);
-    ctx.lineTo(dino.x+10, dy-8);
-    ctx.lineTo(dino.x+34, dy-8);
-    ctx.lineTo(dino.x+34, dy-14);
-    ctx.lineTo(dino.x+58, dy-14);
-    ctx.lineTo(dino.x+58, dy+2);
-    ctx.lineTo(dino.x+48, dy+2);
-    ctx.lineTo(dino.x+48, dy+8);
-    ctx.lineTo(dino.x+34, dy+8);
-    ctx.lineTo(dino.x+34, dy+40);
-    ctx.lineTo(dino.x+2, dy+40);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle='#fff'; ctx.fillRect(dino.x+46, dy-8, 6, 6);
-    ctx.fillStyle='#222'; ctx.fillRect(dino.x+49, dy-8, 3, 3);
-    ctx.fillStyle='#555';
-    var legOff=dino.jumping?0:(dino.leg?8:0);
-    ctx.fillRect(dino.x+12, dy+40, 9, 12+legOff);
-    ctx.fillRect(dino.x+12, dy+50+legOff, 14, 5);
-    ctx.fillRect(dino.x+30, dy+40, 9, 12-legOff);
-    ctx.fillRect(dino.x+30, dy+50-legOff, 14, 5);
+    dRows.forEach(function(row,y){
+      for(var x=0;x<row.length;x++) if(row.charAt(x)==='X') ctx.fillRect(ox+x*U, oy+y*U, U, U);
+    });
+    if(dLeg) for(var x=0;x<dLeg.length;x++) if(dLeg.charAt(x)==='X') ctx.fillRect(ox+x*U, oy+14*U, U, U);
+    ctx.fillStyle='#222'; ctx.fillRect(ox+14*U, oy+1*U, U, U);
     ctx.fillStyle='#2e7d32';
     obstacles.forEach(function(o){
       var oy=GROUND+52-o.h;
@@ -832,18 +833,36 @@ function downloadQR(){
     });
     ctx.fillStyle = '#e8d9a0';
     ctx.fillRect(0, GROUND, W, H - GROUND);
+    /* 像素小鸟：身体+肚皮+尾巴+挥动翅膀，整只随速度俯仰；碰撞仍用原来 r=15 的圆，不动 */
+    var tilt = Math.max(-0.4, Math.min(0.5, bird.vy * 0.045));
+    var flapA = (state === 'run') ? Math.sin(frame * 0.55) * 0.8 : Math.sin(frame * 0.3) * 0.5;
+    ctx.save();
+    ctx.translate(bird.x, bird.y);
+    ctx.rotate(tilt);
+    ctx.fillStyle = '#f59f00';
+    ctx.fillRect(-20, -2, 10, 4);
+    ctx.fillRect(-17, 3, 8, 3);
     ctx.fillStyle = '#f7c948';
-    ctx.beginPath(); ctx.arc(bird.x, bird.y, bird.r, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0, 0, 15, 13, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff3bf';
+    ctx.beginPath(); ctx.ellipse(2, 5, 9, 6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.save();
+    ctx.translate(-3, 1);
+    ctx.rotate(flapA);
+    ctx.fillStyle = '#f59f00';
+    ctx.beginPath(); ctx.ellipse(0, 0, 10, 5, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
     ctx.fillStyle = '#fff';
-    ctx.beginPath(); ctx.arc(bird.x + 5, bird.y - 4, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(5, -4, 4, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#222';
-    ctx.beginPath(); ctx.arc(bird.x + 6, bird.y - 4, 2, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(6, -4, 2, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#e8590c';
     ctx.beginPath();
-    ctx.moveTo(bird.x + bird.r - 2, bird.y);
-    ctx.lineTo(bird.x + bird.r + 12, bird.y + 4);
-    ctx.lineTo(bird.x + bird.r - 2, bird.y + 8);
+    ctx.moveTo(13, 0);
+    ctx.lineTo(27, 4);
+    ctx.lineTo(13, 8);
     ctx.closePath(); ctx.fill();
+    ctx.restore();
     ctx.fillStyle = '#333'; ctx.font = '20px sans-serif'; ctx.textAlign = 'center';
     if (state === 'ready') ctx.fillText('点一下画面开始，点一下拍一下翅膀', W / 2, 90);
     if (state === 'over') ctx.fillText('撞上啦！点一下画面或按“开始”再来一局', W / 2, 90);
@@ -1198,6 +1217,30 @@ function processImage(){
 
 /* ---- 汇率 / 天气 / 世界时钟 ---- */
 var fxRates = null;
+var fxMain = ['USD','EUR','JPY','HKD','GBP','KRW','TWD','SGD','AUD','CAD'];
+var fxNames = {USD:'美元',EUR:'欧元',JPY:'日元',HKD:'港币',GBP:'英镑',KRW:'韩元',TWD:'新台币',SGD:'新加坡元',AUD:'澳元',CAD:'加元',CNY:'人民币',CHF:'瑞士法郎',NZD:'新西兰元',THB:'泰铢',MYR:'马来西亚林吉特',IDR:'印尼盾',PHP:'菲律宾比索',VND:'越南盾',INR:'印度卢比',RUB:'俄罗斯卢布',BRL:'巴西雷亚尔',MXN:'墨西哥比索',ZAR:'南非兰特',TRY:'土耳其里拉',AED:'阿联酋迪拉姆',SAR:'沙特里亚尔',SEK:'瑞典克朗',NOK:'挪威克朗',DKK:'丹麦克朗',PLN:'波兰兹罗提',CZK:'捷克克朗',HUF:'匈牙利福林',ILS:'以色列新谢克尔',EGP:'埃及镑',NGN:'尼日利亚奈拉',KES:'肯尼亚先令',PKR:'巴基斯坦卢比',BDT:'孟加拉塔卡',LKR:'斯里兰卡卢比',NPR:'尼泊尔卢比',MMK:'缅甸缅元',KHR:'柬埔寨瑞尔',LAK:'老挝基普',MOP:'澳门元',UAH:'乌克兰格里夫纳',RON:'罗马尼亚列伊',BGN:'保加利亚列弗',ISK:'冰岛克朗',QAR:'卡塔尔里亚尔',KWD:'科威特第纳尔',BHD:'巴林第纳尔',OMR:'阿曼里亚尔',JOD:'约旦第纳尔',KZT:'哈萨克斯坦坚戈',UZS:'乌兹别克斯坦索姆',GEL:'格鲁吉亚拉里',COP:'哥伦比亚比索',CLP:'智利比索',PEN:'秘鲁索尔',ARS:'阿根廷比索',UYU:'乌拉圭比索',PYG:'巴拉圭瓜拉尼',GTQ:'危地马拉格查尔',DOP:'多米尼加比索',JMD:'牙买加元',TTD:'特立尼达和多巴哥元',XCD:'东加勒比元'};
+var fxCountries = {USD:'美国',EUR:'欧元区',JPY:'日本',HKD:'中国香港',GBP:'英国',KRW:'韩国',TWD:'中国台湾',SGD:'新加坡',AUD:'澳大利亚',CAD:'加拿大',CHF:'瑞士',NZD:'新西兰',THB:'泰国',MYR:'马来西亚',IDR:'印度尼西亚',PHP:'菲律宾',VND:'越南',INR:'印度',RUB:'俄罗斯',BRL:'巴西',MXN:'墨西哥',ZAR:'南非',TRY:'土耳其',AED:'阿联酋',SAR:'沙特阿拉伯',SEK:'瑞典',NOK:'挪威',DKK:'丹麦',PLN:'波兰',CZK:'捷克',HUF:'匈牙利',ILS:'以色列',EGP:'埃及',NGN:'尼日利亚',KES:'肯尼亚',PKR:'巴基斯坦',BDT:'孟加拉国',LKR:'斯里兰卡',NPR:'尼泊尔',MMK:'缅甸',KHR:'柬埔寨',LAK:'老挝',MOP:'中国澳门',UAH:'乌克兰',RON:'罗马尼亚',BGN:'保加利亚',ISK:'冰岛',QAR:'卡塔尔',KWD:'科威特',BHD:'巴林',OMR:'阿曼',JOD:'约旦',KZT:'哈萨克斯坦',UZS:'乌兹别克斯坦',GEL:'格鲁吉亚',COP:'哥伦比亚',CLP:'智利',PEN:'秘鲁',ARS:'阿根廷',UYU:'乌拉圭',PYG:'巴拉圭',GTQ:'危地马拉',DOP:'多米尼加',JMD:'牙买加',TTD:'特立尼达和多巴哥',XCD:'东加勒比'};
+function fxLabel(code){ return ((fxCountries[code] ? fxCountries[code] + ' ' : '') + (fxNames[code] ? fxNames[code] + ' ' : '') + code).trim(); }
+function buildFxOptions(){
+  var sel = document.getElementById('fxTarget');
+  if (!sel || !fxRates) return;
+  var q = (document.getElementById('fxSearch').value || '').trim().toLowerCase();
+  var cur = sel.value;
+  var codes = Object.keys(fxRates).filter(function(c){ return c !== 'CNY'; });
+  var rest = codes.filter(function(c){ return fxMain.indexOf(c) < 0; }).sort();
+  var list = fxMain.filter(function(c){ return fxRates[c]; }).concat(rest);
+  if (q) list = list.filter(function(c){ return c.toLowerCase().indexOf(q) >= 0 || (fxNames[c] || '').toLowerCase().indexOf(q) >= 0 || (fxCountries[c] || '').toLowerCase().indexOf(q) >= 0; });
+  if (list.indexOf(cur) < 0 && fxRates[cur]) list.unshift(cur);
+  sel.innerHTML = '';
+  list.forEach(function(c){
+    var o = document.createElement('option');
+    o.value = c; o.textContent = fxLabel(c);
+    sel.appendChild(o);
+  });
+  sel.value = cur;
+  var hint = document.getElementById('fxCount');
+  if (hint) hint.textContent = '共 ' + codes.length + ' 种货币可查（不含人民币），输国家、货币名或代码筛选。';
+}
 function convertFx(){
   var amount = parseFloat(document.getElementById('fxAmount').value) || 0;
   var target = document.getElementById('fxTarget').value;
@@ -1207,14 +1250,19 @@ function convertFx(){
     if (!fxRates || !fxRates[target]) { out.textContent = '汇率还没拿到'; return; }
     out.textContent = (amount * fxRates[target]).toFixed(2) + ' ' + target;
   }
-  if (fxRates) { calc(); return; }
+  if (fxRates) { buildFxOptions(); calc(); return; }
   out.textContent = '正在拿汇率…';
   fetch('https://open.er-api.com/v6/latest/CNY').then(function(r){ return r.json(); }).then(function(j){
     fxRates = j.rates || null;
     if (note && j.time_last_update_utc) note.textContent = '汇率更新于 ' + j.time_last_update_utc + '（UTC），仅供参考，实际以银行结汇价为准。';
+    buildFxOptions();
     calc();
   }).catch(function(){ out.textContent = '汇率接口暂时不可用，稍后再试'; });
 }
+(function(){
+  var sEl = document.getElementById('fxSearch');
+  if (sEl) sEl.addEventListener('input', function(){ if (fxRates) buildFxOptions(); else convertFx(); });
+})();
 function weatherDesc(code){
   if (code === 0) return '晴';
   if (code === 1 || code === 2) return '多云';
@@ -1527,29 +1575,52 @@ var KIN_TWO = {
   '丈夫的爸爸': '公公', '丈夫的妈妈': '婆婆', '丈夫的哥哥': '大伯子', '丈夫的弟弟': '小叔子', '丈夫的姐姐': '大姑子', '丈夫的妹妹': '小姑子',
   '哥哥的妻子': '嫂子', '弟弟的妻子': '弟媳', '姐姐的丈夫': '姐夫', '妹妹的丈夫': '妹夫'
 };
+var KIN_COMPOSE = {
+  '爷爷的爸爸': '太爷爷', '爷爷的妈妈': '太奶奶', '爷爷的哥哥': '伯公', '爷爷的弟弟': '叔公', '爷爷的姐姐': '姑婆', '爷爷的妹妹': '姑婆',
+  '奶奶的爸爸': '太姥爷', '奶奶的妈妈': '太姥姥', '奶奶的哥哥': '舅公', '奶奶的弟弟': '舅公', '奶奶的姐姐': '姨婆', '奶奶的妹妹': '姨婆',
+  '外公的爸爸': '太姥爷', '外公的妈妈': '太姥姥', '外公的哥哥': '舅公', '外公的弟弟': '舅公', '外公的姐姐': '姨婆', '外公的妹妹': '姨婆',
+  '外婆的爸爸': '太姥爷', '外婆的妈妈': '太姥姥', '外婆的哥哥': '舅公', '外婆的弟弟': '舅公', '外婆的姐姐': '姨婆', '外婆的妹妹': '姨婆',
+  '伯伯的爸爸': '爷爷', '伯伯的妈妈': '奶奶', '伯伯的妻子': '伯母', '伯伯的儿子': '堂哥或堂弟', '伯伯的女儿': '堂姐或堂妹',
+  '叔叔的爸爸': '爷爷', '叔叔的妈妈': '奶奶', '叔叔的妻子': '婶婶', '叔叔的儿子': '堂哥或堂弟', '叔叔的女儿': '堂姐或堂妹',
+  '姑姑的爸爸': '爷爷', '姑姑的妈妈': '奶奶', '姑姑的丈夫': '姑父', '姑姑的儿子': '表哥或表弟', '姑姑的女儿': '表姐或表妹',
+  '舅舅的爸爸': '外公', '舅舅的妈妈': '外婆', '舅舅的妻子': '舅妈', '舅舅的儿子': '表哥或表弟', '舅舅的女儿': '表姐或表妹',
+  '姨妈的爸爸': '外公', '姨妈的妈妈': '外婆', '姨妈的丈夫': '姨父', '姨妈的儿子': '表哥或表弟', '姨妈的女儿': '表姐或表妹',
+  '小姨的爸爸': '外公', '小姨的妈妈': '外婆', '小姨的丈夫': '姨父', '小姨的儿子': '表哥或表弟', '小姨的女儿': '表姐或表妹',
+  '伯母的丈夫': '伯伯', '伯母的儿子': '堂哥或堂弟', '伯母的女儿': '堂姐或堂妹',
+  '婶婶的丈夫': '叔叔', '婶婶的儿子': '堂哥或堂弟', '婶婶的女儿': '堂姐或堂妹',
+  '姑父的妻子': '姑姑', '姑父的儿子': '表哥或表弟', '姑父的女儿': '表姐或表妹',
+  '舅妈的丈夫': '舅舅', '舅妈的儿子': '表哥或表弟', '舅妈的女儿': '表姐或表妹',
+  '姨父的儿子': '表哥或表弟', '姨父的女儿': '表姐或表妹',
+  '哥哥的妻子': '嫂子', '哥哥的儿子': '侄子', '哥哥的女儿': '侄女',
+  '弟弟的妻子': '弟媳', '弟弟的儿子': '侄子', '弟弟的女儿': '侄女',
+  '姐姐的丈夫': '姐夫', '姐姐的儿子': '外甥', '姐姐的女儿': '外甥女',
+  '妹妹的丈夫': '妹夫', '妹妹的儿子': '外甥', '妹妹的女儿': '外甥女',
+  '嫂子的丈夫': '哥哥', '嫂子的儿子': '侄子', '嫂子的女儿': '侄女',
+  '弟媳的丈夫': '弟弟', '弟媳的儿子': '侄子', '弟媳的女儿': '侄女',
+  '姐夫的妻子': '姐姐', '姐夫的儿子': '外甥', '姐夫的女儿': '外甥女',
+  '妹夫的妻子': '妹妹', '妹夫的儿子': '外甥', '妹夫的女儿': '外甥女',
+  '儿子的儿子': '孙子', '儿子的女儿': '孙女', '女儿的儿子': '外孙', '女儿的女儿': '外孙女',
+  '孙子的儿子': '曾孙', '孙子的女儿': '曾孙女', '孙女的儿子': '曾孙', '孙女的女儿': '曾孙女',
+  '外孙的儿子': '曾外孙', '外孙的女儿': '曾外孙女', '外孙女的儿子': '曾外孙', '外孙女的女儿': '曾外孙女',
+  '侄子的儿子': '侄孙', '侄子的女儿': '侄孙女', '侄女的儿子': '侄孙', '侄女的女儿': '侄孙女',
+  '外甥的儿子': '外甥孙', '外甥的女儿': '外甥孙女', '外甥女的儿子': '外甥孙', '外甥女的女儿': '外甥孙女',
+  '太爷爷的爸爸': '高祖父', '太爷爷的妈妈': '高祖母',
+  '太奶奶的爸爸': '高祖姥爷', '太奶奶的妈妈': '高祖姥姥',
+  '太姥爷的爸爸': '高祖姥爷', '太姥爷的妈妈': '高祖姥姥',
+  '太姥姥的爸爸': '高祖姥爷', '太姥姥的妈妈': '高祖姥姥',
+  '岳父的女儿': '妻子', '岳母的女儿': '妻子', '公公的儿子': '丈夫', '婆婆的儿子': '丈夫'
+};
 function kinTitle(chain, gender){
   if (chain.indexOf('丈夫') >= 0 && gender === 'male') return null;
   if (chain.indexOf('妻子') >= 0 && gender === 'female') return null;
   if (chain.indexOf('丈夫') >= 0 && chain.indexOf('妻子') >= 0) return null;
-  if (chain.length === 1) return chain[0];
-  if (chain.length === 2){
-    var t = KIN_TWO[chain[0] + '的' + chain[1]];
-    return t || null;
+  var cur = chain[0];
+  for (var i = 1; i < chain.length; i++){
+    var next = KIN_TWO[cur + '的' + chain[i]] || KIN_COMPOSE[cur + '的' + chain[i]];
+    if (!next) return null;
+    cur = next;
   }
-  if (chain.length === 3){
-    var first = KIN_TWO[chain[0] + '的' + chain[1]];
-    if (!first) return null;
-    if (first === '爷爷' || first === '奶奶'){
-      if (chain[2] === '爸爸') return '太爷爷';
-      if (chain[2] === '妈妈') return '太奶奶';
-    }
-    if (first === '外公' || first === '外婆'){
-      if (chain[2] === '爸爸') return '太姥爷';
-      if (chain[2] === '妈妈') return '太姥姥';
-    }
-    return null;
-  }
-  return null;
+  return cur;
 }
 function kinReverse(title, gender){
   var me = gender === 'male' ? '男' : '女';
@@ -1566,12 +1637,23 @@ function kinReverse(title, gender){
     '岳父': '女婿', '岳母': '女婿', '公公': '儿媳', '婆婆': '儿媳',
     '大舅子': '妹夫', '小舅子': '姐夫', '大姨子': '妹夫', '小姨子': '姐夫',
     '大伯子': '弟媳', '小叔子': '嫂子', '大姑子': '弟媳', '小姑子': '嫂子',
-    '嫂子': '小叔子', '弟媳': '大伯子', '姐夫': '小舅子', '妹夫': '大舅子'
+    '嫂子': '小叔子', '弟媳': '大伯子', '姐夫': '小舅子', '妹夫': '大舅子',
+    '太爷爷': (me === '男' ? '曾孙' : '曾孙女'), '太奶奶': (me === '男' ? '曾孙' : '曾孙女'),
+    '太姥爷': (me === '男' ? '曾外孙' : '曾外孙女'), '太姥姥': (me === '男' ? '曾外孙' : '曾外孙女'),
+    '高祖父': (me === '男' ? '玄孙' : '玄孙女'), '高祖母': (me === '男' ? '玄孙' : '玄孙女'),
+    '高祖姥爷': (me === '男' ? '玄外孙' : '玄外孙女'), '高祖姥姥': (me === '男' ? '玄外孙' : '玄外孙女'),
+    '伯公': (me === '男' ? '侄孙' : '侄孙女'), '叔公': (me === '男' ? '侄孙' : '侄孙女'), '姑婆': (me === '男' ? '侄孙' : '侄孙女'),
+    '舅公': (me === '男' ? '外甥孙' : '外甥孙女'), '姨婆': (me === '男' ? '外甥孙' : '外甥孙女'),
+    '伯母': (me === '男' ? '侄子' : '侄女'), '婶婶': (me === '男' ? '侄子' : '侄女'), '姑父': (me === '男' ? '侄子' : '侄女'),
+    '舅妈': (me === '男' ? '外甥' : '外甥女'), '姨父': (me === '男' ? '外甥' : '外甥女'),
+    '曾孙': (gender === 'male' ? '太爷爷' : '太奶奶'), '曾孙女': (gender === 'male' ? '太爷爷' : '太奶奶'),
+    '曾外孙': (gender === 'male' ? '太姥爷' : '太姥姥'), '曾外孙女': (gender === 'male' ? '太姥爷' : '太姥姥'),
+    '堂哥或堂弟': '堂哥或堂弟', '堂姐或堂妹': '堂姐或堂妹', '表哥或表弟': '表哥或表弟', '表姐或表妹': '表姐或表妹'
   };
   return map[title] || null;
 }
 function kinAdd(step){
-  if (kinChain.length >= 3){ el('kinResult').textContent = '链已经 3 节了，点“重选”再来。'; return; }
+  if (kinChain.length >= 6){ el('kinResult').textContent = '链已经 6 节了，点“重选”再来。'; return; }
   kinChain.push(step);
   el('kinChain').textContent = '我' + kinChain.map(function(s){ return '的' + s; }).join('');
   var gender = el('kinGender').value;
