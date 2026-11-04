@@ -54,17 +54,23 @@ button{box-shadow:0 1px 3px rgba(9,105,218,.25)}
 .clockgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
 .clockcell{background:#f6f8fb;border:1px solid #e2e8f0;border-radius:10px;padding:10px;text-align:center;font-size:15px}
 #imgPreview img{margin-top:10px}
+.card-hero{border:2px solid #0969da !important;background:linear-gradient(180deg,#eef5ff,#fff) !important;box-shadow:0 4px 16px rgba(9,105,218,.18) !important}
+.card-hero h2{font-size:24px}
+.card-hero button{font-size:18px;padding:12px 26px}
+.donate-box{border:2px dashed #ccd6e0;border-radius:12px;padding:28px 16px;text-align:center;color:#888;background:#fbfcfe}
+.ledger-row,.habit-row,.cd-row{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap}
+.ledger-row span,.habit-row span,.cd-row span{flex:1;word-break:break-all}
 </style>
 </head>
 <body>
 <h1>🛠️ 免费小工具站</h1>
 <p>这是一个人人可访问的轻量网站：不用注册、不用登录，有网就能打开使用。所有工具都在你的浏览器里运行，不上传任何数据。</p>
 
-<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#appleIdCard">海外 Apple ID 教程</a></div>
+<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#donateCard">打赏</a></div>
 
-<div class="card" id="installCard">
-<h2>📲 装到手机桌面</h2>
-<p class="note">装好后像 App 一样从桌面打开，不用每次搜网址；断网也能玩小恐龙，传文件时仍需联网。</p>
+<div class="card card-hero" id="installCard">
+<h2>📲 装到手机桌面 ⭐ 本站能不能用上，关键就这一步</h2>
+<p><b>装好后像 App 一样从桌面打开，不用每次搜网址；断网也能玩小恐龙，传文件时仍需联网。</b></p>
 <button id="btnInstall">安装到桌面</button>
 <p id="installHelp" class="note"></p>
 </div>
@@ -238,8 +244,116 @@ button{box-shadow:0 1px 3px rgba(9,105,218,.25)}
 <p class="note">教程整理自苹果官方流程与公开教程，2026-10-31；注册本身免费，花钱的只有之后你自己决定买的付费内容。</p>
 </div>
 
+<div class="card" id="todayCard">
+<h2>📌 今日总览</h2>
+<p id="todaySummary" class="status">正在汇总…</p>
+<p class="note">倒数日和打卡只存在你这台设备上，清缓存会丢，重要内容记得导出或记下来。</p>
+</div>
+
+<div class="card" id="pdfCard">
+<h2>📄 PDF 工具 · 合并、拆分、图片转 PDF</h2>
+<p class="note">全部在浏览器本地处理，不上传文件。首次使用需联网加载一次 PDF 组件，之后断网也能用已加载的页面。</p>
+<h3>合并 PDF</h3>
+<p><input type="file" id="pdfMergeInput" accept="application/pdf" multiple></p>
+<div id="pdfMergeList"></div>
+<p><button onclick="mergePdfs()">合并并下载</button> <span id="pdfMergeMsg" class="note"></span></p>
+<h3>拆分 PDF</h3>
+<p><input type="file" id="pdfSplitInput" accept="application/pdf"></p>
+<p><input id="pdfSplitPages" placeholder="页码，如 1-3,5（从 1 开始数）" style="width:260px"> <button onclick="splitPdf()">拆分并下载</button></p>
+<p id="pdfSplitMsg" class="note"></p>
+<h3>图片转 PDF</h3>
+<p><input type="file" id="pdfImgInput" accept="image/*" multiple></p>
+<p><button onclick="imgsToPdf()">生成 PDF 并下载</button> <span id="pdfImgMsg" class="note"></span></p>
+<p id="pdfLibNote" class="note"></p>
+</div>
+
+<div class="card" id="idPhotoCard">
+<h2>🪪 证件照制作 · 裁剪 + 排版打印</h2>
+<p><input type="file" id="idPhotoInput" accept="image/*"></p>
+<p><label>尺寸 <select id="idPhotoSize"><option value="295,413">一寸 25×35mm</option><option value="260,378">小一寸 22×32mm</option><option value="390,567">大一寸 33×48mm</option><option value="413,579">两寸 35×49mm</option></select></label>　<label>排版底色 <select id="idPhotoBg"><option value="#ffffff">白色</option><option value="#ff0000">红色</option><option value="#0000ff">蓝色</option></select></label></p>
+<p><button onclick="makeIdPhoto()">生成单张 + 排版图</button></p>
+<div id="idPhotoOut"></div>
+<p class="note">说明：本工具只按比例居中裁剪，不抠图换底——照片本身的底色不会变；底色选项只用于排版图的底衬。排版图按 6 寸（1800×1200）排满，拿去打印店直接打就行。</p>
+</div>
+
+<div class="card" id="ledgerCard">
+<h2>💰 记一笔 · 本地记账</h2>
+<p><input type="date" id="ledDate"> <select id="ledType"><option value="支">支出</option><option value="收">收入</option></select> <input type="number" id="ledAmount" placeholder="金额" style="width:100px"> <select id="ledCat"><option>餐饮</option><option>交通</option><option>购物</option><option>居住</option><option>工资</option><option>其他</option></select></p>
+<p><input id="ledNote" placeholder="备注（可选）" style="width:70%"> <button onclick="addLedger()">记下</button></p>
+<p id="ledSummary" class="status"></p>
+<div id="ledList"></div>
+<p><button onclick="exportLedgerCsv()">导出 CSV</button> <span class="note">数据只存在这台设备，清缓存会丢，定期导出备份。</span></p>
+</div>
+
+<div class="card" id="habitCard">
+<h2>✅ 习惯打卡</h2>
+<p><input id="habitInput" placeholder="比如：每天读书 20 分钟" style="width:70%"> <button onclick="addHabit()">添加习惯</button></p>
+<div id="habitList"></div>
+<p class="note">连续天数从昨天往前数：今天还没打卡不算断，昨天没打就是断了。</p>
+</div>
+
+<div class="card" id="countdownCard">
+<h2>⏳ 倒数日</h2>
+<p><input id="cdName" placeholder="比如：发工资" style="width:40%"> <input type="date" id="cdDate"> <button onclick="addCountdown()">添加</button></p>
+<div id="cdList"></div>
+</div>
+
+<div class="card" id="kinCard">
+<h2>👨‍👩‍👧 亲戚称呼计算器</h2>
+<p><label>我是 <select id="kinGender"><option value="male">男</option><option value="female">女</option></select></label></p>
+<p id="kinChain" class="status">还没选关系</p>
+<p><button onclick="kinAdd('爸爸')">爸爸</button><button onclick="kinAdd('妈妈')">妈妈</button><button onclick="kinAdd('哥哥')">哥哥</button><button onclick="kinAdd('弟弟')">弟弟</button><button onclick="kinAdd('姐姐')">姐姐</button><button onclick="kinAdd('妹妹')">妹妹</button><button onclick="kinAdd('丈夫')">丈夫</button><button onclick="kinAdd('妻子')">妻子</button><button onclick="kinAdd('儿子')">儿子</button><button onclick="kinAdd('女儿')">女儿</button><button onclick="kinClear()">重选</button></p>
+<p id="kinResult"></p>
+<p class="note">常见关系能算；太复杂的组合会直接说算不出，不瞎编。对方怎么称呼我只支持部分常见关系。</p>
+</div>
+
+<div class="card" id="loanCard">
+<h2>🏠 房贷计算器</h2>
+<p><input type="number" id="loanAmount" placeholder="贷款总额（万元）" style="width:150px"> <input type="number" id="loanRate" placeholder="年利率 %，如 3.1" step="0.01" style="width:150px"> <input type="number" id="loanYears" placeholder="年限，如 30" style="width:100px"></p>
+<p><label>方式 <select id="loanType"><option value="equal">等额本息</option><option value="principal">等额本金</option></select></label> <button onclick="calcLoan()">算一下</button></p>
+<p id="loanResult" class="status"></p>
+<p class="note">按常见公式估算，实际以银行合同为准；利率填商贷、公积金或组合的加权利率。</p>
+</div>
+
+<div class="card" id="taxCard">
+<h2>🧾 个税估算（单月）</h2>
+<p><input type="number" id="taxSalary" placeholder="月薪（税前，元）" style="width:150px"> <input type="number" id="taxSocial" placeholder="社保公积金月缴（元）" style="width:170px"> <input type="number" id="taxExtra" placeholder="专项附加扣除（元）" style="width:170px"></p>
+<p><button onclick="calcTax()">算一下</button></p>
+<p id="taxResult" class="status"></p>
+<p class="note">单月简算：月薪 − 5000 − 社保公积金 − 专项附加扣除后按月税率表算；实际个税按全年累计预扣，年度汇算多退少补。</p>
+</div>
+
+<div class="card" id="leaveCard">
+<h2>🏖️ 年假计算器</h2>
+<p><input type="number" id="leaveYears" placeholder="累计工作年数（含以前单位）" style="width:220px"> <button onclick="calcLeave()">算一下</button></p>
+<p id="leaveResult" class="status"></p>
+<p class="note">满 1 年不满 10 年 5 天；满 10 年不满 20 年 10 天；满 20 年 15 天；不满 1 年没有年假。</p>
+</div>
+
+<div class="card" id="retireCard">
+<h2>👴 退休年龄估算</h2>
+<p><input type="month" id="retireBirth"> <select id="retireType"><option value="male">男职工</option><option value="femaleCadre">女干部</option><option value="femaleWorker">女工人</option></select> <button onclick="calcRetire()">算一下</button></p>
+<p id="retireResult" class="status"></p>
+<p class="note">按渐进式延迟退休改革节奏估算（男每 4 个月延 1 个月、上限 63 岁；女干部每 4 个月延 1 个月、上限 58 岁；女工人每 2 个月延 1 个月、上限 55 岁），精确结果以人社部门测算为准。</p>
+</div>
+
+<div class="card" id="pwdCard">
+<h2>🔑 随机密码生成器</h2>
+<p><label>长度 <select id="pwdLen"><option>8</option><option selected>12</option><option>16</option><option>20</option><option>32</option></select></label> <label><input type="checkbox" id="pwdUpper" checked> 大写</label> <label><input type="checkbox" id="pwdLower" checked> 小写</label> <label><input type="checkbox" id="pwdDigit" checked> 数字</label> <label><input type="checkbox" id="pwdSym" checked> 符号</label> <button onclick="genPwd()">生成</button></p>
+<p><input id="pwdOut" readonly style="width:70%;font-family:monospace"> <button onclick="copyPwd()">复制</button></p>
+<p id="pwdInfo" class="note"></p>
+</div>
+
+<div class="card" id="donateCard">
+<h2>❤️ 打赏支持</h2>
+<p>本站全部免费、不用注册。如果你觉得好用，欢迎打赏支持站长继续加工具：</p>
+<div class="donate-box">微信赞赏码 / 收款码图片位<br><span class="note">站长还没放上二维码，这里先留个位置</span></div>
+<p class="note">打赏纯属自愿，不打赏所有功能也一样全免费。</p>
+</div>
+
 <p class="note">本站托管于 GitHub Pages，完全免费。想加新工具，告诉站长一声即可。</p>
 
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
@@ -1127,6 +1241,408 @@ function loadWeatherGeo(){
   tick();
   setInterval(tick, 1000);
 })();
+
+</script>
+<script>
+/* ---- 2026-11-04 新增：PDF / 证件照 / 记账 / 打卡 / 倒数日 / 计算器 / 随机密码（全部本地运行） ---- */
+function el(id){ return document.getElementById(id); }
+function storeGet(k, fb){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; }catch(e){ return fb; } }
+function storeSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function todayStr(d){ d = d || new Date(); var m = d.getMonth() + 1, day = d.getDate(); return d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day); }
+function downloadBlob(blob, name){ var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 500); }
+
+/* ---------- PDF：合并 / 拆分 / 图片转 PDF（pdf-lib，需联网加载一次） ---------- */
+var pdfMergeFiles = [];
+function pdfReady(){
+  if (typeof PDFLib !== 'undefined') return true;
+  var n = el('pdfLibNote'); if (n) n.textContent = 'PDF 组件还没加载出来（需要联网加载一次），刷新页面再试。';
+  return false;
+}
+function renderMergeList(){
+  var box = el('pdfMergeList'); if (!box) return;
+  if (!pdfMergeFiles.length){ box.innerHTML = '<p class="note">还没选 PDF。</p>'; return; }
+  var html = '';
+  pdfMergeFiles.forEach(function(f, i){ html += '<div class="ledger-row"><span>' + (i + 1) + '. ' + f.name + '</span><button onclick="removeMergeFile(' + i + ')">去掉</button></div>'; });
+  box.innerHTML = html;
+}
+function removeMergeFile(i){ pdfMergeFiles.splice(i, 1); renderMergeList(); }
+var _mi = el('pdfMergeInput');
+if (_mi) _mi.addEventListener('change', function(){ for (var i = 0; i < _mi.files.length; i++) pdfMergeFiles.push(_mi.files[i]); renderMergeList(); _mi.value = ''; });
+async function mergePdfs(){
+  if (!pdfReady()) return;
+  if (pdfMergeFiles.length < 2){ el('pdfMergeMsg').textContent = '至少选 2 个 PDF 再合并。'; return; }
+  el('pdfMergeMsg').textContent = '正在合并…';
+  try{
+    var out = await PDFLib.PDFDocument.create();
+    for (var i = 0; i < pdfMergeFiles.length; i++){
+      var buf = await pdfMergeFiles[i].arrayBuffer();
+      var src = await PDFLib.PDFDocument.load(buf);
+      var pages = await out.copyPages(src, src.getPageIndices());
+      pages.forEach(function(p){ out.addPage(p); });
+    }
+    var bytes = await out.save();
+    downloadBlob(new Blob([bytes], {type: 'application/pdf'}), '合并.pdf');
+    el('pdfMergeMsg').textContent = '已合并 ' + pdfMergeFiles.length + ' 个文件。';
+  }catch(e){ el('pdfMergeMsg').textContent = '合并失败：文件可能损坏或不是标准 PDF。'; }
+}
+function parsePages(str, max){
+  var set = [], parts = str.split(',');
+  for (var i = 0; i < parts.length; i++){
+    var p = parts[i].trim(); if (!p) continue;
+    if (p.indexOf('-') > 0){ var a = p.split('-'); var s = parseInt(a[0], 10), e2 = parseInt(a[1], 10); for (var n = s; n <= e2; n++) if (n >= 1 && n <= max) set.push(n - 1); }
+    else { var n2 = parseInt(p, 10); if (n2 >= 1 && n2 <= max) set.push(n2 - 1); }
+  }
+  return set;
+}
+async function splitPdf(){
+  if (!pdfReady()) return;
+  var f = el('pdfSplitInput').files[0];
+  if (!f){ el('pdfSplitMsg').textContent = '先选一个 PDF。'; return; }
+  el('pdfSplitMsg').textContent = '正在拆分…';
+  try{
+    var src = await PDFLib.PDFDocument.load(await f.arrayBuffer());
+    var pages = parsePages(el('pdfSplitPages').value, src.getPageCount());
+    if (!pages.length){ el('pdfSplitMsg').textContent = '页码没解析出来，格式如 1-3,5，页数不能超过原文件。'; return; }
+    var out = await PDFLib.PDFDocument.create();
+    var copied = await out.copyPages(src, pages);
+    copied.forEach(function(p){ out.addPage(p); });
+    var bytes = await out.save();
+    downloadBlob(new Blob([bytes], {type: 'application/pdf'}), '拆分.pdf');
+    el('pdfSplitMsg').textContent = '已拆出 ' + pages.length + ' 页。';
+  }catch(e){ el('pdfSplitMsg').textContent = '拆分失败：文件可能损坏或不是标准 PDF。'; }
+}
+function loadImageFile(f){
+  return new Promise(function(res, rej){
+    var url = URL.createObjectURL(f); var img = new Image();
+    img.onload = function(){ URL.revokeObjectURL(url); res(img); };
+    img.onerror = function(){ rej(new Error('bad image')); };
+    img.src = url;
+  });
+}
+async function imgsToPdf(){
+  if (!pdfReady()) return;
+  var files = el('pdfImgInput').files;
+  if (!files.length){ el('pdfImgMsg').textContent = '先选图片。'; return; }
+  el('pdfImgMsg').textContent = '正在生成…';
+  try{
+    var out = await PDFLib.PDFDocument.create();
+    for (var i = 0; i < files.length; i++){
+      var img = await loadImageFile(files[i]);
+      var cv = document.createElement('canvas'); cv.width = img.naturalWidth; cv.height = img.naturalHeight;
+      cv.getContext('2d').drawImage(img, 0, 0);
+      var blob = await new Promise(function(r){ cv.toBlob(r, 'image/jpeg', 0.92); });
+      var buf = await blob.arrayBuffer();
+      var embedded = await out.embedJpg(buf);
+      var page = out.addPage([595.28, 841.89]);
+      var scale = Math.min(595.28 / embedded.width, 841.89 / embedded.height);
+      var w = embedded.width * scale, h = embedded.height * scale;
+      page.drawImage(embedded, {x: (595.28 - w) / 2, y: (841.89 - h) / 2, width: w, height: h});
+    }
+    var bytes = await out.save();
+    downloadBlob(new Blob([bytes], {type: 'application/pdf'}), '图片转PDF.pdf');
+    el('pdfImgMsg').textContent = '已生成 ' + files.length + ' 页。';
+  }catch(e){ el('pdfImgMsg').textContent = '生成失败：有图片读不出来，换一张再试。'; }
+}
+
+/* ---------- 证件照：居中裁剪 + 6 寸排版（不抠图换底） ---------- */
+async function makeIdPhoto(){
+  var f = el('idPhotoInput').files[0];
+  if (!f){ el('idPhotoOut').innerHTML = '<p class="note">先选一张照片。</p>'; return; }
+  var parts = el('idPhotoSize').value.split(',');
+  var tw = parseInt(parts[0], 10), th = parseInt(parts[1], 10);
+  try{
+    var img = await loadImageFile(f);
+    var targetRatio = tw / th, srcRatio = img.naturalWidth / img.naturalHeight;
+    var sw, sh, sx, sy;
+    if (srcRatio > targetRatio){ sh = img.naturalHeight; sw = sh * targetRatio; sx = (img.naturalWidth - sw) / 2; sy = 0; }
+    else { sw = img.naturalWidth; sh = sw / targetRatio; sx = 0; sy = (img.naturalHeight - sh) / 2; }
+    var cv = document.createElement('canvas'); cv.width = tw; cv.height = th;
+    cv.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, tw, th);
+    var singleUrl = cv.toDataURL('image/png');
+    var bg = el('idPhotoBg').value;
+    var sheet = document.createElement('canvas'); sheet.width = 1800; sheet.height = 1200;
+    var sctx = sheet.getContext('2d'); sctx.fillStyle = bg; sctx.fillRect(0, 0, 1800, 1200);
+    var cols = Math.floor(1800 / tw), rows = Math.floor(1200 / th);
+    var ox = Math.floor((1800 - cols * tw) / 2), oy = Math.floor((1200 - rows * th) / 2);
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) sctx.drawImage(cv, ox + c * tw, oy + r * th);
+    var sheetUrl = sheet.toDataURL('image/jpeg', 0.92);
+    el('idPhotoOut').innerHTML = '<p>单张（' + tw + '×' + th + 'px，300dpi 对应尺寸）：</p><p><img src="' + singleUrl + '" style="max-width:200px;border:1px solid #ddd"></p>' +
+      '<p><a href="' + singleUrl + '" download="证件照.png"><button>下载单张</button></a></p>' +
+      '<p>排版图（6 寸纸，' + cols + '×' + rows + ' = ' + (cols * rows) + ' 张）：</p><p><img src="' + sheetUrl + '" style="max-width:100%;border:1px solid #ddd"></p>' +
+      '<p><a href="' + sheetUrl + '" download="证件照排版图.jpg"><button>下载排版图</button></a></p>';
+  }catch(e){ el('idPhotoOut').innerHTML = '<p class="note">照片读不出来，换一张再试。</p>'; }
+}
+
+/* ---------- 记账 ---------- */
+function renderLedger(){
+  var list = storeGet('ft_ledger', []);
+  var box = el('ledList'), sum = el('ledSummary');
+  var now = new Date(), mm = now.getMonth() + 1;
+  var ym = now.getFullYear() + '-' + (mm < 10 ? '0' + mm : mm);
+  var inc = 0, exp = 0;
+  list.forEach(function(it){ if (it.date.slice(0, 7) === ym){ if (it.type === '收') inc += it.amount; else exp += it.amount; } });
+  sum.textContent = '本月：收入 ' + inc.toFixed(2) + ' 元，支出 ' + exp.toFixed(2) + ' 元，结余 ' + (inc - exp).toFixed(2) + ' 元';
+  if (!list.length){ box.innerHTML = '<p class="note">还没记过账。</p>'; return; }
+  var html = '';
+  list.slice().reverse().forEach(function(it, ri){
+    var idx = list.length - 1 - ri;
+    html += '<div class="ledger-row"><span>' + it.date + '　' + it.type + ' ' + it.amount.toFixed(2) + ' 元　' + it.cat + (it.note ? '　' + it.note : '') + '</span><button onclick="delLedger(' + idx + ')">删除</button></div>';
+  });
+  box.innerHTML = html;
+}
+function delLedger(i){ var list = storeGet('ft_ledger', []); list.splice(i, 1); storeSet('ft_ledger', list); renderLedger(); }
+function addLedger(){
+  var date = el('ledDate').value || todayStr();
+  var amount = parseFloat(el('ledAmount').value);
+  if (!amount || amount <= 0){ alert('金额填一下，要大于 0。'); return; }
+  var list = storeGet('ft_ledger', []);
+  list.push({date: date, type: el('ledType').value, amount: amount, cat: el('ledCat').value, note: el('ledNote').value.trim()});
+  storeSet('ft_ledger', list);
+  el('ledAmount').value = ''; el('ledNote').value = '';
+  renderLedger();
+}
+function exportLedgerCsv(){
+  var list = storeGet('ft_ledger', []);
+  if (!list.length){ alert('还没记过账，没什么可导出的。'); return; }
+  var csv = '\ufeff日期,类型,金额,分类,备注\n';
+  list.forEach(function(it){ csv += it.date + ',' + it.type + ',' + it.amount + ',' + it.cat + ',' + it.note.replace(/,/g, '，') + '\n'; });
+  downloadBlob(new Blob([csv], {type: 'text/csv'}), '记账.csv');
+}
+var _ld = el('ledDate'); if (_ld && !_ld.value) _ld.value = todayStr();
+
+/* ---------- 习惯打卡 ---------- */
+function habitStreak(days){
+  var set = {}; days.forEach(function(d){ set[d] = true; });
+  var d = new Date();
+  if (!set[todayStr(d)]) d.setDate(d.getDate() - 1);
+  var n = 0;
+  while (set[todayStr(d)]){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function renderHabits(){
+  var list = storeGet('ft_habits', []);
+  var box = el('habitList');
+  if (!list.length){ box.innerHTML = '<p class="note">还没添加习惯。</p>'; renderToday(); return; }
+  var html = '';
+  list.forEach(function(h, i){
+    var done = h.days.indexOf(todayStr()) >= 0;
+    html += '<div class="habit-row"><span>' + h.name + '　连续 ' + habitStreak(h.days) + ' 天，累计 ' + h.days.length + ' 天</span>' +
+      (done ? '<span class="note">今日已打卡 ✓</span>' : '<button onclick="checkHabit(' + i + ')">今日打卡</button>') +
+      '<button onclick="delHabit(' + i + ')">删除</button></div>';
+  });
+  box.innerHTML = html;
+  renderToday();
+}
+function addHabit(){
+  var name = el('habitInput').value.trim();
+  if (!name) return;
+  var list = storeGet('ft_habits', []);
+  list.push({name: name, days: []});
+  storeSet('ft_habits', list);
+  el('habitInput').value = '';
+  renderHabits();
+}
+function checkHabit(i){ var list = storeGet('ft_habits', []); if (list[i].days.indexOf(todayStr()) < 0) list[i].days.push(todayStr()); storeSet('ft_habits', list); renderHabits(); }
+function delHabit(i){ var list = storeGet('ft_habits', []); list.splice(i, 1); storeSet('ft_habits', list); renderHabits(); }
+
+/* ---------- 倒数日 ---------- */
+function renderCountdowns(){
+  var list = storeGet('ft_countdowns', []);
+  var box = el('cdList');
+  if (!list.length){ box.innerHTML = '<p class="note">还没添加倒数日。</p>'; renderToday(); return; }
+  var now = new Date(); now.setHours(0, 0, 0, 0);
+  var sorted = list.map(function(it, i){ return {it: it, i: i}; }).sort(function(a, b){ return a.it.date < b.it.date ? -1 : 1; });
+  var html = '';
+  sorted.forEach(function(o){
+    var target = new Date(o.it.date + 'T00:00:00');
+    var diff = Math.ceil((target - now) / 86400000);
+    var txt = diff > 0 ? '还有 ' + diff + ' 天' : (diff === 0 ? '就是今天' : '已过 ' + (-diff) + ' 天');
+    html += '<div class="cd-row"><span>' + o.it.name + '（' + o.it.date + '）　<b>' + txt + '</b></span><button onclick="delCountdown(' + o.i + ')">删除</button></div>';
+  });
+  box.innerHTML = html;
+  renderToday();
+}
+function addCountdown(){
+  var name = el('cdName').value.trim(), date = el('cdDate').value;
+  if (!name || !date){ alert('名字和日期都填一下。'); return; }
+  var list = storeGet('ft_countdowns', []);
+  list.push({name: name, date: date});
+  storeSet('ft_countdowns', list);
+  el('cdName').value = ''; el('cdDate').value = '';
+  renderCountdowns();
+}
+function delCountdown(i){ var list = storeGet('ft_countdowns', []); list.splice(i, 1); storeSet('ft_countdowns', list); renderCountdowns(); }
+
+/* ---------- 今日总览 ---------- */
+function renderToday(){
+  var box = el('todaySummary'); if (!box) return;
+  var cds = storeGet('ft_countdowns', []);
+  var now = new Date(); now.setHours(0, 0, 0, 0);
+  var future = cds.map(function(it){ return {it: it, diff: Math.ceil((new Date(it.date + 'T00:00:00') - now) / 86400000)}; }).filter(function(o){ return o.diff >= 0; }).sort(function(a, b){ return a.diff - b.diff; });
+  var cdTxt = future.length ? '最近倒数：' + future[0].it.name + '还有 ' + future[0].diff + ' 天' : '还没设倒数日';
+  var habits = storeGet('ft_habits', []);
+  var done = habits.filter(function(h){ return h.days.indexOf(todayStr()) >= 0; }).length;
+  box.textContent = cdTxt + '。打卡今日 ' + done + ' / ' + habits.length + ' 个习惯已完成。';
+}
+
+/* ---------- 亲戚称呼（常见关系；复杂组合直接说算不出） ---------- */
+var kinChain = [];
+var KIN_TWO = {
+  '爸爸的爸爸': '爷爷', '爸爸的妈妈': '奶奶', '妈妈的爸爸': '外公', '妈妈的妈妈': '外婆',
+  '爸爸的哥哥': '伯伯', '爸爸的弟弟': '叔叔', '爸爸的姐姐': '姑姑', '爸爸的妹妹': '姑姑',
+  '妈妈的哥哥': '舅舅', '妈妈的弟弟': '舅舅', '妈妈的姐姐': '姨妈', '妈妈的妹妹': '小姨',
+  '哥哥的儿子': '侄子', '哥哥的女儿': '侄女', '弟弟的儿子': '侄子', '弟弟的女儿': '侄女',
+  '姐姐的儿子': '外甥', '姐姐的女儿': '外甥女', '妹妹的儿子': '外甥', '妹妹的女儿': '外甥女',
+  '儿子的儿子': '孙子', '儿子的女儿': '孙女', '女儿的儿子': '外孙', '女儿的女儿': '外孙女',
+  '妻子的爸爸': '岳父', '妻子的妈妈': '岳母', '妻子的哥哥': '大舅子', '妻子的弟弟': '小舅子', '妻子的姐姐': '大姨子', '妻子的妹妹': '小姨子',
+  '丈夫的爸爸': '公公', '丈夫的妈妈': '婆婆', '丈夫的哥哥': '大伯子', '丈夫的弟弟': '小叔子', '丈夫的姐姐': '大姑子', '丈夫的妹妹': '小姑子',
+  '哥哥的妻子': '嫂子', '弟弟的妻子': '弟媳', '姐姐的丈夫': '姐夫', '妹妹的丈夫': '妹夫'
+};
+function kinTitle(chain, gender){
+  if (chain.indexOf('丈夫') >= 0 && gender === 'male') return null;
+  if (chain.indexOf('妻子') >= 0 && gender === 'female') return null;
+  if (chain.indexOf('丈夫') >= 0 && chain.indexOf('妻子') >= 0) return null;
+  if (chain.length === 1) return chain[0];
+  if (chain.length === 2){
+    var t = KIN_TWO[chain[0] + '的' + chain[1]];
+    return t || null;
+  }
+  if (chain.length === 3){
+    var first = KIN_TWO[chain[0] + '的' + chain[1]];
+    if (!first) return null;
+    if (first === '爷爷' || first === '奶奶'){
+      if (chain[2] === '爸爸') return '太爷爷';
+      if (chain[2] === '妈妈') return '太奶奶';
+    }
+    if (first === '外公' || first === '外婆'){
+      if (chain[2] === '爸爸') return '太姥爷';
+      if (chain[2] === '妈妈') return '太姥姥';
+    }
+    return null;
+  }
+  return null;
+}
+function kinReverse(title, gender){
+  var me = gender === 'male' ? '男' : '女';
+  var map = {
+    '爸爸': (me === '男' ? '儿子' : '女儿'), '妈妈': (me === '男' ? '儿子' : '女儿'),
+    '哥哥': (me === '男' ? '弟弟' : '妹妹'), '弟弟': (me === '男' ? '哥哥' : '姐姐'),
+    '姐姐': (me === '男' ? '弟弟' : '妹妹'), '妹妹': (me === '男' ? '哥哥' : '姐姐'),
+    '儿子': (gender === 'male' ? '爸爸' : '妈妈'), '女儿': (gender === 'male' ? '爸爸' : '妈妈'),
+    '丈夫': '妻子', '妻子': '丈夫',
+    '爷爷': (me === '男' ? '孙子' : '孙女'), '奶奶': (me === '男' ? '孙子' : '孙女'),
+    '外公': (me === '男' ? '外孙' : '外孙女'), '外婆': (me === '男' ? '外孙' : '外孙女'),
+    '伯伯': (me === '男' ? '侄子' : '侄女'), '叔叔': (me === '男' ? '侄子' : '侄女'), '姑姑': (me === '男' ? '侄子' : '侄女'),
+    '舅舅': (me === '男' ? '外甥' : '外甥女'), '姨妈': (me === '男' ? '外甥' : '外甥女'), '小姨': (me === '男' ? '外甥' : '外甥女'),
+    '岳父': '女婿', '岳母': '女婿', '公公': '儿媳', '婆婆': '儿媳',
+    '大舅子': '妹夫', '小舅子': '姐夫', '大姨子': '妹夫', '小姨子': '姐夫',
+    '大伯子': '弟媳', '小叔子': '嫂子', '大姑子': '弟媳', '小姑子': '嫂子',
+    '嫂子': '小叔子', '弟媳': '大伯子', '姐夫': '小舅子', '妹夫': '大舅子'
+  };
+  return map[title] || null;
+}
+function kinAdd(step){
+  if (kinChain.length >= 3){ el('kinResult').textContent = '链已经 3 节了，点“重选”再来。'; return; }
+  kinChain.push(step);
+  el('kinChain').textContent = '我' + kinChain.map(function(s){ return '的' + s; }).join('');
+  var gender = el('kinGender').value;
+  var title = kinTitle(kinChain, gender);
+  if (!title){ el('kinResult').textContent = '这个组合比较复杂，暂不支持，换短一点的链试试。'; return; }
+  var rev = kinReverse(title, gender);
+  el('kinResult').innerHTML = '你应该称呼对方：<b>' + title + '</b>' + (rev ? '<br>对方称呼你：<b>' + rev + '</b>' : '<br><span class="note">对方怎么称呼你，这个组合暂不支持。</span>');
+}
+function kinClear(){ kinChain = []; el('kinChain').textContent = '还没选关系'; el('kinResult').textContent = ''; }
+
+/* ---------- 房贷 ---------- */
+function calcLoan(){
+  var P = parseFloat(el('loanAmount').value) * 10000;
+  var rate = parseFloat(el('loanRate').value) / 100;
+  var n = parseFloat(el('loanYears').value) * 12;
+  if (!P || !rate || !n){ el('loanResult').textContent = '三个数都填一下。'; return; }
+  var r = rate / 12;
+  if (el('loanType').value === 'equal'){
+    var m = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    el('loanResult').textContent = '等额本息：每月还 ' + m.toFixed(2) + ' 元，总利息 ' + (m * n - P).toFixed(2) + ' 元，本息合计 ' + (m * n).toFixed(2) + ' 元。';
+  } else {
+    var first = P / n + P * r, dec = P / n * r, totalInt = (n + 1) * P * r / 2;
+    el('loanResult').textContent = '等额本金：首月还 ' + first.toFixed(2) + ' 元，每月递减 ' + dec.toFixed(2) + ' 元，总利息 ' + totalInt.toFixed(2) + ' 元，本息合计 ' + (P + totalInt).toFixed(2) + ' 元。';
+  }
+}
+
+/* ---------- 个税（单月简算） ---------- */
+function calcTax(){
+  var salary = parseFloat(el('taxSalary').value) || 0;
+  var social = parseFloat(el('taxSocial').value) || 0;
+  var extra = parseFloat(el('taxExtra').value) || 0;
+  var base = salary - 5000 - social - extra;
+  if (base <= 0){ el('taxResult').textContent = '应纳税所得额 ≤ 0，不用缴个税。'; return; }
+  var table = [[3000, 0.03, 0], [12000, 0.10, 210], [25000, 0.20, 1410], [35000, 0.25, 2660], [55000, 0.30, 4410], [80000, 0.35, 7160], [Infinity, 0.45, 15160]];
+  var row = table[table.length - 1];
+  for (var j = 0; j < table.length; j++) if (base <= table[j][0]){ row = table[j]; break; }
+  var tax = base * row[1] - row[2];
+  el('taxResult').textContent = '应纳税所得额 ' + base.toFixed(2) + ' 元，适用税率 ' + (row[1] * 100) + '%，本月个税约 ' + tax.toFixed(2) + ' 元，到手约 ' + (salary - social - tax).toFixed(2) + ' 元。';
+}
+
+/* ---------- 年假 ---------- */
+function calcLeave(){
+  var y = parseFloat(el('leaveYears').value);
+  if (isNaN(y) || y < 0){ el('leaveResult').textContent = '工龄填一下（年数）。'; return; }
+  var d = y < 1 ? 0 : (y < 10 ? 5 : (y < 20 ? 10 : 15));
+  el('leaveResult').textContent = d === 0 ? '累计不满 1 年，没有年假。' : '当年年假 ' + d + ' 天。';
+}
+
+/* ---------- 退休年龄（渐进延迟估算） ---------- */
+function addMonths(date, months){
+  var y = date.getFullYear(), m = date.getMonth() + months;
+  y += Math.floor(m / 12); m = m % 12;
+  return y + '年' + (m + 1) + '月';
+}
+function calcRetire(){
+  var v = el('retireBirth').value, type = el('retireType').value;
+  if (!v){ el('retireResult').textContent = '出生年月选一下。'; return; }
+  var parts = v.split('-'), by = parseInt(parts[0], 10), bm = parseInt(parts[1], 10);
+  var baseAge, baseYm, step, cap;
+  if (type === 'male'){ baseAge = 720; baseYm = 1965 * 12 + 1; step = 4; cap = 36; }
+  else if (type === 'femaleCadre'){ baseAge = 660; baseYm = 1970 * 12 + 1; step = 4; cap = 36; }
+  else { baseAge = 600; baseYm = 1975 * 12 + 1; step = 2; cap = 60; }
+  var birthYm = by * 12 + bm;
+  var delay = 0;
+  if (birthYm >= baseYm) delay = Math.min(cap, Math.floor((birthYm - baseYm) / step));
+  var total = baseAge + delay;
+  var years = Math.floor(total / 12), months = total % 12;
+  var retireDate = addMonths(new Date(by, bm - 1, 1), total);
+  el('retireResult').textContent = '估算退休年龄 ' + years + ' 岁' + (months ? months + ' 个月' : '') + '，约 ' + retireDate + ' 退休。';
+}
+
+/* ---------- 随机密码 ---------- */
+function genPwd(){
+  var len = parseInt(el('pwdLen').value, 10);
+  var pool = '';
+  if (el('pwdUpper').checked) pool += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  if (el('pwdLower').checked) pool += 'abcdefghijkmnpqrstuvwxyz';
+  if (el('pwdDigit').checked) pool += '23456789';
+  if (el('pwdSym').checked) pool += '!@#$%^&*';
+  if (!pool){ el('pwdInfo').textContent = '至少勾一种字符。'; return; }
+  var arr = new Uint32Array(len);
+  crypto.getRandomValues(arr);
+  var out = '';
+  for (var i = 0; i < len; i++) out += pool[arr[i] % pool.length];
+  el('pwdOut').value = out;
+  var entropy = (len * Math.log2(pool.length)).toFixed(0);
+  el('pwdInfo').textContent = '约 ' + entropy + ' 比特熵（随机数来自设备加密随机源）。密码只在你这台设备生成，不上传。';
+}
+function copyPwd(){
+  var o = el('pwdOut');
+  if (!o.value) return;
+  o.select();
+  try{ document.execCommand('copy'); el('pwdInfo').textContent = '已复制。'; }catch(e){}
+}
+
+/* ---------- 初始化 ---------- */
+renderLedger();
+renderHabits();
+renderCountdowns();
+renderMergeList();
 
 </script>
 </body>
