@@ -5,68 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>免费小工具站</title>
 <meta name="theme-color" content="#0969da">
+<script>try{var _t=localStorage.getItem('ft_theme');if(_t!=='apple'&&_t!=='spotify')_t=null;if(!_t){var _h=new Date().getHours();_t=(_h>=6&&_h<18)?'apple':'spotify';}document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
+
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<style>
-body{font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:760px;margin:0 auto;padding:24px 16px;color:#222;line-height:1.7}
-h1{font-size:26px} h2{font-size:20px;margin-top:36px;border-top:1px solid #ddd;padding-top:16px}
-.card{border:1px solid #ddd;border-radius:12px;padding:16px;margin:16px 0}
+<style>:root{
+--bg:#f5f5f7;--card-bg:#ffffff;--bg-soft:#fbfcfe;--text:#1d1d1f;--muted:#86868b;
+--border:#e2e8f0;--border-soft:#f0f0f0;--accent:#0071e3;--accent-soft:#eef5ff;
+--card-shadow:0 2px 10px rgba(0,0,0,.06);--btn-shadow:0 1px 3px rgba(0,113,227,.25);
+--hero-grad:linear-gradient(180deg,#eef5ff,#fff);--hero-shadow:0 4px 16px rgba(0,113,227,.18);
+--cell-bg:#f5f5f7;--input-bg:#ffffff;--link:#0066cc;
+}
+[data-theme="spotify"]{
+--bg:#121212;--card-bg:#1e1e1e;--bg-soft:#181818;--text:#ffffff;--muted:#b3b3b3;
+--border:#2a2a2a;--border-soft:#2a2a2a;--accent:#1db954;--accent-soft:#1a2e22;
+--card-shadow:0 2px 10px rgba(0,0,0,.4);--btn-shadow:0 1px 3px rgba(0,0,0,.4);
+--hero-grad:linear-gradient(180deg,#1a2e22,#1e1e1e);--hero-shadow:0 4px 16px rgba(0,0,0,.5);
+--cell-bg:#2a2a2a;--input-bg:#2a2a2a;--link:#1db954;
+}
+a{color:var(--link)}
+
+body{font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:760px;margin:0 auto;padding:24px 16px;color:var(--text);line-height:1.7}
+h1{font-size:26px} h2{font-size:20px;margin-top:36px;border-top:1px solid var(--border);padding-top:16px}
+.card{border:1px solid var(--border);border-radius:12px;padding:16px;margin:16px 0}
 label{margin-right:12px} input{padding:6px}
-button{padding:8px 16px;border:0;border-radius:8px;background:#0969da;color:#fff;cursor:pointer;margin:4px 4px 4px 0}
+button{padding:8px 16px;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;margin:4px 4px 4px 0}
 button:active{opacity:.8} button:disabled{background:#999;cursor:not-allowed}
 textarea{width:100%;min-height:140px;box-sizing:border-box;padding:10px;font-size:14px}
-table{border-collapse:collapse;margin-top:12px} td,th{border:1px solid #999;padding:6px 12px}
-.note{color:#666;font-size:14px}
-#dinoCanvas{width:100%;max-width:700px;height:auto;display:block;background:#fff;border:1px solid #ddd;border-radius:8px;cursor:pointer;touch-action:manipulation}
-#flappyCanvas{width:100%;max-width:700px;height:auto;display:block;background:#8ecdf0;border:1px solid #ddd;border-radius:8px;cursor:pointer;touch-action:manipulation}
+table{border-collapse:collapse;margin-top:12px} td,th{border:1px solid var(--border);padding:6px 12px}
+.note{color:var(--muted);font-size:14px}
+#dinoCanvas{width:100%;max-width:700px;height:auto;display:block;background:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;touch-action:manipulation}
+#flappyCanvas{width:100%;max-width:700px;height:auto;display:block;background:#8ecdf0;border:1px solid var(--border);border-radius:8px;cursor:pointer;touch-action:manipulation}
 #genQrcode{margin:12px 0}
 #genQrcode img,#genQrcode canvas{display:block}
-.status{font-weight:bold;color:#0969da}
+.status{font-weight:bold;color:var(--accent)}
 progress{width:100%;height:18px}
 #roomCode{font-size:28px;letter-spacing:4px;font-weight:bold}
 #qrcode{margin:12px 0}
 #qrcode img,#qrcode canvas{display:block}
-#dropZone{border:2px dashed #0969da;border-radius:12px;padding:24px;text-align:center;color:#555;margin:12px 0}
-#dropZone.over{background:#eef5ff}
+#dropZone{border:2px dashed var(--accent);border-radius:12px;padding:24px;text-align:center;color:var(--muted);margin:12px 0}
+#dropZone.over{background:var(--accent-soft)}
 .dl a{display:block;margin:6px 0}
 #roomInput{width:160px;font-size:18px;letter-spacing:2px}
 /* ---- 2026-11-02 美化与新功能样式（不改原有结构与 id） ---- */
-body{background:#f6f8fb}
+body{background:var(--bg)}
 h1{font-size:30px;letter-spacing:1px}
 h2{border-top:0;padding-top:0}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 2px 10px rgba(9,105,218,.06);padding:20px}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;box-shadow:var(--card-shadow);padding:20px}
 .card h2{font-size:21px;margin:0 0 10px}
 .card h3{font-size:17px;margin:18px 0 8px}
 .nav{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
-.nav a{display:inline-block;padding:6px 12px;border-radius:999px;background:#eef5ff;color:#0969da;text-decoration:none;font-size:14px}
+.nav a{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);text-decoration:none;font-size:14px}
 .nav a:active{opacity:.7}
-input,select{border:1px solid #ccd6e0;border-radius:8px}
-textarea{border:1px solid #ccd6e0;border-radius:10px}
-button{box-shadow:0 1px 3px rgba(9,105,218,.25)}
-.chatbox{border:1px solid #e2e8f0;border-radius:10px;padding:10px;max-height:220px;overflow:auto;background:#fbfcfe;margin-top:10px}
-.msg{padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:15px;word-break:break-all}
+input,select{border:1px solid var(--border);border-radius:8px}
+textarea{border:1px solid var(--border);border-radius:10px}
+button{box-shadow:var(--btn-shadow)}
+.chatbox{border:1px solid var(--border);border-radius:10px;padding:10px;max-height:220px;overflow:auto;background:var(--bg-soft);margin-top:10px}
+.msg{padding:6px 0;border-bottom:1px solid var(--border-soft);font-size:15px;word-break:break-all}
 .msg:last-child{border-bottom:0}
-.todo-item{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0}
+.todo-item{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-soft)}
 .todo-item span{flex:1;word-break:break-all}
 .board2048{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:400px;margin:12px 0}
-.cell2048{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#eee;border-radius:10px;font-size:22px;font-weight:bold;min-height:64px}
+.cell2048{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--cell-bg);border-radius:10px;font-size:22px;font-weight:bold;min-height:64px}
 .clockgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
-.clockcell{background:#f6f8fb;border:1px solid #e2e8f0;border-radius:10px;padding:10px;text-align:center;font-size:15px}
+.clockcell{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;font-size:15px}
 #imgPreview img{margin-top:10px}
-.card-hero{border:2px solid #0969da !important;background:linear-gradient(180deg,#eef5ff,#fff) !important;box-shadow:0 4px 16px rgba(9,105,218,.18) !important}
+.card-hero{border:2px solid var(--accent) !important;background:var(--hero-grad) !important;box-shadow:var(--hero-shadow) !important}
 .card-hero h2{font-size:24px}
 .card-hero button{font-size:18px;padding:12px 26px}
-.donate-box{border:2px dashed #ccd6e0;border-radius:12px;padding:28px 16px;text-align:center;color:#888;background:#fbfcfe}
-.ledger-row,.habit-row,.cd-row{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap}
+.donate-box{border:2px dashed var(--border);border-radius:12px;padding:28px 16px;text-align:center;color:var(--muted);background:var(--bg-soft)}
+.ledger-row,.habit-row,.cd-row{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-soft);flex-wrap:wrap}
 .ledger-row span,.habit-row span,.cd-row span{flex:1;word-break:break-all}
+
+input,select,textarea{background:var(--input-bg);color:var(--text)}
+.nav button.theme-btn{background:var(--card-bg);color:var(--text);border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-size:14px;box-shadow:none;margin:0}
 </style>
 </head>
 <body>
 <h1>🛠️ 免费小工具站</h1>
 <p>这是一个人人可访问的轻量网站：不用注册、不用登录，有网就能打开使用。所有工具都在你的浏览器里运行，不上传任何数据。</p>
 
-<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#donateCard">打赏</a></div>
+<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#donateCard">打赏</a><button class="theme-btn" id="themeToggle" type="button">🌓 自动</button></div>
 
 <div class="card card-hero" id="installCard">
 <h2>📲 装到手机桌面 ⭐ 本站能不能用上，关键就这一步</h2>
@@ -1645,6 +1665,18 @@ renderHabits();
 renderCountdowns();
 renderMergeList();
 
+</script>
+<script>
+(function(){var btn=document.getElementById('themeToggle');if(!btn)return;
+var order=['auto','apple','spotify'];
+var labels={auto:'🌓 自动',apple:'☀️ 日间',spotify:'🌙 夜间'};
+var metas={apple:'#f5f5f7',spotify:'#121212'};
+function getPref(){try{var v=localStorage.getItem('ft_theme');return order.indexOf(v)>=0?v:'auto';}catch(e){return 'auto';}}
+function effective(p){if(p==='apple'||p==='spotify')return p;var h=new Date().getHours();return (h>=6&&h<18)?'apple':'spotify';}
+function apply(p){var eff=effective(p);document.documentElement.setAttribute('data-theme',eff);btn.textContent=labels[p];var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',metas[eff]);}
+var pref=getPref();apply(pref);
+btn.addEventListener('click',function(){var cur=getPref();var next=order[(order.indexOf(cur)+1)%order.length];try{localStorage.setItem('ft_theme',next);}catch(e){}apply(next);});
+})();
 </script>
 </body>
 </html>
