@@ -502,12 +502,33 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   loop();
 })();
 
+
 /* ---- 点对点传输：PeerJS 信令 + WebRTC 直连，扫码进房，双向互传 ---- */
+/* 收发约定（2026-11-05 重修，根因见下）：
+   1. 发送方先发 {type:'meta', name, size}，再按 CHUNK 切片发二进制数据，最后发 {type:'end'}。
+   2. 接收方收到 'end' 后先校验实际收到字节数 recvSize 是否等于声明的 size：
+      一致才生成下载链接，并回发 {type:'ack', received, size, ok:true}；
+      不一致不生成下载链接，显示“传输不完整”，并回发 ok:false。
+   3. 发送方收到 ack 才算送达；超时（15 秒）或 ok:false 都算失败，不报“发送完成”。
+   4. 收到的数据可能是 ArrayBuffer，也可能是 Uint8Array（PeerJS 对超过 16300 字节的
+      消息会自动分片重组，重组后以 Uint8Array 形式交付），两种都要收；Blob 同理。
+   根因（2026-11-05 实测 + 查 PeerJS 1.5.4 源码确认）：旧代码发送用 16384 字节切片，
+   PeerJS 打包后是 16387 字节，超过内部 16300 字节的分片阈值，于是每片被拆成两片、
+   接收端重组后以 Uint8Array 交付；旧代码只认 ArrayBuffer（instanceof 判断），
+   每个整片都被悄悄丢掉，只剩最后一片不到 16KB 的零头——所以收到的视频/图片
+   永远只有 1-6 KB，页面却还显示“已完成 29.79 MB”（那个数字是发送方声明的
+   大小，不是实际收到的字节数）。本次修复：切片改成 16000 字节（打包后 16003，
+   不触发分片），接收端同时接受 ArrayBuffer/Uint8Array/Blob，并按字节数校验。
+   接收端不用 showSaveFilePicker：它必须在用户手势里调用，网络回调里调一定会抛错，
+   所以固定走 Blob 下载链接（单文件建议别超 500MB，超大文件会占内存）。 */
 var peer=null, conn=null, myCode='', myId='';
-var filesToSend=[], recvMeta=null, recvWriter=null, recvChunks=[], recvSize=0, recvBlobMode=false;
-var CHUNK=16384;
+var filesToSend=[], recvMeta=null, recvChunks=[], recvSize=0, recvChain=Promise.resolve();
+var CHUNK=16000;
+var ackWaiter=null, ackTimer=null;
 function setStatus(s){ document.getElementById('p2pStatus').textContent=s; }
 function setProgress(p,t){ document.getElementById('p2pProgress').value=p; document.getElementById('p2pProgressText').textContent=t||''; }
+function fmtMB(n){ if(n<1024) return n+' B'; if(n<1048576) return (n/1024).toFixed(1)+' KB'; return (n/1048576).toFixed(2)+' MB'; }
+function isBin(d){ return d instanceof ArrayBuffer || d instanceof Uint8Array || (typeof Blob!=='undefined' && d instanceof Blob); }
 function randCode(){ return Math.floor(100000+Math.random()*900000).toString(); }
 function roomUrl(code){
   var base=location.href.split('?')[0].split('#')[0];
@@ -569,7 +590,7 @@ function pickFiles(){ document.getElementById('fileInput').click(); }
 function setFiles(list){
   filesToSend=list;
   var total=0; filesToSend.forEach(function(f){ total+=f.size; });
-  document.getElementById('fileInfo').textContent='已选 '+filesToSend.length+' 个文件，共 '+(total/1048576).toFixed(2)+' MB';
+  document.getElementById('fileInfo').textContent='已选 '+filesToSend.length+' 个文件，共 '+fmtMB(total);
   enableSend(!!conn);
 }
 document.getElementById('fileInput').addEventListener('change', function(e){ setFiles(Array.prototype.slice.call(e.target.files)); });
@@ -580,71 +601,114 @@ dz.addEventListener('drop', function(e){
   e.preventDefault(); dz.classList.remove('over');
   setFiles(Array.prototype.slice.call(e.dataTransfer.files));
 });
+function pushChunk(buf){
+  recvChunks.push(buf);
+  recvSize+=buf.byteLength;
+  setProgress(Math.floor(recvSize/recvMeta.size*100), fmtMB(recvSize)+' / '+fmtMB(recvMeta.size));
+}
+function storeChunk(data){
+  // 经 recvChain 串行存放，保证顺序；Blob 需异步读成 ArrayBuffer 再存
+  recvChain=recvChain.then(function(){
+    if(data instanceof Blob){ return data.arrayBuffer().then(function(ab){ pushChunk(ab); }); }
+    pushChunk(data);
+  }).catch(function(){ /* 单个分片读取失败时跳过，end 处按字节数校验会发现并提示重发 */ });
+  return recvChain;
+}
+function waitAck(name, timeoutMs){
+  return new Promise(function(res){
+    ackWaiter={name:name, resolve:res};
+    ackTimer=setTimeout(function(){ if(ackWaiter && ackWaiter.resolve===res){ ackWaiter=null; res(null); } }, timeoutMs||15000);
+  });
+}
 async function onData(data){
-  if(data && typeof data==='object' && !(data instanceof ArrayBuffer) && data.type==='meta'){
-    recvMeta=data; recvSize=0; recvChunks=[]; recvWriter=null; recvBlobMode=false;
+  if(data && typeof data==='object' && !isBin(data) && data.type==='meta'){
+    recvMeta=data; recvSize=0; recvChunks=[];
     setStatus('正在接收：'+data.name);
-    setProgress(0,'0 / '+(data.size/1048576).toFixed(2)+' MB');
-    try{
-      if(window.showSaveFilePicker){
-        var handle=await showSaveFilePicker({suggestedName:data.name});
-        recvWriter=await handle.createWritable();
-      }else{ recvBlobMode=true; }
-    }catch(e){ recvBlobMode=true; }
+    setProgress(0,'0 / '+fmtMB(data.size));
     return;
   }
-  if(data && typeof data==='object' && !(data instanceof ArrayBuffer) && data.type==='text'){
+  if(data && typeof data==='object' && !isBin(data) && data.type==='text'){
     addRoomMsg('对方', data.text);
     return;
   }
-  if(data && typeof data==='object' && data.type==='end' && recvMeta){
-    if(recvWriter){ await recvWriter.close(); }
-    else if(recvBlobMode){
+  if(data && typeof data==='object' && !isBin(data) && data.type==='ack'){
+    if(ackWaiter && data.name===ackWaiter.name){
+      var r=ackWaiter; ackWaiter=null; clearTimeout(ackTimer); r.resolve(data);
+    }
+    return;
+  }
+  if(data && typeof data==='object' && !isBin(data) && data.type==='end' && recvMeta){
+    await recvChain;
+    var ok=(recvSize===recvMeta.size);
+    if(ok){
       var blob=new Blob(recvChunks);
       var url=URL.createObjectURL(blob);
       var a=document.createElement('a');
-      a.href=url; a.download=recvMeta.name; a.textContent='⬇ 下载 '+recvMeta.name+'（'+(recvMeta.size/1048576).toFixed(2)+' MB）';
+      a.href=url; a.download=recvMeta.name; a.textContent='⬇ 下载 '+recvMeta.name+'（'+fmtMB(recvSize)+'，已校验完整）';
       document.getElementById('downloads').appendChild(a);
+      setStatus('收到完成：'+recvMeta.name+'（'+fmtMB(recvSize)+'，已校验）');
+      setProgress(100,'已完成');
+    }else{
+      var warn=document.createElement('div');
+      warn.style.color='#ff453a';
+      warn.textContent='⚠️ 传输不完整：'+recvMeta.name+' 只收到 '+fmtMB(recvSize)+' / '+fmtMB(recvMeta.size)+'，请让对方重新发送。';
+      document.getElementById('downloads').appendChild(warn);
+      setStatus('⚠️ 传输不完整：'+recvMeta.name+' 只收到 '+fmtMB(recvSize)+' / '+fmtMB(recvMeta.size)+'，请重新发送');
+      setProgress(Math.floor(recvSize/recvMeta.size*100), fmtMB(recvSize)+' / '+fmtMB(recvMeta.size));
     }
-    setStatus('收到完成：'+recvMeta.name);
-    setProgress(100,'已完成');
-    recvMeta=null; recvChunks=[]; recvWriter=null;
+    try{ if(conn && conn.open) conn.send({type:'ack', received:recvSize, size:recvMeta.size, ok:ok, name:recvMeta.name}); }catch(e){}
+    recvMeta=null; recvChunks=[]; recvSize=0;
     return;
   }
-  if(data instanceof ArrayBuffer && recvMeta){
-    if(recvWriter){ await recvWriter.write(data); }
-    else{ recvChunks.push(data); }
-    recvSize+=data.byteLength;
-    setProgress(Math.floor(recvSize/recvMeta.size*100), (recvSize/1048576).toFixed(2)+' / '+(recvMeta.size/1048576).toFixed(2)+' MB');
+  if(isBin(data) && recvMeta){
+    storeChunk(data);
+    return;
   }
 }
 function waitDrain(){
   return new Promise(function(res){
     var ch=conn && conn.dataChannel;
     if(!ch || ch.bufferedAmount<=262144){ res(); return; }
+    try{ ch.bufferedAmountLowThreshold=262144; }catch(e){}
     ch.onbufferedamountlow=function(){ res(); };
-    setTimeout(res, 1000);
+    setTimeout(res, 5000);
   });
 }
 async function sendOneFile(file, idx, total){
-  conn.send({type:'meta', name:file.name, size:file.size, index:idx, total:total});
-  var offset=0;
-  while(offset<file.size){
-    await waitDrain();
-    var slice=file.slice(offset, offset+CHUNK);
-    conn.send(await slice.arrayBuffer());
-    offset+=CHUNK;
-    if(offset>file.size) offset=file.size;
-    setProgress(Math.floor(offset/file.size*100), '正在发送第 '+(idx+1)+'/'+total+' 个：'+file.name+' '+(offset/1048576).toFixed(2)+' / '+(file.size/1048576).toFixed(2)+' MB');
+  try{
+    conn.send({type:'meta', name:file.name, size:file.size, index:idx, total:total});
+    var offset=0;
+    while(offset<file.size){
+      await waitDrain();
+      var slice=file.slice(offset, offset+CHUNK);
+      conn.send(await slice.arrayBuffer());
+      offset+=CHUNK;
+      if(offset>file.size) offset=file.size;
+      setProgress(Math.floor(offset/file.size*100), '正在发送第 '+(idx+1)+'/'+total+' 个：'+file.name+' '+fmtMB(offset)+' / '+fmtMB(file.size));
+    }
+    conn.send({type:'end'});
+    var ack=await waitAck(file.name, 15000);
+    if(!ack){ return {ok:false, received:-1, size:file.size, name:file.name, timeout:true}; }
+    return ack;
+  }catch(e){
+    return {ok:false, received:-1, size:file.size, name:file.name, error:true};
   }
-  conn.send({type:'end'});
 }
 async function sendFiles(){
   if(!conn || !conn.open){ alert('还没连上对方设备，请先扫码或输入房间码进房'); return; }
   if(!filesToSend.length){ alert('请先选择文件'); return; }
   setStatus('开始发送…');
-  for(var i=0;i<filesToSend.length;i++){ await sendOneFile(filesToSend[i], i, filesToSend.length); }
-  setStatus('全部发送完成');
+  for(var i=0;i<filesToSend.length;i++){
+    var r=await sendOneFile(filesToSend[i], i, filesToSend.length);
+    if(!r || !r.ok){
+      if(r && r.error){ setStatus('发送中断：第 '+(i+1)+' 个文件发送时连接异常，请重新连接后发送'); }
+      else if(r && r.timeout){ setStatus('发送中断：第 '+(i+1)+' 个文件未收到对方确认（可能对方页面已关闭或网络中断），请重新发送'); }
+      else{ setStatus('发送中断：第 '+(i+1)+' 个文件对方只收到 '+fmtMB(r.received)+' / '+fmtMB(r.size)+'，请重新发送'); }
+      return;
+    }
+    setStatus('第 '+(i+1)+'/'+filesToSend.length+' 个已确认送达：'+r.name);
+  }
+  setStatus('全部发送完成（对方已确认收齐）');
   setProgress(100,'全部发送完成');
 }
 (function init(){
