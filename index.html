@@ -94,7 +94,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <h1>🛠️ 免费小工具站</h1>
 <p>这是一个人人可访问的轻量网站：不用注册、不用登录，有网就能打开使用。所有工具都在你的浏览器里运行，不上传任何数据。</p>
 
-<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#donateCard">打赏</a></div>
+<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#avCard">音视频转换</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#donateCard">打赏</a></div>
 
 <div class="card card-hero" id="installCard">
 <h2>📲 安装到桌面 ⭐ 以后打开只要一秒</h2>
@@ -191,6 +191,18 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <div id="imgPreview"></div>
 <p id="imgInfo" class="note"></p>
 <p id="imgDownload"></p>
+</div>
+
+<div class="card" id="avCard">
+<h2>🎬 音视频格式转换</h2>
+<p class="note">（主要支持小视频格式转换；长视频、4K 耗时且不稳定，建议先剪短或降低分辨率再转。文件只在浏览器本地转换，不上传；首次使用需下载约 32MB 转换核心，之后缓存；转换时请保持页面打开，不要切到后台或锁屏。）</p>
+<p><input type="file" id="avInput" accept="video/*,audio/*" onchange="avOnFile()"></p>
+<p id="avFileInfo" class="note"></p>
+<p><label>输出格式 <select id="avFormat"></select></label>　<button id="avGoBtn" onclick="avConvert()">开始转换</button></p>
+<p><progress id="avProgress" value="0" max="100" style="width:100%;display:none"></progress></p>
+<p id="avStatus" class="note"></p>
+<p id="avDownload"></p>
+<p class="note">基于 FFmpeg / ffmpeg.wasm（单线程核心），转换在本地完成。</p>
 </div>
 
 <div class="card" id="moneyWeatherCard">
@@ -1279,6 +1291,175 @@ function processImage(){
   var q = document.getElementById('imgQuality');
   if (q) q.addEventListener('input', function(){ document.getElementById('imgQualityText').textContent = q.value + '%'; });
 })();
+
+/* ---------- 音视频格式转换：ffmpeg.wasm 0.12 单线程核心，全部本地算 ---------- */
+var AV_VIDEO_FORMATS = [
+  { v: 'mp4', label: 'MP4（通用）', ext: 'mp4', mime: 'video/mp4', args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-c:a', 'aac', '-movflags', '+faststart'] },
+  { v: 'webm', label: 'WebM', ext: 'webm', mime: 'video/webm', args: ['-c:v', 'libvpx', '-crf', '10', '-b:v', '0', '-c:a', 'libvorbis'] },
+  { v: 'mov', label: 'MOV', ext: 'mov', mime: 'video/quicktime', args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-c:a', 'aac'] },
+  { v: 'gif', label: 'GIF 动图', ext: 'gif', mime: 'image/gif', args: ['-vf', 'fps=10,scale=480:-1:flags=lanczos'] },
+  { v: 'mp3', label: 'MP3（只抽音频）', ext: 'mp3', mime: 'audio/mpeg', args: ['-vn', '-c:a', 'libmp3lame', '-q:a', '4'] }
+];
+var AV_AUDIO_FORMATS = [
+  { v: 'mp3', label: 'MP3', ext: 'mp3', mime: 'audio/mpeg', args: ['-c:a', 'libmp3lame', '-q:a', '4'] },
+  { v: 'wav', label: 'WAV', ext: 'wav', mime: 'audio/wav', args: ['-c:a', 'pcm_s16le'] },
+  { v: 'm4a', label: 'M4A（AAC）', ext: 'm4a', mime: 'audio/mp4', args: ['-c:a', 'aac', '-b:a', '192k'] },
+  { v: 'ogg', label: 'OGG', ext: 'ogg', mime: 'audio/ogg', args: ['-c:a', 'libvorbis', '-q:a', '5'] },
+  { v: 'flac', label: 'FLAC（无损）', ext: 'flac', mime: 'audio/flac', args: ['-c:a', 'flac'] }
+];
+var AV_FFMPEG_JS = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.js';
+var AV_CORE_BASE = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd/';
+var avFFmpeg = null;
+var avFFmpegLoading = null;
+var avFile = null;
+var avIsVideo = true;
+var avDuration = 0;
+function avFmtSize(n) {
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+  return (n / 1048576).toFixed(2) + ' MB';
+}
+function avFmtDur(s) {
+  if (!isFinite(s) || s <= 0) return '';
+  var m = Math.floor(s / 60), sec = Math.round(s % 60);
+  return m > 0 ? m + '分' + sec + '秒' : sec + '秒';
+}
+function avExtOf(name) {
+  var m = /\.([a-zA-Z0-9]+)$/.exec(name || '');
+  return m ? m[1].toLowerCase() : '';
+}
+function avGuessVideo(file) {
+  if (file.type) {
+    if (file.type.indexOf('video') === 0) return true;
+    if (file.type.indexOf('audio') === 0) return false;
+  }
+  var e = avExtOf(file.name);
+  return ['mp4', 'webm', 'mov', 'mkv', 'avi', 'flv', 'm4v', '3gp', 'wmv'].indexOf(e) >= 0;
+}
+function avRefreshFormats() {
+  var sel = document.getElementById('avFormat');
+  if (!sel) return;
+  var list = avIsVideo ? AV_VIDEO_FORMATS : AV_AUDIO_FORMATS;
+  sel.innerHTML = '';
+  list.forEach(function(f) {
+    var o = document.createElement('option');
+    o.value = f.v; o.textContent = f.label;
+    sel.appendChild(o);
+  });
+}
+function avOnFile() {
+  var input = document.getElementById('avInput');
+  var info = document.getElementById('avFileInfo');
+  var dl = document.getElementById('avDownload');
+  var st = document.getElementById('avStatus');
+  dl.innerHTML = '';
+  st.textContent = '';
+  avFile = (input.files && input.files[0]) || null;
+  avDuration = 0;
+  if (!avFile) { info.textContent = ''; avRefreshFormats(); return; }
+  avIsVideo = avGuessVideo(avFile);
+  avRefreshFormats();
+  info.textContent = '已选：' + avFile.name + '（' + avFmtSize(avFile.size) + '，' + (avIsVideo ? '视频' : '音频') + '）';
+  if (avFile.size > 200 * 1048576) {
+    info.textContent += ' — 文件较大，转换可能很慢或失败，建议先剪短或压小再转。';
+  }
+  try {
+    var url = URL.createObjectURL(avFile);
+    var media = avIsVideo ? document.createElement('video') : document.createElement('audio');
+    media.preload = 'metadata';
+    media.onloadedmetadata = function() {
+      avDuration = media.duration || 0;
+      if (avDuration > 0) {
+        info.textContent = '已选：' + avFile.name + '（' + avFmtSize(avFile.size) + '，' + (avIsVideo ? '视频' : '音频') + '，时长 ' + avFmtDur(avDuration) + '）';
+        if (avIsVideo && avDuration > 600) info.textContent += ' — 超过 10 分钟的长视频，转起来会很慢且容易失败，建议先剪短。';
+      }
+      URL.revokeObjectURL(url);
+    };
+    media.onerror = function() { URL.revokeObjectURL(url); };
+    media.src = url;
+  } catch (e) {}
+}
+async function avToBlobURL(url, mime) {
+  var resp = await fetch(url);
+  var buf = await resp.arrayBuffer();
+  return URL.createObjectURL(new Blob([buf], { type: mime }));
+}
+async function avFetchFile(file) {
+  if (file instanceof File || file instanceof Blob) return new Uint8Array(await file.arrayBuffer());
+  var resp = await fetch(file);
+  return new Uint8Array(await resp.arrayBuffer());
+}
+function avLoadFFmpeg() {
+  if (avFFmpeg && avFFmpeg.loaded) return Promise.resolve(avFFmpeg);
+  if (avFFmpegLoading) return avFFmpegLoading;
+  avFFmpegLoading = new Promise(function(resolve, reject) {
+    function boot() {
+      try {
+        var ff = new window.FFmpegWASM.FFmpeg();
+        ff.on('progress', function(p) {
+          var bar = document.getElementById('avProgress');
+          if (bar && p && isFinite(p.progress)) { bar.style.display = ''; bar.value = Math.round(Math.max(0, Math.min(1, p.progress)) * 100); }
+        });
+        Promise.all([
+          avToBlobURL(AV_CORE_BASE + 'ffmpeg-core.js', 'text/javascript'),
+          avToBlobURL(AV_CORE_BASE + 'ffmpeg-core.wasm', 'application/wasm')
+        ]).then(function(urls) {
+          return ff.load({ coreURL: urls[0], wasmURL: urls[1] });
+        }).then(function() { avFFmpeg = ff; resolve(ff); }, function(err) { avFFmpegLoading = null; reject(err); });
+      } catch (e) { avFFmpegLoading = null; reject(e); }
+    }
+    if (window.FFmpegWASM && window.FFmpegWASM.FFmpeg) { boot(); return; }
+    var s = document.createElement('script');
+    s.src = AV_FFMPEG_JS;
+    s.onload = boot;
+    s.onerror = function() { avFFmpegLoading = null; reject(new Error('转换库加载失败，请检查网络后重试')); };
+    document.head.appendChild(s);
+  });
+  return avFFmpegLoading;
+}
+async function avConvert() {
+  var st = document.getElementById('avStatus');
+  var dl = document.getElementById('avDownload');
+  var bar = document.getElementById('avProgress');
+  if (!avFile) { st.textContent = '请先选择一个音视频文件。'; return; }
+  var list = avIsVideo ? AV_VIDEO_FORMATS : AV_AUDIO_FORMATS;
+  var fmt = null;
+  var want = document.getElementById('avFormat').value;
+  for (var i = 0; i < list.length; i++) if (list[i].v === want) fmt = list[i];
+  if (!fmt) { st.textContent = '请选择输出格式。'; return; }
+  var btn = document.getElementById('avGoBtn');
+  if (btn) btn.disabled = true;
+  dl.innerHTML = '';
+  bar.style.display = ''; bar.value = 0;
+  try {
+    st.textContent = '正在加载转换核心（首次约 32MB，之后缓存）…';
+    var ff = await avLoadFFmpeg();
+    st.textContent = '正在转换…请保持页面打开，不要切到后台或锁屏。';
+    var inExt = avExtOf(avFile.name) || (avIsVideo ? 'mp4' : 'mp3');
+    var inName = 'input.' + inExt;
+    var outName = 'output.' + fmt.ext;
+    await ff.writeFile(inName, await avFetchFile(avFile));
+    await ff.exec(['-i', inName].concat(fmt.args, [outName]));
+    var data = await ff.readFile(outName);
+    var blob = new Blob([data], { type: fmt.mime });
+    var url = URL.createObjectURL(blob);
+    var base = avFile.name.replace(/\.[^.]*$/, '') || 'converted';
+    dl.innerHTML = '';
+    var a = document.createElement('a');
+    a.href = url; a.download = base + '.' + fmt.ext;
+    a.textContent = '⬇️ 下载转换后的文件（' + fmt.ext.toUpperCase() + '，' + avFmtSize(blob.size) + '）';
+    dl.appendChild(a);
+    st.textContent = '转换完成。';
+    try { await ff.deleteFile(inName); } catch (e) {}
+    try { await ff.deleteFile(outName); } catch (e) {}
+  } catch (err) {
+    st.textContent = '转换失败：' + (err && err.message ? err.message : err) + '。如果是大文件、长视频或 4K，请先剪短或降低分辨率再试。';
+  } finally {
+    bar.style.display = 'none';
+    if (btn) btn.disabled = false;
+  }
+}
+avRefreshFormats();
 
 /* ---- 汇率 / 天气 / 世界时钟 ---- */
 var fxRates = null;
