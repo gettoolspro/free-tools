@@ -1307,8 +1307,8 @@ var AV_AUDIO_FORMATS = [
   { v: 'ogg', label: 'OGG', ext: 'ogg', mime: 'audio/ogg', args: ['-c:a', 'libvorbis', '-q:a', '5'] },
   { v: 'flac', label: 'FLAC（无损）', ext: 'flac', mime: 'audio/flac', args: ['-c:a', 'flac'] }
 ];
-var AV_FFMPEG_JS = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.js';
-var AV_CORE_BASE = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd/';
+var AV_FFMPEG_ESM = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/esm/index.js';
+var AV_CORE_BASE = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm/';
 var avFFmpeg = null;
 var avFFmpegLoading = null;
 var avFile = null;
@@ -1392,29 +1392,26 @@ async function avFetchFile(file) {
 function avLoadFFmpeg() {
   if (avFFmpeg && avFFmpeg.loaded) return Promise.resolve(avFFmpeg);
   if (avFFmpegLoading) return avFFmpegLoading;
-  avFFmpegLoading = new Promise(function(resolve, reject) {
-    function boot() {
-      try {
-        var ff = new window.FFmpegWASM.FFmpeg();
-        ff.on('progress', function(p) {
-          var bar = document.getElementById('avProgress');
-          if (bar && p && isFinite(p.progress)) { bar.style.display = ''; bar.value = Math.round(Math.max(0, Math.min(1, p.progress)) * 100); }
-        });
-        Promise.all([
-          avToBlobURL(AV_CORE_BASE + 'ffmpeg-core.js', 'text/javascript'),
-          avToBlobURL(AV_CORE_BASE + 'ffmpeg-core.wasm', 'application/wasm')
-        ]).then(function(urls) {
-          return ff.load({ coreURL: urls[0], wasmURL: urls[1] });
-        }).then(function() { avFFmpeg = ff; resolve(ff); }, function(err) { avFFmpegLoading = null; reject(err); });
-      } catch (e) { avFFmpegLoading = null; reject(e); }
+  avFFmpegLoading = (async function() {
+    try {
+      var mod = await import(AV_FFMPEG_ESM);
+      var ff = new mod.FFmpeg();
+      ff.on('progress', function(p) {
+        var bar = document.getElementById('avProgress');
+        if (bar && p && isFinite(p.progress)) { bar.style.display = ''; bar.value = Math.round(Math.max(0, Math.min(1, p.progress)) * 100); }
+      });
+      var urls = await Promise.all([
+        avToBlobURL(AV_CORE_BASE + 'ffmpeg-core.js', 'text/javascript'),
+        avToBlobURL(AV_CORE_BASE + 'ffmpeg-core.wasm', 'application/wasm')
+      ]);
+      await ff.load({ coreURL: urls[0], wasmURL: urls[1] });
+      avFFmpeg = ff;
+      return ff;
+    } catch (e) {
+      avFFmpegLoading = null;
+      throw e;
     }
-    if (window.FFmpegWASM && window.FFmpegWASM.FFmpeg) { boot(); return; }
-    var s = document.createElement('script');
-    s.src = AV_FFMPEG_JS;
-    s.onload = boot;
-    s.onerror = function() { avFFmpegLoading = null; reject(new Error('转换库加载失败，请检查网络后重试')); };
-    document.head.appendChild(s);
-  });
+  })();
   return avFFmpegLoading;
 }
 async function avConvert() {
