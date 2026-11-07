@@ -153,7 +153,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 </div>
 
 <p class="note">大文件说明：支持流式落盘的浏览器（Chrome、Edge 等）会边收边写进你选的保存位置，不用先把整个文件憋在内存里；不支持流式落盘的浏览器会收完再给下载链接，超大文件请优先用 Chrome/Edge 收。速度取决于两端带宽，不限速。</p>
-<p class="note" id="p2pVer" style="font-size:12px">版本：P2P v2（2026-11-06）· 收完按字节校验，对不上不生成下载链接；发送等对方确认收齐</p>
+<p class="note" id="p2pVer" style="font-size:12px">版本：P2P v2.1（2026-11-08）· 信令断开自动重连（房间码不变），加入超时 20 秒明确报错；收完按字节校验，对不上不生成下载链接；发送等对方确认收齐</p>
 </div>
 
 <div class="card" id="notesCard">
@@ -556,9 +556,23 @@ function enableSend(enabled){
   document.getElementById('btnPick').disabled=!enabled;
   document.getElementById('btnSend').disabled=!enabled || !filesToSend.length;
 }
+var joinTimer=null;
+function startJoinConn(targetCode){
+  if(joinTimer){ clearTimeout(joinTimer); joinTimer=null; }
+  var c=peer.connect('free-tools-'+targetCode, {reliable:true});
+  setupConn(c);
+  // 20 秒内连不上就明确报错，别一直卡在“正在加入房间…”
+  joinTimer=setTimeout(function(){
+    joinTimer=null;
+    if(!c.open){
+      setStatus('加入超时：未能与对方建立连接。可能对方页面已关闭、房间码已失效，或网络无法直连（VPN/代理可能拦截了信令或打洞）。请让对方刷新页面重新生成房间码后重试。');
+    }
+  }, 20000);
+}
 function setupConn(c){
   conn=c;
   conn.on('open', function(){
+    if(joinTimer){ clearTimeout(joinTimer); joinTimer=null; }
     setStatus('已连接对方设备，可以双向发送文件了');
     enableSend(true);
   });
@@ -572,9 +586,12 @@ function startPeer(isJoiner, targetCode){
   peer=new Peer(myId);
   peer.on('open', function(){
     if(isJoiner){
-      setStatus('正在加入房间 '+targetCode+'…');
-      document.getElementById('hostBox').style.display='none';
-      setupConn(peer.connect('free-tools-'+targetCode, {reliable:true}));
+      // 重连后 'open' 会再次触发：只有还没连上时才重新发起连接，避免重复建连接
+      if(!conn || !conn.open){
+        setStatus('正在加入房间 '+targetCode+'…');
+        document.getElementById('hostBox').style.display='none';
+        startJoinConn(targetCode);
+      }
     }else{
       setStatus('房间已创建，等待对方扫码进房');
       document.getElementById('roomCode').textContent=myCode;
@@ -587,9 +604,17 @@ function startPeer(isJoiner, targetCode){
     }
   });
   peer.on('connection', function(c){ setupConn(c); });
+  // 根因修复（2026-11-08）：信令 WebSocket 断开后房间码会悄悄失效（手机锁屏、切 WiFi/流量、VPN 重连都会触发），
+  // 旧代码没有 disconnected 处理，只能手动刷新。现自动重连，房间码不变（peer.reconnect 用同一 ID 重新注册）。
+  peer.on('disconnected', function(){
+    setStatus('与信令服务器断开，正在重新连接房间…');
+    try{ peer.reconnect(); }
+    catch(e){ setStatus('重连失败，请刷新页面重新生成房间'); }
+  });
   peer.on('error', function(e){
     if(e && e.type==='peer-unavailable'){ setStatus('找不到这个房间：请检查房间码是否正确、对方页面是否还开着'); }
-    else if(e && e.type==='unavailable-id'){ setStatus('房间码冲突，正在换一个…'); startPeer(false); }
+    else if(e && e.type==='unavailable-id'){ setStatus('房间码冲突，正在换一个…'); try{ peer.destroy(); }catch(err){} startPeer(false); }
+    else if(e && (e.type==='network' || e.type==='disconnected')){ /* 信令断开由 disconnected 事件处理并自动重连，这里不重复提示 */ }
     else{ setStatus('信令连接失败：请检查网络后刷新页面重试'); }
   });
 }
