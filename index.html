@@ -87,6 +87,22 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .nav a:hover{opacity:.85}
 .theme-btn:hover{filter:brightness(.97)}
 @media (max-width:480px){h1{font-size:26px}.card{padding:16px}.nav{gap:6px}}
+/* ---- 2026-11-10 液态玻璃试用（纯 CSS，可整段删除撤回） ---- */
+:root{
+--glass-bg:rgba(255,255,255,.5);--glass-border:rgba(255,255,255,.65);--glass-hi:rgba(255,255,255,.75);
+--glass-shadow:0 8px 32px rgba(0,0,0,.10);
+--glass-aurora:radial-gradient(600px 420px at 10% -5%,rgba(0,113,227,.14),transparent 62%),radial-gradient(520px 400px at 96% 10%,rgba(29,185,84,.12),transparent 62%),radial-gradient(720px 520px at 50% 112%,rgba(124,92,255,.10),transparent 62%);
+}
+[data-theme="spotify"]{
+--glass-bg:rgba(255,255,255,.08);--glass-border:rgba(255,255,255,.16);--glass-hi:rgba(255,255,255,.14);
+--glass-shadow:0 8px 32px rgba(0,0,0,.45);
+--glass-aurora:radial-gradient(600px 420px at 10% -5%,rgba(29,185,84,.22),transparent 62%),radial-gradient(520px 400px at 96% 10%,rgba(0,113,227,.20),transparent 62%),radial-gradient(720px 520px at 50% 112%,rgba(124,92,255,.18),transparent 62%);
+}
+body{background:var(--glass-aurora),var(--bg)}
+.card{background:var(--glass-bg);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);border:1px solid var(--glass-border);border-radius:20px;box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-hi)}
+.card-hero{background:var(--glass-bg) !important;border:2px solid var(--accent) !important;box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-hi) !important;-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6)}
+.theme-btn{background:var(--glass-bg);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-hi)}
+.nav a{background:var(--glass-bg);-webkit-backdrop-filter:blur(12px) saturate(1.5);backdrop-filter:blur(12px) saturate(1.5);border:1px solid var(--glass-border)}
 </style>
 </head>
 <body>
