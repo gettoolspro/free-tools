@@ -2,7 +2,7 @@
    共 264 个演示，均在站内 iframe 查看器中打开，不跳外链。
    来源：PhET (CC-BY)、all-science-sims (PolyForm 非商用)、ScienceLab 3D (MIT)、
    myPhysicsLab (Apache 2.0)、TensorFlow Playground (Apache 2.0)、Tense Playground (MIT)。
-   wedulab=true 表示对应 WeduLab 的实验（★ 标记）。
+   wedulab=true 表示与初高中课本配套的演示（★ 标记）。
    汉化（2026-11-19）：目录中文名 zh + 一句话简介 desc；PhET 29 个嵌官方中文版
    （_zh_CN.html），4 个无中文版（Alpha Decay、Buoyancy、Circuit Construction Kit、
    Calculus Grapher）保持英文；其余来源界面为英文，简介中已注明。 */
@@ -736,15 +736,7 @@ window.TEACH_LABS = [
   "url": "https://all-science-sims.vercel.app/#/embed/chemistry/aufbau?autostart=1",
   "wedulab": true
  },
- {
-  "subject": "chemistry",
-  "name": "Collision Theory & Reaction Rates",
-  "zh": "碰撞理论与反应速率",
-  "desc": "调节温度、浓度等条件，观察碰撞频率如何影响反应快慢。仿真界面为英文。",
-  "source": "ass",
-  "url": "https://all-science-sims.vercel.app/#/embed/chemistry/collision-theory?autostart=1",
-  "wedulab": true
- },
+
  {
   "subject": "chemistry",
   "name": "Collision Theory & Reaction Rates",
