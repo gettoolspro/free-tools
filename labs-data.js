@@ -1,5 +1,5 @@
 /* 教学实验区演示目录（2026-11-19 第一期）
-   共 264 个演示，均在站内 iframe 查看器中打开，不跳外链。
+   共 263 个演示，均在站内 iframe 查看器中打开，不跳外链。
    来源：PhET (CC-BY)、all-science-sims (PolyForm 非商用)、ScienceLab 3D (MIT)、
    myPhysicsLab (Apache 2.0)、TensorFlow Playground (Apache 2.0)、Tense Playground (MIT)。
    wedulab=true 表示与初高中课本配套的演示（★ 标记）。
@@ -424,8 +424,8 @@ window.TEACH_LABS = [
  {
   "subject": "physics",
   "name": "John Travoltage",
-  "zh": "特拉沃尔塔的静电",
-  "desc": "让特拉沃尔塔摩擦地毯积攒静电，再触摸门把手放电。",
+  "zh": "静电小人实验",
+  "desc": "让小人摩擦地毯积攒静电，再触摸门把手放电。",
   "source": "phet",
   "url": "https://phet.colorado.edu/sims/html/john-travoltage/latest/john-travoltage_zh_CN.html",
   "wedulab": false
@@ -2246,7 +2246,7 @@ window.TEACH_LABS = [
  {
   "subject": "it",
   "name": "Parsons Puzzle",
-  "zh": "帕森斯拼图",
+  "zh": "代码拼图练习",
   "desc": "把打乱的代码行拖回正确顺序，拼出能运行的程序。仿真界面为英文。",
   "source": "ass",
   "url": "https://all-science-sims.vercel.app/#/embed/computer-science/parsons-puzzle?autostart=1",
