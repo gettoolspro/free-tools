@@ -136,8 +136,6 @@ body{background:var(--glass-aurora),var(--bg)}
 .fx-chip{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--card-bg);color:var(--text);font-size:13px;margin:2px 4px 2px 0;cursor:pointer}
 .fx-chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .share-btn{margin-left:6px}
-.wish-row{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-soft);flex-wrap:wrap}
-.wish-row span{flex:1;word-break:break-all}
 </style>
 </head>
 <body>
@@ -150,7 +148,7 @@ body{background:var(--glass-aurora),var(--bg)}
 <div class="nav-group"><span class="nav-label">🎓 教学实验</span><a href="#teachLabCard">教学实验区</a><a href="#subject-physics">物理</a><a href="#subject-chemistry">化学</a><a href="#subject-biology">生物</a><a href="#subject-geography">地理</a><a href="#subject-math">数学</a><a href="#subject-history">历史</a><a href="#subject-english">英语</a><a href="#subject-it">信息技术</a><a href="#subject-art">美术</a></div>
 <div class="nav-group"><span class="nav-label">📋 生活助手</span><a href="#notesCard">便签待办</a><a href="#backupCard">数据备份</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#todayCard">今日总览</a><a href="#dailyCard">今日一份</a></div>
 <div class="nav-group"><span class="nav-label">🎮 游戏</span><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a></div>
-<div class="nav-group"><span class="nav-label">💝 支持</span><a href="#wishCard">许愿池</a><a href="#donateCard">打赏</a></div>
+<div class="nav-group"><span class="nav-label">💝 支持</span><a href="#donateCard">打赏</a></div>
 </div>
 
 <div class="card card-hero" id="installCard">
@@ -524,15 +522,6 @@ body{background:var(--glass-aurora),var(--bg)}
 <div id="g2048Board" class="board2048"></div>
 <p><button onclick="g2048Move('up')">↑ 上</button><br><button onclick="g2048Move('left')">← 左</button> <button onclick="g2048Move('down')">↓ 下</button> <button onclick="g2048Move('right')">→ 右</button></p>
 <p id="g2048Msg" class="note"></p>
-</div>
-
-<div class="card" id="wishCard">
-<h2>💡 工具许愿池</h2>
-<p class="note">投票需要服务器汇总人数，本站是纯本地站，做不了全网投票。写下你想要的工具，复制后发给站长，就是最直接的投票；站长看到会考虑加上。</p>
-<p><input id="wishText" placeholder="比如：想加一个单位换算" style="width:70%"> <button onclick="addWish()">记下愿望</button></p>
-<p><input id="wishWhy" placeholder="用来做什么（可选）" style="width:70%"></p>
-<div id="wishList"></div>
-<p class="note">愿望只存在你这台设备上；点“复制”可以把愿望发给站长。</p>
 </div>
 
 <div class="card" id="donateCard">
@@ -2466,7 +2455,7 @@ btn.addEventListener('click',function(){var cur=getPref();var next=order[(order.
 })();
 </script>
 <script>
-/* ---- 2026-11-19 优化：备份 / 快照 / 收藏 / 常用币种 / 文本小工具 / 分享图 / 许愿池（全部纯前端本地运行） ---- */
+/* ---- 2026-11-19 优化：备份 / 快照 / 收藏 / 常用币种 / 文本小工具 / 分享图（全部纯前端本地运行） ---- */
 var SITE_URL = 'https://gettoolspro.github.io/free-tools/';
 var SITE_QR = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEICAIAAAAslP2oAAAE70lEQVR4nO3dwW6jJxhA0fGo7//K6brSZUEFApxz1q3jeHyF9H8BPj8/P3+A//p7+g3AjYQBQRgQhAFBGBCEAUEYEIQBQRgQhAFBGBCEAUEYEIQBQRgQ/pn9Hz6fz473sdxon8no/a/670deeZ2R2c/nNrOfjxUDgjAgCAOCMCAIA4IwIAgDwvQcY+TU+VS7n6Pf9vx+1fvZ/e/1+vfBigFBGBCEAUEYEIQBQRgQhAFh2RxjZNVz5VXPxXfvf5j9fVftrzi1r2PWbd+HESsGBGFAEAYEYUAQBgRhQBAGhO1zjNvMPr9fNU9YNd+Y5R73/8eKAUEYEIQBQRgQhAFBGBCEAeHXzTFuOydqFfOKtawYEIQBQRgQhAFBGBCEAUEYELbPMb71+fqq3+vU+U4ju9/PK98HKwYEYUAQBgRhQBAGBGFAEAaEZXOMV/YzvHLfxarX3/37jrzyfRixYkAQBgRhQBAGBGFAEAYEYUD4vPL38aucer6+e44x+3Nv2wdyGysGBGFAEAYEYUAQBgRhQBAGhOn9GLv/vn/3PoHZ5/S75x7f+vqrPufd36sRKwYEYUAQBgRhQBAGBGFAEAaE5+/5nn3Ovfu5/iv7H3Z/PrvnDLvnXVYMCMKAIAwIwoAgDAjCgCAMCMvOldp9b8Oqn7vKbT931u45wOzPHdk9DxmxYkAQBgRhQBAGBGFAEAYEYUB4Zj/GbedZnTrv6LZzsV45B8y5UrCAMCAIA4IwIAgDgjAgCAPCsTnGqX0gu+0+52r3vOW2c65GRu/TfgzYSBgQhAFBGBCEAUEYEIQBYfpcqVPnGt32fP3UeVmzbtuvMuvUvg4rBgRhQBAGBGFAEAYEYUAQBoRl+zFOnf/z+j0VI7edH3XbfGk3KwYEYUAQBgRhQBAGBGFAEAaE7fd8j5zaJ7DKqfs0Vr2fV15/ZPdcxYoBQRgQhAFBGBCEAUEYEIQBYdm5Uq+cO3Tb/GHklf0ku/eNnPpeWTEgCAOCMCAIA4IwIAgDgjAgbN+Pcdvr3zaHGbntXo5Tn/MscwzYSBgQhAFBGBCEAUEYEIQB4dh+jN1uuxd8lVfmLbNu+72sGBCEAUEYEIQBQRgQhAFBGBCm7/le9fz4W+/HOHVe1u7X3/373saKAUEYEIQBQRgQhAFBGBCEAeHYuVKn9mmMvHJe0+zrfyv7MeAAYUAQBgRhQBAGBGFAEAaEZXOMV9y232P3PdmrvD5vmX3/VgwIwoAgDAjCgCAMCMKAIAwI0+dKvfJ3/6/cLz5r1b6RVe9n9z6TU/dmWDEgCAOCMCAIA4IwIAgDgjAgTM8xRr71Xu1Zp86hOjXfuG0/z6rP34oBQRgQhAFBGBCEAUEYEIQBYdkcY+TU+UuzrzP7Pm/bp/H6/Ru33aNixYAgDAjCgCAMCMKAIAwIwoCwfY5xm9fvtdg9r5j1rXMhKwYEYUAQBgRhQBAGBGFAEAaEXzfHGJl9Hn/q3KeRU/dvrHr9kVNzGysGBGFAEAYEYUAQBgRhQBAGhO1zjNvuT9h9L8Sp851WzQdOneO06h4P93zDRsKAIAwIwoAgDAjCgCAMCMvmGLfdtz3y+v6H2+ZCq97nbb+XFQOCMCAIA4IwIAgDgjAgCAPC57bnx3ADKwYEYUAQBgRhQBAGBGFAEAYEYUAQBgRhQBAGBGFAEAYEYUAQBoR/AaNKKiWvy0BtAAAAAElFTkSuQmCC';
 
@@ -2523,8 +2512,8 @@ return new TextDecoder().decode(pt);
 }
 
 /* ---------- 数据备份：导出 / 导入（可选口令加密） ---------- */
-var BK_KEYS = ['ft_theme','ftNote','ftTodos','ft_ledger','ft_habits','ft_countdowns','dinoBest','flappyBest','ft2048Best','ft_favs','ft_usage','ft_pomo','ft_fx_favs','ft_cd_pin','ft_wishes'];
-var BK_JSON_KEYS = ['ftTodos','ft_ledger','ft_habits','ft_countdowns','ft_favs','ft_usage','ft_pomo','ft_fx_favs','ft_wishes'];
+var BK_KEYS = ['ft_theme','ftNote','ftTodos','ft_ledger','ft_habits','ft_countdowns','dinoBest','flappyBest','ft2048Best','ft_favs','ft_usage','ft_pomo','ft_fx_favs','ft_cd_pin'];
+var BK_JSON_KEYS = ['ftTodos','ft_ledger','ft_habits','ft_countdowns','ft_favs','ft_usage','ft_pomo','ft_fx_favs'];
 function bkMsg(t){ var m = document.getElementById('bkMsg'); if (m) m.textContent = t;}
 async function bkExport(){
 var data = {};
@@ -3126,47 +3115,9 @@ if (!t || t.indexOf('正在加载') === 0) { alert('今日一句还没加载出�
 makeShareCard({title: '今日一份', sub: '免费小工具站 · 每天换一句', lines: [t], accent: '#1db954', file: '分享图-今日一句.png'});
 }
 
-/* ---------- 工具许愿池：纯本地站做不了全网投票，愿望只存本机、可复制发给站长 ---------- */
-function wishLoad(){ try { var v = JSON.parse(localStorage.getItem('ft_wishes') || '[]'); return Array.isArray(v)? v: [];} catch (e) { return [];}}
-function wishSave(list){ try { localStorage.setItem('ft_wishes', JSON.stringify(list));} catch (e) {}}
-function wishShareText(w){ return '我想加一个' + w.text + (w.why? '（用来：' + w.why + '）': '') + ' ——来自免费小工具站用户';}
-function renderWishes(){
-var box = document.getElementById('wishList');
-if (!box) return;
-var list = wishLoad();
-if (!list.length) { box.innerHTML = '<p class="note">还没人许过愿，第一个愿望就由你来许。</p>'; return;}
-box.innerHTML = '';
-list.forEach(function(w, i){
-var row = document.createElement('div');
-row.className = 'wish-row';
-var span = document.createElement('span');
-span.textContent = w.text + (w.why? '（' + w.why + '）': '');
-var cp = document.createElement('button');
-cp.textContent = '复制';
-cp.onclick = function(){ copyTextToClipboard(wishShareText(w), '', null); cp.textContent = '已复制'; setTimeout(function(){ cp.textContent = '复制';}, 1500);};
-var del = document.createElement('button');
-del.textContent = '删除';
-del.onclick = function(){ var l = wishLoad(); l.splice(i, 1); wishSave(l); renderWishes();};
-row.appendChild(span); row.appendChild(cp); row.appendChild(del);
-box.appendChild(row);
-});
-}
-function addWish(){
-var t = (document.getElementById('wishText').value || '').trim();
-var w = (document.getElementById('wishWhy').value || '').trim();
-if (!t) { alert('先写想要的工具，比如“单位换算”。'); return;}
-var list = wishLoad();
-list.unshift({text: t, why: w, date: new Date().toISOString().slice(0, 10)});
-wishSave(list);
-document.getElementById('wishText').value = '';
-document.getElementById('wishWhy').value = '';
-renderWishes();
-}
-
 /* ---------- 初始化 ---------- */
 renderFxFavs();
 initFavButtons();
-renderWishes();
 snapOpen();
 try { aaRenderExtras(); } catch (e) {}
 try { stitchRenderList(); } catch (e) {}
