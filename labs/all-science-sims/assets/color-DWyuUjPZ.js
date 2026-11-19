@@ -1,0 +1,1 @@
+function e(e,t=`#3b82f6`){return typeof document>`u`?t:getComputedStyle(document.documentElement).getPropertyValue(e).trim()||t}export{e as t};

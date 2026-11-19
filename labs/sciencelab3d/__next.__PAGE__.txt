@@ -1,0 +1,57 @@
+1:"$Sreact.fragment"
+3:"/free-tools/labs/sciencelab3d/_next/static/chunks/1ua2kfq9s-me6.js"
+4:I[39756,["$3"],"default"]
+5:I[37457,["$3"],"default"]
+6:"/free-tools/labs/sciencelab3d/_next/static/chunks/3rv3vw045v_3t.js"
+7:"/free-tools/labs/sciencelab3d/_next/static/chunks/2sqh5rl0ruu9i.js"
+8:I[29306,["$3","$6","$7"],"default"]
+c:I[47257,["$3"],"ClientPageRoot"]
+d:"/free-tools/labs/sciencelab3d/_next/static/chunks/18hd0497iuf5b.js"
+e:I[52683,["$3","$d","$7"],"default"]
+11:I[97367,["$3"],"OutletBoundary"]
+12:"$Sreact.suspense"
+15:"ViewportBoundary"
+16:I[97367,["$3"],"$15"]
+17:"MetadataBoundary"
+18:I[97367,["$3"],"$17"]
+:HL["/free-tools/labs/sciencelab3d/_next/static/chunks/3mi4z-u20xwvv.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap","style"]
+2:T6a5,{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","@id":"https://sciencelab-two.vercel.app/#webapp","name":"ScienceLab 3D","url":"https://sciencelab-two.vercel.app","description":"ScienceLab 3D — Free interactive STEM education platform with 40+ virtual experiments in physics, chemistry & biology. 3D visualizations, real-time data analysis. Learn science by doing.","applicationCategory":"EducationalApplication","operatingSystem":"All","browserRequirements":"Requires JavaScript. Requires HTML5.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","@id":"https://sciencelab-two.vercel.app/#author","name":"Rudra Sarker","url":"https://rudra496.github.io/site","sameAs":["https://rudra496.github.io/site","https://www.linkedin.com/in/rudrasarker","https://www.facebook.com/share/1AHSdHLeoz/","https://github.com/rudra496","mailto:rudrasarker125@gmail.com"]}},{"@type":"WebSite","@id":"https://sciencelab-two.vercel.app/#website","url":"https://sciencelab-two.vercel.app","name":"ScienceLab 3D","description":"ScienceLab 3D — Free interactive STEM education platform with 40+ virtual experiments in physics, chemistry & biology. 3D visualizations, real-time data analysis. Learn science by doing.","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://sciencelab-two.vercel.app/?search={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"Organization","@id":"https://sciencelab-two.vercel.app/#organization","name":"ScienceLab 3D","url":"https://sciencelab-two.vercel.app","founder":{"@type":"Person","name":"Rudra Sarker","url":"https://rudra496.github.io/site"}}]}a:X
+b:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","$Lc",null,{"Component":"$e","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@f","$@10"]}}],[["$","script","script-0",{"src":"/free-tools/labs/sciencelab3d/_next/static/chunks/18hd0497iuf5b.js","async":true}],["$","script","script-1",{"src":"/free-tools/labs/sciencelab3d/_next/static/chunks/2sqh5rl0ruu9i.js","async":true}]],["$","$L11",null,{"children":["$","$12",null,{"name":"Next.MetadataOutlet","children":"$@13"}]}]]}],"p":"$@14","v":null,"s":"$a"}}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/free-tools/labs/sciencelab3d/_next/static/chunks/3mi4z-u20xwvv.css","precedence":"next"}],["$","script","script-0",{"src":"/free-tools/labs/sciencelab3d/_next/static/chunks/1ua2kfq9s-me6.js","async":true}]],["$","html",null,{"lang":"en","children":[["$","head",null,{"children":[["$","link",null,{"href":"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap","rel":"stylesheet"}],["$","link",null,{"rel":"icon","href":"/favicon.svg","type":"image/svg+xml"}],["$","link",null,{"rel":"preconnect","href":"https://fonts.googleapis.com"}],["$","link",null,{"rel":"preconnect","href":"https://fonts.gstatic.com","crossOrigin":"anonymous"}],["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}]]}],["$","body",null,{"className":"m-0 p-0","children":["$","$L4",null,{"parallelRouterKey":"children","template":["$","$L5",null,{}],"notFound":[["$","$L8",null,{}],[]]}]}]]}]]}],"p":"$@9","v":null,"s":"$a"},"c":"$Qb"},"h":{"r":["$","$1","h",{"children":[null,["$","$L16",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1, maximum-scale=5, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content"}]]}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$12",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"ScienceLab 3D — Interactive STEM Education | 40+ Virtual Science Experiments"}],["$","meta","1",{"name":"description","content":"ScienceLab 3D — Free interactive STEM education platform with 40+ virtual experiments in physics, chemistry & biology. 3D visualizations, real-time data analysis. Learn science by doing."}],["$","link","2",{"rel":"author","href":"https://rudra496.github.io/site"}],["$","meta","3",{"name":"author","content":"Rudra Sarker"}],["$","link","4",{"rel":"manifest","href":"/manifest.json"}],["$","meta","5",{"name":"keywords","content":"science lab,virtual experiments,STEM education,physics,chemistry,biology,3D,interactive,education,science education,3D science experiments,interactive learning,physics simulations,chemistry experiments,biology education,mathematics visualization,virtual science lab,online science lab,free science experiments,interactive 3D simulations,pendulum simulation,projectile motion,DNA replication,periodic table,gas laws,cell structure,Mandelbrot fractal,Fourier transform,science for students,high school physics,college chemistry,biology visualization,math explorer,Rudra Sarker,sciencelab3d"}],"$L19","$L1a","$L1b","$L1c","$L1d","$L1e","$L1f","$L20","$L21","$L22","$L23","$L24","$L25","$L26","$L27","$L28","$L29","$L2a","$L2b","$L2c","$L2d","$L2e","$L2f","$L30","$L31"]}]}],null]}],null]}],"p":"$@32","v":null,"s":"$a"}},"a":"$@33","u":"$@34","b":"LF2Y368SyKO8QwPJqSSMu"}
+35:I[27201,["$3"],"IconMark"]
+f:{}
+10:"$b:0:1:d:r:props:children:0:props:serverProvidedParams:params"
+13:null
+19:["$","meta","6",{"name":"creator","content":"Rudra Sarker"}]
+1a:["$","meta","7",{"name":"publisher","content":"Rudra Sarker"}]
+1b:["$","meta","8",{"name":"robots","content":"index, follow"}]
+1c:["$","meta","9",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}]
+1d:["$","meta","10",{"name":"category","content":"Education"}]
+1e:["$","link","11",{"rel":"canonical","href":"https://sciencelab-two.vercel.app"}]
+1f:["$","meta","12",{"property":"og:title","content":"ScienceLab 3D — Interactive STEM Education | 40+ Virtual Science Experiments"}]
+20:["$","meta","13",{"property":"og:description","content":"ScienceLab 3D — Free interactive STEM education platform with 40+ virtual experiments in physics, chemistry & biology. 3D visualizations, real-time data analysis. Learn science by doing."}]
+21:["$","meta","14",{"property":"og:url","content":"https://sciencelab-two.vercel.app"}]
+22:["$","meta","15",{"property":"og:site_name","content":"ScienceLab 3D"}]
+23:["$","meta","16",{"property":"og:locale","content":"en_US"}]
+24:["$","meta","17",{"property":"og:image","content":"https://sciencelab-two.vercel.app/og-image.png"}]
+25:["$","meta","18",{"property":"og:image:width","content":"1200"}]
+26:["$","meta","19",{"property":"og:image:height","content":"630"}]
+27:["$","meta","20",{"property":"og:image:alt","content":"ScienceLab 3D — Interactive 3D Science Experiments"}]
+28:["$","meta","21",{"property":"og:type","content":"website"}]
+29:["$","meta","22",{"name":"twitter:card","content":"summary_large_image"}]
+2a:["$","meta","23",{"name":"twitter:site","content":"@rudra496"}]
+2b:["$","meta","24",{"name":"twitter:creator","content":"@rudra496"}]
+2c:["$","meta","25",{"name":"twitter:title","content":"ScienceLab 3D — Interactive STEM Education | 40+ Virtual Science Experiments"}]
+2d:["$","meta","26",{"name":"twitter:description","content":"ScienceLab 3D — Free interactive STEM education platform with 40+ virtual experiments in physics, chemistry & biology. 3D visualizations, real-time data analysis. Learn science by doing."}]
+2e:["$","meta","27",{"name":"twitter:image","content":"https://sciencelab-two.vercel.app/og-image.png"}]
+2f:["$","link","28",{"rel":"icon","href":"/favicon.svg","type":"image/svg+xml"}]
+30:["$","link","29",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png"}]
+31:["$","$L35","30",{}]
+a:300
+34:true
+a:C
+33:0
+9:"$undefined"
+32:"$undefined"
+14:"$undefined"

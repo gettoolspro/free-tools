@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+<link rel="icon" sizes="32x32" type="image/png" href="https://www.myphysicslab.com/common/myphysicsicon.png">
+<title>myphysicslab.sims.experimental.BlankSlateApp</title>
+
+<script>
+  document.getElementsByTagName("html")[0].style.visibility = "hidden";
+</script>
+</head>
+<body>
+
+<a id="logo" href="../../index-en.html">
+  <img src="../../images/myphysicslogo.png" width="162" height="32" alt="my physics lab logo">
+</a>
+<h1>sims.experimental.BlankSlateApp</h1>
+<div id="header_nav">
+
+  <select id="language_menu"
+    onchange="location = this.options[this.selectedIndex].value;">
+    <option value="Molecule2App-en.html" selected>English</option>
+    <option value="Molecule2App-de.html" >German</option>
+  </select>
+<a class="nav_link" 
+   href="../../sims/springs/Molecule1App-en.html">previous</a>
+<a class="nav_link" 
+   href="../../sims/springs/Molecule3App-en.html">next</a>
+</div>
+<ul id="header_bar">
+</ul>
+
+&nbsp;
+
+<div id="sim_canvas">
+</div>
+<div id="sim_controls" class="control_group">
+</div>
+<div id=graph_div>
+</div>
+<!-- the "onsubmit=return false" is to prevent the page from reloading after
+enter key is typed in the text input field.
+-->
+<form id="script_terminal" onsubmit="return false;">
+  <label>command:<input type="text" id="term_input" size="80"></label>
+  <textarea id="term_output" cols=80 rows=20 wrap="soft"></textarea>
+</form>
+
+<p>This demonstrates building a spring-mass simulation with MoleculeSim by writing a
+script in the HTML file. The HTML file loads BlankSlateApp and then executes a Terminal
+script to build the simulation.
+</p>
+
+<script src="../experimental/BlankSlateApp-en.js"></script>
+<script>
+  (function build() {
+    var elem_ids = {
+      sim_canvas: 'sim_canvas',
+      sim_controls: 'sim_controls',
+      term_output: 'term_output',
+      term_input: 'term_input',
+      images_dir: '../../images'
+    };
+    app = new sims$experimental$BlankSlateApp(elem_ids);
+    app.defineNames('app');
+  }());
+</script>
+
+<script>
+  document.getElementsByTagName("html")[0].style.visibility = "visible";
+</script>
+
+<script>var app; if (app) app.setup();</script>
+<script>var app; if (app) app.start();</script>
+<script>
+app.eval(
+"var simRect = new DoubleRect(-3, -2, 3, 2);\
+simView.setSimRect(simRect);\
+var sim = new MoleculeSim();\
+simCtrl.setEventHandler(sim);\
+var advance = new SimpleAdvance(sim);\
+var simRun = new SimRunner(advance);\
+var simList = sim.getSimList();\
+var rbo = new RigidBodyObserver(simList, displayList);\
+displayList.find('walls').setFillStyle('');\
+var d = 0.5;\
+var p1 = PointMass.makeCircle(d);\
+p1.setPosition(new Vector(-1, 1));\
+sim.addAtom(p1);\
+var p2 = PointMass.makeCircle(d);\
+p2.setPosition(new Vector(1, -1));\
+sim.addAtom(p2);\
+var s1 = new Spring('s1', p1, Vector.ORIGIN, p2, Vector.ORIGIN, 2, 10);\
+sim.addSpring(s1);\
+displayList.find(s1).setWidth(0.25);\
+var axes = new DisplayAxes(simView.getSimRect());\
+displayList.add(axes);\
+simRun.resume();"
+);
+</script>
+<div id="footer2" >
+  <div id="copyright">
+    &copy; <a href="mailto:erikn@MyPhysicsLab.com" 
+    title="copyright 2020 Erik Neumann">
+    Erik Neumann</a> 2020, available under
+    <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2</a>
+    <br><span id="revised_date">revised Nov 19 2026 15:55</span>
+  </div>
+  <a id="valid_html" href="https://validator.w3.org/check?uri=referer;outline=1;"
+      title="check if this page is valid HTML">
+  <img  src="../../images/ValidHTML401.png" alt="Valid HTML 4.01" 
+      height="31" width="88">
+  </a>
+</div>
+</body>
+</html>
