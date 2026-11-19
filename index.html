@@ -103,6 +103,21 @@ body{background:var(--glass-aurora),var(--bg)}
 .card-hero{background:var(--glass-bg) !important;border:2px solid var(--accent) !important;box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-hi) !important;-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6)}
 .theme-btn{background:var(--glass-bg);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow),inset 0 1px 0 var(--glass-hi)}
 .nav a{background:var(--glass-bg);-webkit-backdrop-filter:blur(12px) saturate(1.5);backdrop-filter:blur(12px) saturate(1.5);border:1px solid var(--glass-border)}
+.nav-group{display:block;margin:2px 0}
+.nav-label{display:inline-block;font-weight:700;margin-right:6px;white-space:nowrap}
+.lab-list{display:flex;flex-wrap:wrap;gap:8px}
+.lab-btn{padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:14px;box-shadow:none}
+.lab-btn.wedulab{background:var(--accent);color:#fff}
+.lab-btn:hover{opacity:.85}
+.lab-viewer{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:12px;box-sizing:border-box}
+.lab-viewer.open{display:flex}
+.lab-viewer-panel{width:min(960px,100%);background:var(--glass-bg);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);border:1px solid var(--glass-border);border-radius:20px;box-shadow:var(--glass-shadow);padding:14px;box-sizing:border-box}
+.lab-viewer-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.lab-viewer-title{font-weight:700;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lab-viewer-src{font-size:12px;color:var(--muted);white-space:nowrap}
+.lab-viewer-close{margin-left:auto;padding:6px 12px}
+.lab-viewer-frame{width:100%;height:72vh;min-height:420px;border:0;border-radius:12px;background:#fff;display:block}
+@media (max-width:480px){.lab-viewer-frame{height:68vh;min-height:360px}}
 </style>
 </head>
 <body>
@@ -110,7 +125,14 @@ body{background:var(--glass-aurora),var(--bg)}
 <h1>🛠️ 免费小工具站</h1>
 <p>这是一个人人可访问的轻量网站：不用注册、不用登录，有网就能打开使用。所有工具都在你的浏览器里运行，不上传任何数据。</p>
 
-<div class="nav"><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#notesCard">便签待办</a><a href="#imgCard">图片处理</a><a href="#avCard">音视频转换</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a><a href="#todayCard">今日总览</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#pwdCard">随机密码</a><a href="#appleIdCard">海外 Apple ID 教程</a><a href="#donateCard">打赏</a></div>
+<div class="nav">
+<div class="nav-group"><span class="nav-label">🔧 常用工具</span><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#imgCard">图片处理</a><a href="#avCard">音视频转换</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#pwdCard">随机密码</a></div>
+<div class="nav-group"><span class="nav-label">🎓 教学实验</span><a href="#teachLabCard">教学实验区</a><a href="#subject-physics">物理</a><a href="#subject-chemistry">化学</a><a href="#subject-biology">生物</a><a href="#subject-geography">地理</a><a href="#subject-math">数学</a><a href="#subject-history">历史</a><a href="#subject-english">英语</a><a href="#subject-it">信息技术</a><a href="#subject-art">美术</a></div>
+<div class="nav-group"><span class="nav-label">📋 生活助手</span><a href="#notesCard">便签待办</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#todayCard">今日总览</a><a href="#dailyCard">今日一份</a></div>
+<div class="nav-group"><span class="nav-label">🎮 游戏</span><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a></div>
+<div class="nav-group"><span class="nav-label">📖 教程</span><a href="#appleIdCard">海外 Apple ID 教程</a></div>
+<div class="nav-group"><span class="nav-label">💝 支持</span><a href="#donateCard">打赏</a></div>
+</div>
 
 <div class="card card-hero" id="installCard">
 <h2>📲 安装到桌面 ⭐ 以后打开只要一秒</h2>
@@ -119,21 +141,7 @@ body{background:var(--glass-aurora),var(--bg)}
 <p id="installHelp" class="note"></p>
 </div>
 
-<div class="card" id="dailyCard">
-<h2>📅 今日一份 · 每天换一句</h2>
-<p id="dailyText" class="status">正在加载今日内容…</p>
-<p id="dailyNote" class="note"></p>
-<p class="note">每天凌晨自动换一句，内容来自本站自带的小贴士清单，不用联网也能看。</p>
-</div>
-
-<div class="card" id="dinoCard">
-<h2>🦖 小恐龙跑酷 · 等传输时打发时间</h2>
-<p class="note">玩法跟谷歌断网小恐龙一样：<b>点一下画面、点鼠标、按空格或按 ↑ 都是跳</b>，躲开仙人掌，跑得越远速度越快。传文件的时候挂着玩，互不影响；撞上就结束，再点一下重开。</p>
-<canvas id="dinoCanvas" width="700" height="200"></canvas>
-<p><span id="dinoScore" class="status">分数：0</span>　<span id="dinoBest" class="note"></span>　<button onclick="dinoRestart()">重新开始</button></p>
-<p class="note">电脑：空格 / ↑ / 鼠标点击；手机：点画面。</p>
-</div>
-
+<h2 class="section-title" id="sec-tools">🔧 常用工具</h2>
 <div class="card" id="p2pCard">
 <h2>点对点传输</h2>
 <p>免费 P2P 直传，不用数据线、不用装 App、不用注册：电脑上打开本站就自动生成一个房间，手机扫码进房，两边就能双向互传照片、视频、文档、压缩包。文件通过加密的点对点连接直接在设备间传送，<b>不经过本站服务器，也不上传到任何网盘</b>。</p>
@@ -170,17 +178,6 @@ body{background:var(--glass-aurora),var(--bg)}
 
 <p class="note">大文件说明：支持流式落盘的浏览器（Chrome、Edge 等）会边收边写进你选的保存位置，不用先把整个文件憋在内存里；不支持流式落盘的浏览器会收完再给下载链接，超大文件请优先用 Chrome/Edge 收。速度取决于两端带宽，不限速。</p>
 <p class="note" id="p2pVer" style="font-size:12px">版本：P2P v2.1（2026-11-08）· 信令断开自动重连（房间码不变），加入超时 20 秒明确报错；收完按字节校验，对不上不生成下载链接；发送等对方确认收齐</p>
-</div>
-
-<div class="card" id="notesCard">
-<h2>📝 本地便签和待办</h2>
-<p class="note">只存在你这台设备的浏览器里，不注册、不上传，换设备不会同步，清浏览器数据会丢，重要的事记得另外备份。</p>
-<h3>便签</h3>
-<textarea id="noteArea" placeholder="随手记点什么…会自动保存"></textarea>
-<p id="noteSaved" class="note"></p>
-<h3>待办</h3>
-<p><input id="todoInput" placeholder="输入一件待办事项" style="width:70%;box-sizing:border-box"> <button onclick="addTodo()">添加</button></p>
-<div id="todoList"></div>
 </div>
 
 <div class="card" id="qrCard">
@@ -221,49 +218,6 @@ body{background:var(--glass-aurora),var(--bg)}
 <p class="note">基于 FFmpeg / ffmpeg.wasm（单线程核心），转换在本地完成。</p>
 </div>
 
-<div class="card" id="moneyWeatherCard">
-<h2>💱 汇率换算 · 🌤️ 天气 · 🕐 世界时钟</h2>
-<h3>汇率换算（人民币）</h3>
-<p><input id="fxAmount" type="number" value="100" style="width:120px"> 元人民币 ≈ <span id="fxResult" class="status">…</span> <select id="fxTarget"><option value="USD">美元 USD</option><option value="EUR">欧元 EUR</option><option value="JPY">日元 JPY</option><option value="HKD">港币 HKD</option><option value="GBP">英镑 GBP</option><option value="KRW">韩元 KRW</option><option value="TWD">台币 TWD</option><option value="SGD">新币 SGD</option><option value="AUD">澳元 AUD</option><option value="CAD">加元 CAD</option></select> <input id="fxSearch" placeholder="搜国家 / 货币 / 代码，如 日本、日元、JPY" style="width:170px"> <button onclick="convertFx()">换算</button></p><p id="fxCount" class="note"></p>
-<p id="fxNote" class="note">汇率来自公开免费接口（open.er-api.com），仅供参考，实际以银行结汇价为准。</p>
-<h3>天气</h3>
-<p><label>城市 <select id="weatherCity"><option value="39.9,116.4">北京</option><option value="31.2,121.5">上海</option><option value="23.1,113.3">广州</option><option value="22.5,114.1">深圳</option><option value="30.6,104.1">成都</option><option value="30.3,120.2">杭州</option><option value="30.6,114.3">武汉</option><option value="34.3,108.9">西安</option></select></label> <button onclick="loadWeather()">查天气</button> <button onclick="loadWeatherGeo()">用我的位置查</button></p>
-<p id="weatherResult" class="status"></p>
-<p class="note">天气来自公开免费接口（Open-Meteo），不用注册、不用 key。</p>
-<h3>世界时钟</h3>
-<div id="clockGrid" class="clockgrid"></div>
-</div>
-
-<div class="card" id="pomodoroCard">
-<h2>🍅 番茄钟</h2>
-<p class="note">专注 25 分钟、休息 5 分钟，循环着来；传文件等着的时候挂着它，时间到了会响一声提醒。</p>
-<p><span id="pomoTime" style="font-size:40px;font-weight:bold">25:00</span>　<span id="pomoMode" class="status">专注中</span>　<span id="pomoCount" class="note">已完成 0 个番茄</span></p>
-<p><button onclick="pomoStart()">开始</button> <button onclick="pomoPause()">暂停</button> <button onclick="pomoReset()">重置</button></p>
-</div>
-
-<div class="card" id="flappyCard">
-<h2>🐤 Flappy Bird · 点画面拍翅膀</h2>
-<p class="note">点一下画面小鸟就拍一下翅膀，穿过水管得分，撞上就结束；最高分只存在你自己这台设备上。</p>
-<canvas id="flappyCanvas" width="700" height="360"></canvas>
-<p><span id="flappyScore" class="status">分数：0</span>　<span id="flappyBest" class="note"></span>　<button onclick="flappyRestart()">开始 / 再来一局</button></p>
-<p class="note">电脑和手机都是点画面拍翅膀。</p>
-</div>
-
-<div class="card" id="game2048Card">
-<h2>🎮 2048 · 滑出 2048</h2>
-<p class="note">电脑按 W / A / S / D 移动，手机在格子上滑动，也能点下面四个方向键；相同数字撞到一起就合并，得分越高越好，最高分只存在你自己这台设备上。</p>
-<p><span id="g2048Score" class="status">分数：0</span>　<span id="g2048Best" class="note"></span>　<button onclick="g2048New()">新开一局</button></p>
-<div id="g2048Board" class="board2048"></div>
-<p><button onclick="g2048Move('up')">↑ 上</button><br><button onclick="g2048Move('left')">← 左</button> <button onclick="g2048Move('down')">↓ 下</button> <button onclick="g2048Move('right')">→ 右</button></p>
-<p id="g2048Msg" class="note"></p>
-</div>
-
-<div class="card" id="todayCard">
-<h2>📌 今日总览</h2>
-<p id="todaySummary" class="status">正在汇总…</p>
-<p class="note">倒数日和打卡只存在你这台设备上，清缓存会丢，重要内容记得导出或记下来。</p>
-</div>
-
 <div class="card" id="pdfCard">
 <h2>📄 PDF 工具 · 合并、拆分、图片转 PDF</h2>
 <p class="note">全部在浏览器本地处理，不上传文件。首次使用需联网加载一次 PDF 组件，之后断网也能用已加载的页面。</p>
@@ -288,6 +242,41 @@ body{background:var(--glass-aurora),var(--bg)}
 <p><button onclick="makeIdPhoto()">生成单张 + 排版图</button></p>
 <div id="idPhotoOut"></div>
 <p class="note">说明：本工具只按比例居中裁剪，不抠图换底——照片本身的底色不会变；底色选项只用于排版图的底衬。排版图按 6 寸（1800×1200）排满，拿去打印店直接打就行。</p>
+</div>
+
+<div class="card" id="pwdCard">
+<h2>🔑 随机密码生成器</h2>
+<p><label>长度 <select id="pwdLen"><option>8</option><option selected>12</option><option>16</option><option>20</option><option>32</option></select></label> <label><input type="checkbox" id="pwdUpper" checked> 大写</label> <label><input type="checkbox" id="pwdLower" checked> 小写</label> <label><input type="checkbox" id="pwdDigit" checked> 数字</label> <label><input type="checkbox" id="pwdSym" checked> 符号</label> <button onclick="genPwd()">生成</button></p>
+<p><input id="pwdOut" readonly style="width:70%;font-family:monospace"> <button onclick="copyPwd()">复制</button></p>
+<p id="pwdInfo" class="note"></p>
+</div>
+
+<h2 class="section-title" id="sec-teach">🎓 教学实验</h2>
+<div class="card" id="teachLabCard">
+<h2>🎓 教学实验区</h2>
+<p>初高中科学实验演示，全部在本站内直接打开、直接玩，不用跳转到别的网站。按学科找实验，点开就能看。<span id="labTotal"></span></p>
+<p class="note">演示来源：PhET Interactive Simulations（CC-BY，需署名）· All-Science Sims（PolyForm 非商用许可，仅限非商用）· ScienceLab 3D（MIT）· myPhysicsLab（Apache 2.0）· TensorFlow Playground（Apache 2.0）· Tense Playground（MIT）。★ 标记的是 WeduLab 对应实验。</p>
+<div class="subject" id="subject-physics"><h3>⚛️ 物理</h3><div class="lab-list" data-subject="physics"></div></div>
+<div class="subject" id="subject-chemistry"><h3>🧪 化学</h3><div class="lab-list" data-subject="chemistry"></div></div>
+<div class="subject" id="subject-biology"><h3>🧬 生物</h3><div class="lab-list" data-subject="biology"></div></div>
+<div class="subject" id="subject-geography"><h3>🌍 地理</h3><div class="lab-list" data-subject="geography"></div></div>
+<div class="subject" id="subject-math"><h3>📐 数学</h3><div class="lab-list" data-subject="math"></div></div>
+<div class="subject" id="subject-history"><h3>🏛️ 历史</h3><div class="lab-list" data-subject="history"></div></div>
+<div class="subject" id="subject-english"><h3>🔤 英语</h3><div class="lab-list" data-subject="english"></div></div>
+<div class="subject" id="subject-it"><h3>💻 信息技术</h3><div class="lab-list" data-subject="it"></div></div>
+<div class="subject" id="subject-art"><h3>🎨 美术</h3><div class="lab-list" data-subject="art"></div></div>
+</div>
+
+<h2 class="section-title" id="sec-life">📋 生活助手</h2>
+<div class="card" id="notesCard">
+<h2>📝 本地便签和待办</h2>
+<p class="note">只存在你这台设备的浏览器里，不注册、不上传，换设备不会同步，清浏览器数据会丢，重要的事记得另外备份。</p>
+<h3>便签</h3>
+<textarea id="noteArea" placeholder="随手记点什么…会自动保存"></textarea>
+<p id="noteSaved" class="note"></p>
+<h3>待办</h3>
+<p><input id="todoInput" placeholder="输入一件待办事项" style="width:70%;box-sizing:border-box"> <button onclick="addTodo()">添加</button></p>
+<div id="todoList"></div>
 </div>
 
 <div class="card" id="ledgerCard">
@@ -351,13 +340,66 @@ body{background:var(--glass-aurora),var(--bg)}
 <p class="note">按渐进式延迟退休改革节奏估算（男每 4 个月延 1 个月、上限 63 岁；女干部每 4 个月延 1 个月、上限 58 岁；女工人每 2 个月延 1 个月、上限 55 岁），精确结果以人社部门测算为准。</p>
 </div>
 
-<div class="card" id="pwdCard">
-<h2>🔑 随机密码生成器</h2>
-<p><label>长度 <select id="pwdLen"><option>8</option><option selected>12</option><option>16</option><option>20</option><option>32</option></select></label> <label><input type="checkbox" id="pwdUpper" checked> 大写</label> <label><input type="checkbox" id="pwdLower" checked> 小写</label> <label><input type="checkbox" id="pwdDigit" checked> 数字</label> <label><input type="checkbox" id="pwdSym" checked> 符号</label> <button onclick="genPwd()">生成</button></p>
-<p><input id="pwdOut" readonly style="width:70%;font-family:monospace"> <button onclick="copyPwd()">复制</button></p>
-<p id="pwdInfo" class="note"></p>
+<div class="card" id="moneyWeatherCard">
+<h2>💱 汇率换算 · 🌤️ 天气 · 🕐 世界时钟</h2>
+<h3>汇率换算（人民币）</h3>
+<p><input id="fxAmount" type="number" value="100" style="width:120px"> 元人民币 ≈ <span id="fxResult" class="status">…</span> <select id="fxTarget"><option value="USD">美元 USD</option><option value="EUR">欧元 EUR</option><option value="JPY">日元 JPY</option><option value="HKD">港币 HKD</option><option value="GBP">英镑 GBP</option><option value="KRW">韩元 KRW</option><option value="TWD">台币 TWD</option><option value="SGD">新币 SGD</option><option value="AUD">澳元 AUD</option><option value="CAD">加元 CAD</option></select> <input id="fxSearch" placeholder="搜国家 / 货币 / 代码，如 日本、日元、JPY" style="width:170px"> <button onclick="convertFx()">换算</button></p><p id="fxCount" class="note"></p>
+<p id="fxNote" class="note">汇率来自公开免费接口（open.er-api.com），仅供参考，实际以银行结汇价为准。</p>
+<h3>天气</h3>
+<p><label>城市 <select id="weatherCity"><option value="39.9,116.4">北京</option><option value="31.2,121.5">上海</option><option value="23.1,113.3">广州</option><option value="22.5,114.1">深圳</option><option value="30.6,104.1">成都</option><option value="30.3,120.2">杭州</option><option value="30.6,114.3">武汉</option><option value="34.3,108.9">西安</option></select></label> <button onclick="loadWeather()">查天气</button> <button onclick="loadWeatherGeo()">用我的位置查</button></p>
+<p id="weatherResult" class="status"></p>
+<p class="note">天气来自公开免费接口（Open-Meteo），不用注册、不用 key。</p>
+<h3>世界时钟</h3>
+<div id="clockGrid" class="clockgrid"></div>
 </div>
 
+<div class="card" id="pomodoroCard">
+<h2>🍅 番茄钟</h2>
+<p class="note">专注 25 分钟、休息 5 分钟，循环着来；传文件等着的时候挂着它，时间到了会响一声提醒。</p>
+<p><span id="pomoTime" style="font-size:40px;font-weight:bold">25:00</span>　<span id="pomoMode" class="status">专注中</span>　<span id="pomoCount" class="note">已完成 0 个番茄</span></p>
+<p><button onclick="pomoStart()">开始</button> <button onclick="pomoPause()">暂停</button> <button onclick="pomoReset()">重置</button></p>
+</div>
+
+<div class="card" id="todayCard">
+<h2>📌 今日总览</h2>
+<p id="todaySummary" class="status">正在汇总…</p>
+<p class="note">倒数日和打卡只存在你这台设备上，清缓存会丢，重要内容记得导出或记下来。</p>
+</div>
+
+<div class="card" id="dailyCard">
+<h2>📅 今日一份 · 每天换一句</h2>
+<p id="dailyText" class="status">正在加载今日内容…</p>
+<p id="dailyNote" class="note"></p>
+<p class="note">每天凌晨自动换一句，内容来自本站自带的小贴士清单，不用联网也能看。</p>
+</div>
+
+<h2 class="section-title" id="sec-games">🎮 游戏</h2>
+<div class="card" id="dinoCard">
+<h2>🦖 小恐龙跑酷 · 等传输时打发时间</h2>
+<p class="note">玩法跟谷歌断网小恐龙一样：<b>点一下画面、点鼠标、按空格或按 ↑ 都是跳</b>，躲开仙人掌，跑得越远速度越快。传文件的时候挂着玩，互不影响；撞上就结束，再点一下重开。</p>
+<canvas id="dinoCanvas" width="700" height="200"></canvas>
+<p><span id="dinoScore" class="status">分数：0</span>　<span id="dinoBest" class="note"></span>　<button onclick="dinoRestart()">重新开始</button></p>
+<p class="note">电脑：空格 / ↑ / 鼠标点击；手机：点画面。</p>
+</div>
+
+<div class="card" id="flappyCard">
+<h2>🐤 Flappy Bird · 点画面拍翅膀</h2>
+<p class="note">点一下画面小鸟就拍一下翅膀，穿过水管得分，撞上就结束；最高分只存在你自己这台设备上。</p>
+<canvas id="flappyCanvas" width="700" height="360"></canvas>
+<p><span id="flappyScore" class="status">分数：0</span>　<span id="flappyBest" class="note"></span>　<button onclick="flappyRestart()">开始 / 再来一局</button></p>
+<p class="note">电脑和手机都是点画面拍翅膀。</p>
+</div>
+
+<div class="card" id="game2048Card">
+<h2>🎮 2048 · 滑出 2048</h2>
+<p class="note">电脑按 W / A / S / D 移动，手机在格子上滑动，也能点下面四个方向键；相同数字撞到一起就合并，得分越高越好，最高分只存在你自己这台设备上。</p>
+<p><span id="g2048Score" class="status">分数：0</span>　<span id="g2048Best" class="note"></span>　<button onclick="g2048New()">新开一局</button></p>
+<div id="g2048Board" class="board2048"></div>
+<p><button onclick="g2048Move('up')">↑ 上</button><br><button onclick="g2048Move('left')">← 左</button> <button onclick="g2048Move('down')">↓ 下</button> <button onclick="g2048Move('right')">→ 右</button></p>
+<p id="g2048Msg" class="note"></p>
+</div>
+
+<h2 class="section-title" id="sec-tutorials">📖 教程</h2>
 <div class="card" id="appleIdCard">
 <h2>🍎 自己注册海外 Apple ID（以美国区为例）· 免费，不用买号</h2>
 <p>账号归你自己，全程走苹果官方渠道，不用买共享号，也不用绑信用卡就能下免费 App。下面以美国区为例，其他地区把“United States”换成对应地区即可。</p>
@@ -2052,5 +2094,7 @@ var pref=getPref();apply(pref);
 btn.addEventListener('click',function(){var cur=getPref();var next=order[(order.indexOf(cur)+1)%order.length];try{localStorage.setItem('ft_theme',next);}catch(e){}apply(next);});
 })();
 </script>
+<script src="labs-data.js"></script>
+<script src="labs.js"></script>
 </body>
 </html>
