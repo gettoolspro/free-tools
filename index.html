@@ -47,6 +47,9 @@ table{border-collapse:collapse;margin-top:12px} td,th{border:1px solid var(--bor
 #genQrcode{margin:12px 0}
 #genQrcode img,#genQrcode canvas{display:block}
 .status{font-weight:bold;color:var(--accent)}
+.daily-type{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:bold}
+#dailyText{font-size:18px;line-height:1.6}
+#dailyTypeRow{margin:0}
 progress{width:100%;height:18px}
 #roomCode{font-size:28px;letter-spacing:4px;font-weight:bold}
 #qrcode{margin:12px 0}
@@ -146,7 +149,7 @@ body{background:var(--glass-aurora),var(--bg)}
 <div class="nav">
 <div class="nav-group"><span class="nav-label">🔧 常用工具</span><a href="#favCard">我的常用</a><a href="#p2pCard">点对点传输</a><a href="#textMsgBox">发文字</a><a href="#qrCard">二维码</a><a href="#imgCard">图片处理</a><a href="#avCard">音视频转换</a><a href="#pdfCard">PDF 工具</a><a href="#idPhotoCard">证件照</a><a href="#utilCard">实用小工具</a><a href="#snapCard">快照分享</a><a href="#textToolsCard">文本小工具</a><a href="#stitchCard">长图拼接</a><a href="#mosaicCard">隐私打码</a><a href="#aaCard">AA 分摊</a><a href="#textDiffCard">文本对比</a></div>
 <div class="nav-group"><span class="nav-label">🎓 教学实验</span><a href="#teachLabCard">教学实验区</a><a href="#subject-physics">物理</a><a href="#subject-chemistry">化学</a><a href="#subject-biology">生物</a><a href="#subject-geography">地理</a><a href="#subject-math">数学</a><a href="#subject-history">历史</a><a href="#subject-english">英语</a><a href="#subject-it">信息技术</a><a href="#subject-art">美术</a></div>
-<div class="nav-group"><span class="nav-label">📋 生活助手</span><a href="#notesCard">便签待办</a><a href="#backupCard">数据备份</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#todayCard">今日总览</a><a href="#dailyCard">今日一份</a></div>
+<div class="nav-group"><span class="nav-label">📋 生活助手</span><a href="#notesCard">便签待办</a><a href="#backupCard">数据备份</a><a href="#ledgerCard">记账</a><a href="#habitCard">打卡</a><a href="#countdownCard">倒数日</a><a href="#kinCard">亲戚称呼</a><a href="#loanCard">房贷</a><a href="#taxCard">个税</a><a href="#leaveCard">年假</a><a href="#retireCard">退休</a><a href="#moneyWeatherCard">汇率天气</a><a href="#pomodoroCard">番茄钟</a><a href="#todayCard">今日总览</a><a href="#dailyCard">今日一句</a></div>
 <div class="nav-group"><span class="nav-label">🎮 游戏</span><a href="#dinoCard">小恐龙</a><a href="#flappyCard">Flappy</a><a href="#game2048Card">2048</a></div>
 <div class="nav-group"><span class="nav-label">💝 支持</span><a href="#donateCard">打赏</a></div>
 </div>
@@ -491,11 +494,13 @@ body{background:var(--glass-aurora),var(--bg)}
 </div>
 
 <div class="card" id="dailyCard">
-<h2>📅 今日一份 · 每天换一句</h2>
+<h2>📅 今日一句</h2>
+<p id="dailyTypeRow" style="margin:0;display:none"><span id="dailyType" class="daily-type"></span></p>
 <p id="dailyText" class="status">正在加载今日内容…</p>
+<p id="dailySub" class="note"></p>
 <p id="dailyNote" class="note"></p>
 <p><button onclick="copyDaily()">复制今日一句</button> <button class="share-btn" onclick="shareDaily()">生成分享图</button> <span id="dailyCopyMsg" class="note"></span></p>
-<p class="note">每天凌晨自动换一句，内容来自本站自带的小贴士清单，不用联网也能看。</p>
+<p class="note">内容来自本站自带的名言、科普与英语清单，不用联网也能看。</p>
 </div>
 
 <h2 class="section-title" id="sec-games">🎮 游戏</h2>
@@ -1243,63 +1248,72 @@ function copyRoomText(){
   else { input.select(); document.execCommand('copy'); alert('已复制'); }
 }
 
-/* ---- 每日内容：优先用 Actions 生成的 daily.json，拿不到就按日期本地算 ---- */
-var DAILY_TIPS = [
-  '传大文件前先压一压图片和视频，省流量也省等待时间。',
-  '手机拍照前擦一下镜头，照片清晰度立刻上一个档次。',
-  '验证码短信别截图发给任何人，包括自称客服的人。',
-  '重要文件发之前先在本地留一份，传丢了还能找回来。',
-  'WiFi 密码越长越难猜，字母加数字加符号混着来。',
-  '手机存储满了先清缓存和重复照片，别急着删聊天记录。',
-  '出门前把手机电量充到 80% 以上，比带充电宝省心。',
-  '截图里带身份证、银行卡号的一律别往群里发。',
-  '新 App 第一次打开时，通讯录和相册权限先选“仅在使用时允许”。',
-  '电脑和手机互传文件，同一 WiFi 下点对点最快，还不花流量。',
-  '密码别所有网站用同一个，重要的单独设一个长的。',
-  '收到“账号异常点链接处理”的短信，先去官方 App 里查，别点链接。',
-  '视频太大发不出去时，先转一遍压缩，比换 App 靠谱。',
-  '手机桌面图标太多就建文件夹，常用的放第一屏。',
-  '公共 WiFi 下别登录银行和支付，实在要用就开流量。',
-  '照片备份开自动上传，手机丢了照片还在。',
-  '浏览器标签页开太多会卡，定期关掉不用的。',
-  '下载 App 只认官方应用商店，网页弹窗让装的一律不装。',
-  '给爸妈的手机把字体调大一档，他们用着顺手得多。',
-  '文件命名带上日期，比如 2026-11-02-合同，找起来快十倍。',
-  '手机每月重启一次，很多小卡顿自己就好了。',
-  '二维码扫之前看一眼网址，陌生的短链接别乱点。',
-  '耳机音量别长期开满，听力是不可逆的。',
-  '出门旅游的照片当天就备份，别等回程。',
-  '旧手机换新之前，先退出所有账号再恢复出厂设置。',
-  '工作文件改完随手按保存，别等电脑自己替你记。',
-  '手机壳和贴膜是消耗品，碎了就换，别将就。',
-  '夜间把手机调成勿扰，睡眠比消息重要。',
-  '网购收货地址别写太详细，精确到小区就够了。',
-  '定期检查 App 的订阅扣费，不用的及时取消。',
-  '今天的事写进待办清单，脑子是用来想事的，不是用来记事的。'
+/* ---- 每日一句：名言 / 科普 / 英语三类轮换，按日期本地算；优先用 Actions 生成的 daily.json ---- */
+var DAILY_ITEMS = [
+  {k:'名言', t:'千里之行，始于足下。', s:'—— 老子《道德经》'},
+  {k:'科普', t:'蜂蜜放多久都不会坏。', s:'三千年前的古埃及蜂蜜，至今仍可食用。'},
+  {k:'英语', t:'The best time to plant a tree was twenty years ago. The second best time is now.', s:'种一棵树最好的时间是二十年前，其次是现在。'},
+  {k:'名言', t:'不积跬步，无以至千里。', s:'—— 《荀子·劝学》'},
+  {k:'科普', t:'人一天大约眨眼 1.5 万到 2 万次。', s:'每次闭眼只有约 0.3 秒。'},
+  {k:'英语', t:'Actions speak louder than words.', s:'行动胜于言语。'},
+  {k:'名言', t:'纸上得来终觉浅，绝知此事要躬行。', s:'—— 陆游'},
+  {k:'科普', t:'香蕉是浆果，草莓却不是。', s:'草莓是聚合果，种子长在果实表面。'},
+  {k:'英语', t:'Where there is a will, there is a way.', s:'有志者，事竟成。'},
+  {k:'名言', t:'山重水复疑无路，柳暗花明又一村。', s:'—— 陆游《游山西村》'},
+  {k:'科普', t:'地球上 97% 的水是海水。', s:'可直接饮用的淡水不到 1%。'},
+  {k:'英语', t:'Knowledge is power.', s:'知识就是力量。'},
+  {k:'名言', t:'路漫漫其修远兮，吾将上下而求索。', s:'—— 屈原《离骚》'},
+  {k:'科普', t:'打哈欠会传染。', s:'看到文字、听到描述都可能触发。'},
+  {k:'英语', t:'Time waits for no one.', s:'时光不等人。'},
+  {k:'名言', t:'天行健，君子以自强不息。', s:'—— 《周易》'},
+  {k:'科普', t:'人在太空会长高 2–5 厘米。', s:'脊柱在失重下伸展，回到地球又缩回去。'},
+  {k:'英语', t:'Practice makes perfect.', s:'熟能生巧。'},
+  {k:'名言', t:'少壮不努力，老大徒伤悲。', s:'—— 《长歌行》'},
+  {k:'科普', t:'章鱼有三颗心脏。', s:'两颗给鳃供血，一颗给全身供血。'},
+  {k:'英语', t:'Every cloud has a silver lining.', s:'每朵乌云都有银边，祸中有福。'},
+  {k:'名言', t:'宝剑锋从磨砺出，梅花香自苦寒来。', s:'—— 《警世贤文》'},
+  {k:'科普', t:'声音在水里比在空气里快 4 倍多。', s:'水中约 1500 米/秒，空气中约 343 米/秒。'},
+  {k:'英语', t:'The early bird catches the worm.', s:'早起的鸟儿有虫吃。'},
+  {k:'名言', t:'海内存知己，天涯若比邻。', s:'—— 王勃《送杜少府之任蜀州》'},
+  {k:'科普', t:'人的骨量在 30 岁左右达到峰值。', s:'之后缓慢流失，多运动、补钙能延缓。'},
+  {k:'英语', t:'No pain, no gain.', s:'不劳无获。'},
+  {k:'名言', t:'长风破浪会有时，直挂云帆济沧海。', s:'—— 李白《行路难》'},
+  {k:'科普', t:'每天晒十几分钟太阳就够了。', s:'皮肤能合成人体所需的大部分维生素 D。'},
+  {k:'英语', t:'Rome was not built in a day.', s:'罗马不是一天建成的。'},
+  {k:'名言', t:'会当凌绝顶，一览众山小。', s:'—— 杜甫《望岳》'}
 ];
 function localDaily(){
   var now = new Date();
   var start = new Date(now.getFullYear(), 0, 0);
   var doy = Math.floor((now - start) / 86400000);
-  return DAILY_TIPS[doy % DAILY_TIPS.length];
+  return DAILY_ITEMS[doy % DAILY_ITEMS.length];
 }
 (function loadDaily(){
   var textEl = document.getElementById('dailyText');
+  var subEl = document.getElementById('dailySub');
   var noteEl = document.getElementById('dailyNote');
+  var typeRow = document.getElementById('dailyTypeRow');
+  var typeEl = document.getElementById('dailyType');
   if (!textEl) return;
   var today = new Date();
   var ds = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-  function show(tip, src){
-    textEl.textContent = tip;
-    noteEl.textContent = '今天是 ' + ds + '，' + src;
+  function show(item){
+    if (typeof item === 'string') item = {k:'', t:item, s:''};
+    if (!item || !item.t) item = localDaily();
+    textEl.textContent = item.t;
+    if (subEl) subEl.textContent = item.s || '';
+    if (typeEl) typeEl.textContent = item.k || '';
+    if (typeRow) typeRow.style.display = item.k ? '' : 'none';
+    if (noteEl) noteEl.textContent = '今天是 ' + ds;
+    window.__dailyItem = {k:item.k || '', t:item.t, s:item.s || '', date:ds};
   }
   fetch('daily.json', { cache: 'no-store' }).then(function(r){
     if (!r.ok) throw new Error('no daily.json');
     return r.json();
   }).then(function(j){
-    if (j && j.date === ds && j.tip) show(j.tip, '由本站每日自动更新');
-    else show(localDaily(), '今日份（本地按日期轮换）');
-  }).catch(function(){ show(localDaily(), '今日份（本地按日期轮换）'); });
+    if (j && j.date === ds && j.tip) show(typeof j.tip === 'object' ? j.tip : {k:j.kind || '', t:j.tip, s:j.sub || ''});
+    else show(localDaily());
+  }).catch(function(){ show(localDaily()); });
 })();
 
 /* ---- 本地便签和待办：只存 localStorage ---- */
@@ -2789,10 +2803,12 @@ favOpts.concat(rest).forEach(function(o){ sel.appendChild(o);});
 
 /* ---------- 每日一句复制 ---------- */
 function copyDaily(){
-var t = document.getElementById('dailyText').textContent;
+var it = window.__dailyItem;
+var t = it ? it.t : document.getElementById('dailyText').textContent;
+var s2 = it ? it.s : (document.getElementById('dailySub') || {}).textContent;
 var m = document.getElementById('dailyCopyMsg');
 if (!t || t.indexOf('正在加载') === 0) { m.textContent = '今日一句还没加载出来，稍等一下。'; return;}
-copyTextToClipboard(t, '已复制今日一句', m);
+copyTextToClipboard(s2 ? t + '\n' + s2 : t, '已复制今日一句', m);
 }
 
 /* ---------- 文本小工具 ---------- */
@@ -3042,19 +3058,91 @@ function textDedupeCopy(){
 
 /* ---------- 分享图：canvas 画 PNG，角落放站名二维码 ---------- */
 function shareWrapText(ctx, text, maxW){
+/* 英文按单词断行（不断词），中文按字断行；超长词再按字切 */
 var lines = [], cur = '';
-for (var i = 0; i < text.length; i++) {
-var ch = text[i];
-if (ctx.measureText(cur + ch).width > maxW && cur) { lines.push(cur); cur = ch;}
-else cur += ch;
+function pushWord(word){
+  if (!word) return;
+  if (ctx.measureText(cur + word).width <= maxW) { cur += word; return; }
+  if (cur) { lines.push(cur); cur = ''; }
+  for (var i = 0; i < word.length; i++) {
+    var ch = word[i];
+    if (ctx.measureText(cur + ch).width > maxW && cur) { lines.push(cur); cur = ch; }
+    else cur += ch;
+  }
+}
+var parts = text.split(/(\s+)/);
+for (var p = 0; p < parts.length; p++) {
+  var part = parts[p];
+  if (!part) continue;
+  if (/^\s+$/.test(part)) {
+    if (ctx.measureText(cur + part).width <= maxW) cur += part;
+    else if (cur) { lines.push(cur); cur = ''; }
+  } else pushWord(part);
 }
 if (cur) lines.push(cur);
 return lines;
+}
+function roundRectPath(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
 }
 function makeShareCard(opts){
 var W = 1080, H = 1350;
 var cv = document.createElement('canvas'); cv.width = W; cv.height = H;
 var ctx = cv.getContext('2d');
+if (opts.quote) {
+  var g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#0e4d38'); g.addColorStop(0.55, '#0a3527'); g.addColorStop(1, '#062117');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(255,255,255,0.06)';
+  ctx.beginPath(); ctx.arc(140, 320, 230, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(990, 1020, 290, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(910, 170, 120, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.10)';
+  ctx.font = 'bold 280px serif'; ctx.textAlign = 'left';
+  ctx.fillText('\u201c', 50, 500);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 64px sans-serif';
+  ctx.fillText(opts.title, W / 2, 150);
+  if (opts.sub) { ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.font = '32px sans-serif'; ctx.fillText(opts.sub, W / 2, 205); }
+  var badge = opts.badge || '';
+  var mainLines = [];
+  ctx.font = 'bold 60px sans-serif';
+  (opts.lines || []).forEach(function(ln){ mainLines = mainLines.concat(shareWrapText(ctx, ln, W - 220)); });
+  var subLines = [];
+  if (opts.sub2) { ctx.font = '36px sans-serif'; subLines = shareWrapText(ctx, opts.sub2, W - 260); }
+  var blockH = 0;
+  if (badge) blockH += 62 + 36;
+  blockH += mainLines.length * 92;
+  if (subLines.length) blockH += 30 + subLines.length * 56 + 39;
+  var regionTop = 280, regionBottom = H - 230;
+  var y = regionTop + Math.max(0, (regionBottom - regionTop - blockH) / 2);
+  if (badge) {
+    ctx.font = 'bold 34px sans-serif';
+    var bw = ctx.measureText(badge).width + 60;
+    var bx = (W - bw) / 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    roundRectPath(ctx, bx, y, bw, 62, 31); ctx.fill();
+    ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center';
+    ctx.fillText(badge, W / 2, y + 43);
+    y += 62 + 36;
+  }
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 60px sans-serif'; ctx.textAlign = 'center';
+  for (var mi = 0; mi < mainLines.length; mi++) { ctx.fillText(mainLines[mi], W / 2, y + 60); y += 92; }
+  if (subLines.length) {
+    y += 30;
+    ctx.fillStyle = 'rgba(255,255,255,0.78)'; ctx.font = '36px sans-serif';
+    for (var si = 0; si < subLines.length; si++) { ctx.fillText(subLines[si], W / 2, y + 36); y += 56; }
+    y += 36;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fillRect(W / 2 - 60, y, 120, 3);
+  }
+} else {
 ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
 ctx.fillStyle = opts.accent || '#0071e3'; ctx.fillRect(0, 0, W, 14);
 ctx.fillStyle = '#1d1d1f'; ctx.font = 'bold 62px sans-serif'; ctx.textAlign = 'left';
@@ -3071,10 +3159,11 @@ ctx.fillText(wrapped[wi], 80, y); y += 62;
 }
 y += 14;
 }
+}
 function finish(){
-ctx.fillStyle = '#86868b'; ctx.font = '30px sans-serif'; ctx.textAlign = 'left';
+ctx.fillStyle = opts.quote ? '#ffffff' : '#86868b'; ctx.font = '30px sans-serif'; ctx.textAlign = 'left';
 ctx.fillText('免费小工具站', 80, H - 110);
-ctx.font = '26px sans-serif';
+ctx.fillStyle = opts.quote ? 'rgba(255,255,255,0.7)' : '#86868b'; ctx.font = '26px sans-serif';
 ctx.fillText('gettoolspro.github.io/free-tools/', 80, H - 66);
 cv.toBlob(function(blob){
 if (!blob) { alert('生成失败，换个浏览器再试。'); return;}
@@ -3124,9 +3213,10 @@ if (!best &&!cur) { alert('先玩一局，有了分数再生成战绩图。'); r
 makeShareCard({title: names[kind], sub: '免费小工具站 · 我的战绩', lines: ['本局分数：' + cur + ' 分', '最高纪录：' + best + ' 分', '来破我的纪录！'], accent: '#f59e0b', file: '分享图-' + names[kind] + '战绩.png'});
 }
 function shareDaily(){
-var t = shareTextOf('dailyText');
+var it = window.__dailyItem;
+var t = it ? it.t : shareTextOf('dailyText');
 if (!t || t.indexOf('正在加载') === 0) { alert('今日一句还没加载出来，稍等一下。'); return;}
-makeShareCard({title: '今日一份', sub: '免费小工具站 · 每天换一句', lines: [t], accent: '#1db954', file: '分享图-今日一句.png'});
+makeShareCard({title: '今日一句', sub: it ? it.date : '', quote: true, badge: it ? it.k : '', lines: [t], sub2: it ? it.s : '', accent: '#1db954', file: '分享图-今日一句.png'});
 }
 
 /* ---------- 初始化 ---------- */
