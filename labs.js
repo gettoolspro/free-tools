@@ -9,6 +9,9 @@
   };
 
   /* ---- 渲染目录 ---- */
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
   var bySubject = {};
   LABS.forEach(function (d) {
     (bySubject[d.subject] = bySubject[d.subject] || []).push(d);
@@ -20,11 +23,14 @@
     var list = bySubject[subj];
     total += list.length;
     list.forEach(function (d) {
+      var zhName = d.zh || d.name;
+      var enName = d.en || d.name;
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'lab-btn' + (d.wedulab ? ' wedulab' : '');
-      b.textContent = (d.wedulab ? '★ ' : '') + d.name;
-      b.title = d.name + '（' + (SOURCE_LABEL[d.source] || d.source) + '）';
+      b.innerHTML = '<span class="lab-name">' + (d.wedulab ? '★ ' : '') + escapeHtml(zhName) + '</span>' +
+        (enName !== zhName ? '<span class="lab-en">' + escapeHtml(enName) + '</span>' : '');
+      b.title = (d.desc || d.name) + '（' + (SOURCE_LABEL[d.source] || d.source) + '）';
       b.addEventListener('click', function () { openViewer(d); });
       box.appendChild(b);
     });
@@ -56,17 +62,22 @@
     '<span class="lab-viewer-src"></span>' +
     '<button type="button" class="lab-viewer-close" aria-label="关闭">✕</button>' +
     '</div>' +
+    '<div class="lab-viewer-desc"></div>' +
     '<iframe class="lab-viewer-frame" title="" allow="fullscreen" allowfullscreen></iframe>' +
     '</div>';
   document.body.appendChild(viewer);
   var frame = viewer.querySelector('iframe');
   var titleEl = viewer.querySelector('.lab-viewer-title');
   var srcEl = viewer.querySelector('.lab-viewer-src');
+  var descEl = viewer.querySelector('.lab-viewer-desc');
 
   function openViewer(d) {
-    titleEl.textContent = d.name;
-    srcEl.textContent = SOURCE_LABEL[d.source] || d.source;
-    frame.title = d.name;
+    var zhName = d.zh || d.name;
+    var enName = d.en || d.name;
+    titleEl.textContent = zhName;
+    srcEl.textContent = (enName !== zhName ? enName + ' · ' : '') + (SOURCE_LABEL[d.source] || d.source);
+    descEl.textContent = d.desc || '';
+    frame.title = zhName;
     frame.src = d.url;
     viewer.classList.add('open');
     viewer.setAttribute('aria-hidden', 'false');

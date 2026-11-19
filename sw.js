@@ -1,6 +1,6 @@
 /* 免费小工具站 Service Worker：只缓存本站自己的页面、清单和图标。
    传文件仍走实时网络，不缓存、不中转文件；页面导航优先走网络，断网时才回退缓存（小恐龙可离线玩）。 */
-var CACHE = 'free-tools-v2';
+var CACHE = 'free-tools-v3';
 var CORE = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './labs-data.js', './labs.js'];
 
 self.addEventListener('install', function (event) {
