@@ -60,6 +60,7 @@
     '<div class="lab-viewer-bar">' +
     '<span class="lab-viewer-title"></span>' +
     '<span class="lab-viewer-src"></span>' +
+    '<button type="button" class="lab-viewer-close lab-viewer-lang" style="margin-left:0" aria-label="切换语言" hidden>EN</button>' +
     '<button type="button" class="lab-viewer-close" aria-label="关闭">✕</button>' +
     '</div>' +
     '<div class="lab-viewer-desc"></div>' +
@@ -70,6 +71,9 @@
   var titleEl = viewer.querySelector('.lab-viewer-title');
   var srcEl = viewer.querySelector('.lab-viewer-src');
   var descEl = viewer.querySelector('.lab-viewer-desc');
+  var langBtn = viewer.querySelector('.lab-viewer-lang');
+  var currentEntry = null;
+  var currentLang = 'zh';
 
   function openViewer(d) {
     var zhName = d.zh || d.name;
@@ -78,6 +82,14 @@
     srcEl.textContent = (enName !== zhName ? enName + ' · ' : '') + (SOURCE_LABEL[d.source] || d.source);
     descEl.textContent = d.desc || '';
     frame.title = zhName;
+    currentEntry = d;
+    currentLang = 'zh';
+    if (d.urlEn) {
+      langBtn.hidden = false;
+      langBtn.textContent = 'EN';
+    } else {
+      langBtn.hidden = true;
+    }
     frame.src = d.url;
     viewer.classList.add('open');
     viewer.setAttribute('aria-hidden', 'false');
@@ -90,6 +102,19 @@
     document.body.style.overflow = '';
   }
   viewer.querySelector('.lab-viewer-close').addEventListener('click', closeViewer);
+  /* PhET 中文/EN 切换：默认中文（d.url），点按换英文（d.urlEn），再点换回 */
+  langBtn.addEventListener('click', function () {
+    if (!currentEntry || !currentEntry.urlEn) return;
+    if (currentLang === 'zh') {
+      currentLang = 'en';
+      langBtn.textContent = '中文';
+      frame.src = currentEntry.urlEn;
+    } else {
+      currentLang = 'zh';
+      langBtn.textContent = 'EN';
+      frame.src = currentEntry.url;
+    }
+  });
   viewer.addEventListener('click', function (ev) {
     if (ev.target === viewer) closeViewer();
   });
